@@ -5,12 +5,11 @@ Install MISP from RPM packages
 build instructions:
 
 - install centos minimal system
+- selinux enabled/disabled?
 - update system to last updates
 - install and enable epel repository
 - disable selinux
-- add epel repo
-- add mariadb repo
-- add misp repo
+- add misp-release repo
 - install misp
 - configure mariadb
 
