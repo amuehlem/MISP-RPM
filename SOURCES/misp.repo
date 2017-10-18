@@ -1,0 +1,13 @@
+# MISP repositories
+[mariadb]
+name=mariadb
+baseurl=http://yum.mariadb.org/10.1/centos7-amd64/
+enabled=1
+gpgcheck=0
+
+[misp]
+name=misp
+baseurl=https://cruncher.switch.ch/repo/
+#failovermethod=priority
+enabled=1
+gpgcheck=0
