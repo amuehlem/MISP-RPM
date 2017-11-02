@@ -4,7 +4,7 @@
 
 Name:		python34-setuptools
 Version:	36.6.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Python setuptools
 
 Group:		Development/Languages
@@ -30,7 +30,7 @@ python3 bootstrap.py
 python3 setup.py install --root=$RPM_BUILD_ROOT
 
 %files
-%{_bindir}/easy_install
+%exclude %{_bindir}/easy_install
 %{_bindir}/easy_install-%pythonver
 %pythondir/easy_install.py*
 %pythondir/pkg_resources/*

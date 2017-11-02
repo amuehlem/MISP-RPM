@@ -1,5 +1,5 @@
-Name:		python34-uwhoisd
-Version:	0.0.7
+Name:		python34-uwhois
+Version:	0.5
 Release:	1%{?dist}
 Summary:	Python extension for interfacing uwhois
 
@@ -23,14 +23,14 @@ Python extension for uwhois
 
 %install
 git clone https://github.com/Rafiot/uwhoisd.git
-cd uwhoisd
+cd uwhoisd/client
 python3 setup.py install --root=$RPM_BUILD_ROOT
 
 %files
-%{_bindir}/uwhoisd
-/usr/lib/python3.4/site-packages/uwhoisd
-/usr/lib/python3.4/site-packages/uwhoisd-%{version}-py3.4.egg-info
+%{_bindir}/uwhois
+/usr/lib/python3.4/site-packages/uwhois
+/usr/lib/python3.4/site-packages/uwhois-%{version}-py3.4.egg-info
 
 %changelog
-* Mon Jan 02 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.0.7
+* Thu Nov 02 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.5
 - first version

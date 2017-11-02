@@ -1,6 +1,6 @@
 Name:		python34-pip
 Version:	9.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:    Python pip
 
 Group:		Development/Languages
@@ -27,7 +27,7 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %files
 /usr/lib/python3.4/site-packages/pip-%{version}-py3.4.egg-info
 /usr/lib/python3.4/site-packages/pip
-/usr/bin/pip
+%exclude /usr/bin/pip
 /usr/bin/pip3
 /usr/bin/pip3.4
 

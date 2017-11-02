@@ -3,7 +3,7 @@
 
 Name:	misp-modules	
 Version:	2.4.81
-Release:	2%{?dist}
+Release:	8%{?dist}
 Summary:	Expansion modules for MISP
 
 Group:	    Internet Applications	
@@ -20,12 +20,12 @@ BuildRequires:  libxml2-devel, libxslt-devel
 BuildRequires:  python34-lxml, python34-six, python34-mixbox
 BuildRequires:  python34-python_dateutil, python34-ordered_set
 BuildRequires:  python34-cybox, python34-stix, python34-backports_abc
-BuildRequires:  python34-tornado, python34-dnspython3
+BuildRequires:  python34-tornado, python34-dnspython3, python34-dnspython
 BuildRequires:  python34-chardet, python34-nose, python34-jsonschema
 BuildRequires:  python34-rdflib, python34-beautifulsoup4, python34-argparse
 BuildRequires:  python34-pytz, python34-colorlog, python34-pyparsing
 BuildRequires:  python34-isodate, python34-redis, python34-pillow
-BuildRequires:  python34-pygeoip, python34-idna, python34-urllib3 <= 1.21
+BuildRequires:  python34-pygeoip, python34-idna, python34-urllib3 < 1.23
 BuildRequires:  python34-certifi, python34-url_normalize, python34-requests_cache
 BuildRequires:  python34-requests, python34-urlarchiver, python34-ez_setup
 BuildRequires:  python34-asnhistory, python34-bs4, python34-cabby
@@ -33,20 +33,20 @@ BuildRequires:  python34-dateutils, python34-furl, python34-domaintools_api
 BuildRequires:  python34-ipasn_redis, python34-orderedmultidict, python34-passivetotal
 BuildRequires:  python34-olefile, python34-pyaml, python34-pypdns
 BuildRequires:  python34-pyeupi, python34-pypssl, python34-pytesseract
-BuildRequires:  python34-SPARQLWrapper, python34-PyYAML, python34-uwhoisd
+BuildRequires:  python34-SPARQLWrapper, python34-PyYAML, python34-uwhois
 BuildRequires:  python34-shodan, python34-XlsxWriter, python34-colorama
-BuildRequires:  python34-click, python34-click_plugins
+BuildRequires:  python34-click, python34-click_plugins, python34-future
 Requires:	    python34, python34-pip, libpqxx, libjpeg-turbo
 Requires:       misp-stix-converter, python34-libtaxii, python34-mixbox
 Requires:       libxml2, libxslt, python34-lxml, python34-six
 Requires:       python34-python_dateutil, python34-ordered_set
 Requires:       python34-cybox, python34-stix, python34-backports_abc
-Requires:       python34-tornado, python34-dnspython3
+Requires:       python34-tornado, python34-dnspython3, python34-dnspython
 Requires:       python34-chardet, python34-nose, python34-jsonschema
 Requires:       python34-rdflib, python34-beautifulsoup4, python34-argparse
 Requires:       python34-pytz, python34-colorlog, python34-pyparsing
 Requires:       python34-isodate, python34-redis, python34-pillow
-Requires:       python34-pygeoip, python34-idna, python34-urllib3 <= 1.21
+Requires:       python34-pygeoip, python34-idna, python34-urllib3 < 1.23
 Requires:       python34-certifi, python34-url_normalize, python34-requests_cache
 Requires:       python34-requests, python34-urlarchiver, python34-ez_setup
 Requires:       python34-asnhistory, python34-bs4, python34-cabby
@@ -54,9 +54,9 @@ Requires:       python34-dateutils, python34-furl, python34-domaintools_api
 Requires:       python34-ipasn_redis, python34-orderedmultidict, python34-passivetotal
 Requires:       python34-olefile, python34-pyaml, python34-pypdns
 Requires:       python34-pyeupi, python34-pypssl, python34-pytesseract
-Requires:       python34-SPARQLWrapper, python34-PyYAML, python34-uwhoisd
+Requires:       python34-SPARQLWrapper, python34-PyYAML, python34-uwhois
 Requires:       python34-shodan, python34-XlsxWriter, python34-colorama
-Requires:       python34-click, python34-click_plugins
+Requires:       python34-click, python34-click_plugins, python34-future
 
 %description
 Expansion modules for MISP

@@ -3,7 +3,7 @@
 
 Name:		python34-requests
 Version:	2.18.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:    requests for python
 
 Group:		Development/Languages
@@ -13,8 +13,8 @@ Source0:    requests-%{version}.tar.gz
 
 BuildArch:  noarch
 BuildRequires:	python34-devel, python34-setuptools
-BuildRequires:  python34-pip, unzip, python34-urllib3 <= 1.21
-Requires:	python34, python34-pip, python23-urllib3 <= 1.21
+BuildRequires:  python34-pip, unzip, python34-urllib3 < 1.23
+Requires:	python34, python34-pip, python34-urllib3 < 1.23
 
 %description
 Python requests

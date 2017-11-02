@@ -29,7 +29,12 @@ Python future
 python3 setup.py install --root=$RPM_BUILD_ROOT
 
 %files
+%{_bindir}/futurize
+%{_bindir}/pasteurize
 %{pythondir}/future
+%{pythondir}/libfuturize
+%{pythondir}/libpasteurize
+%{pythondir}/past
 %{pythondir}/future-%{version}-py%{pythonver}.egg-info
 
 %changelog
