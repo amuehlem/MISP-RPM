@@ -7,7 +7,6 @@ gpgcheck=0
 
 [misp]
 name=misp
-baseurl=https://cruncher.switch.ch/repo/
-#failovermethod=priority
+baseurl=https://certrepo.switch.ch/certrepo/misp
 enabled=1
 gpgcheck=0

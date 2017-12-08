@@ -5,15 +5,25 @@ Install MISP from RPM packages
 build instructions:
 
 - install centos minimal system
-- selinux enabled/disabled?
+- disable selinux
 - update system to last updates
 - install and enable epel repository
-- disable selinux
 - add misp-release repo
+
+```
+yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.0-1.el7.noarch.rpm
+```
+
 - install misp
+
+```
+yum install misp misp-modules
+```
+
 - configure mariadb
 
 ```
+
 # enable mariadb startup
 systemctl enable mariadb.service
 systemctl start mariadb.service
@@ -47,7 +57,7 @@ cp -a config.default.php config.php
 chown apache:apache /var/www/MISP/app/Config/config.php
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php
 # enable workers at startup
-# add to /etc/local
+# add to /etc/rc.local
 su -s /bin/bash apache -c '/var/www/MISP/app/Console/worker/start.sh'
 chmod +x /etc/rc.local
 ```
@@ -73,13 +83,4 @@ systemctl start httpd
 firewall-cmd --permanent --zone=public --add-service http
 firewall-cmd --permanent --zone=public --add-service https
 systemctl restart firewalld
-```
-
-# update koji
-
-```
-koji regen-repo misp-el7-build; koji regen-repo misp-el7
-get current php version
-update SPECS/php.spec
-kojbuild php.spec
 ```

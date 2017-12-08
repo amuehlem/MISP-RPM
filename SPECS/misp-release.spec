@@ -1,6 +1,6 @@
 Name:       misp-release	
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	configuration for MISP repositories
 
 Group:		System Environment/Base
