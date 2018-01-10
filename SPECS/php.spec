@@ -84,10 +84,10 @@ which adds support for the PHP language to Apache HTTP Server.
     --with-apxs2=%{_root_bindir}/apxs \
     --enable-pdo \
     --enable-ldap \
-    --enable-mysqlnd \
-    --with-mysqli=mysqlnd \
+    --enable-mysqlnd=shared \
+    --with-mysqli=shared,mysqlnd \
     --with-mysql-sock=%{mysql_sock} \
-    --with-pdo-mysql=mysqlnd \
+    --with-pdo-mysql=shared,mysqlnd \
     --without-pdo-sqlite \
     --enable-mbstring
 
