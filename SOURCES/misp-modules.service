@@ -1,0 +1,10 @@
+[Unit]
+Description=MISP enhancement modules
+After=network.target remote-fs.target nss-lookup.target httpd.service
+
+[Service]
+ExecStart=/usr/bin/misp-modules
+User=apache
+
+[Install]
+WantedBy=multi-user.target
