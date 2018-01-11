@@ -29,11 +29,30 @@ BuildRequires:	sqlite-devel >= 3.6.0
 BuildRequires:	zlib-devel, pcre-devel >= 6.6, smtpdaemon, libedit-devel
 BuildRequires:	bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires:	libtool-ltdl-devel
-BuildRequires:	mysql-devel > 4.1.0, tokyocabinet-devel
+BuildRequires:	tokyocabinet-devel
 BuildRequires:	libmcrypt-devel, libtidy-devel
 BuildRequires:	aspell-devel >= 0.50.0, recode-devel, libicu-devel >= 4.0
 BuildRequires: 	enchant-devel >= 1.2.4
 Requires:	httpd
+
+%package mysql
+Summary: A module for PHP applications that use MySQL databases
+Group: Development/Languages
+License: PHP
+
+BuildRequires: mysql-devel > 4.1.0
+
+Provides: php-mysqli = %{version}-%{release}
+Provides: php-pdo_mysql
+Provides: php-mysqlnd
+Provides: php-mysql
+
+%description mysql
+The %{name}-mysql package contains a dynamic shared object that will add
+MySQL database support to PHP. MySQL is an object-relational database
+management system. PHP is an HTML-embeddable scripting language. If
+you need MySQL support for PHP applications, you will need to install
+this package and the %{name} package.
 
 %description
 PHP is an HTML-embedded scripting language. PHP attempts to make it
@@ -126,6 +145,14 @@ make install INSTALL_ROOT=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 
+%files mysql
+%config(noreplace) /etc/php.d/mysqlnd.ini
+%config(noreplace) /etc/php.d/mysqli.ini
+%config(noreplace) /etc/php.d/pdo_mysql.ini
+/usr/lib64/php/20151012/mysqli.so
+/usr/lib64/php/20151012/mysqlnd.so
+/usr/lib64/php/20151012/pdo_mysql.so
+
 %files
 %doc /usr/share/man/man1/*.gz
 /usr/bin/*
@@ -148,5 +175,8 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/*
 
 %changelog
+* Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch>
+  splitted mysql module into own package
+
 * Wed Oct 18 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.0.22
 - first version
