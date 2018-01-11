@@ -4,8 +4,8 @@
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
 Name:		php
-Version:	7.0.22
-Release:	3%{?dist}
+Version:	7.0.27
+Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -53,6 +53,17 @@ MySQL database support to PHP. MySQL is an object-relational database
 management system. PHP is an HTML-embeddable scripting language. If
 you need MySQL support for PHP applications, you will need to install
 this package and the %{name} package.
+
+%package opcache
+Summary: An opcode cache Zend extension
+Group: Development/Languages
+License: PHP
+
+Provides: php-opcache = %{version}-%{release}
+
+%description opcache
+The %{name}-opcache package contains an opcode cache used for caching and
+optimizing intermediate code.
 
 %description
 PHP is an HTML-embedded scripting language. PHP attempts to make it
@@ -140,6 +151,12 @@ cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/pdo_mysql.ini << EOF
 extension=pdo_mysql.so
 EOF
 
+# create opcache.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache.ini << EOF
+; enable opcache extension module
+extension=opcache.so
+EOF
+
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 # cleanup
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
@@ -152,6 +169,10 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 /usr/lib64/php/20151012/mysqli.so
 /usr/lib64/php/20151012/mysqlnd.so
 /usr/lib64/php/20151012/pdo_mysql.so
+
+%files opcache
+%config(noreplace) /etc/php.d/opcache.ini
+/usr/lib64/php/20151012/opcache.so
 
 %files
 %doc /usr/share/man/man1/*.gz
@@ -175,8 +196,10 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/*
 
 %changelog
-* Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch>
-  splitted mysql module into own package
+* Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.0.27
+- splitted mysql module into own package
+- added opcache package
+- update to php 7.0.27
 
 * Wed Oct 18 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.0.22
 - first version
