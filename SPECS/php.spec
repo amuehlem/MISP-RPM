@@ -5,7 +5,7 @@
 
 Name:		php
 Version:	7.0.22
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -102,6 +102,25 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/php.d/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.modules.d/php.conf
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/php.d/php.ini
 install -D -m 644 /etc/httpd/conf/httpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
+
+# create mysqlnd.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/mysqlnd.ini << EOF
+; enable mysqlnd extension module
+extension=mysqlnd.so
+EOF
+
+# create mysqli.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/mysqli.ini << EOF
+; enable mysqli extension module
+extension=mysqli.so
+EOF
+
+# create pdo_mysql.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/pdo_mysql.ini << EOF
+; enable mysqlnd extension module
+extension=pdo_mysql.so
+EOF
+
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 # cleanup
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
@@ -114,6 +133,9 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 /usr/lib64/*
 %config(noreplace) /etc/httpd/conf.modules.d/php.conf
 %config(noreplace) /etc/php.d/php.ini
+%config(noreplace) /etc/php.d/mysqlnd.ini
+%config(noreplace) /etc/php.d/mysqli.ini
+%config(noreplace) /etc/php.d/pdo_mysql.ini
 %attr(755,apache,apache) /var/lib/php
 %exclude /.channels*
 %exclude /.depdb*
