@@ -19,7 +19,7 @@ yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.0-1.el7.noar
 - install misp
 
 ```
-yum install misp misp-modules php-mysql
+yum install misp misp-modules php-mysql php-opcache
 ```
 
 - configure mariadb
