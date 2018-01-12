@@ -1,6 +1,6 @@
 Name:	    misp
 Version:	2.4.85
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -57,6 +57,13 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
 /var/www/MISP
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %post
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_unified 1
 semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp'
