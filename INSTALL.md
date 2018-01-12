@@ -5,7 +5,6 @@ Install MISP from RPM packages
 build instructions:
 
 - install centos minimal system
-- disable selinux
 - update system to last updates
 - install and enable epel repository
 - add misp-release repo
