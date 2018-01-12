@@ -5,7 +5,7 @@
 
 Name:		php
 Version:	7.0.27
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -41,6 +41,7 @@ Group: Development/Languages
 License: PHP
 
 BuildRequires: mysql-devel > 4.1.0
+Requires: mariadb, mariadb-server
 
 Provides: php-mysqli = %{version}-%{release}
 Provides: php-pdo_mysql
@@ -154,7 +155,7 @@ EOF
 # create opcache.ini
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache.ini << EOF
 ; enable opcache extension module
-extension=opcache.so
+zend_extension=opcache.so
 EOF
 
 make install INSTALL_ROOT=$RPM_BUILD_ROOT

@@ -1,5 +1,5 @@
 Name:		python34-pymisp
-Version:	2.4.81
+Version:	2.4.82
 Release:	1%{?dist}
 Summary:    Python interface to MISP
 
@@ -32,5 +32,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 /usr/lib/python3.4/site-packages/pymisp
 
 %changelog
-* Mon Oct 17 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0
+* Fri Jan 12 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.82
+- update to version 2.4.82
+
+* Tue Oct 17 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.81
 - first version

@@ -1,6 +1,6 @@
 Name:	    misp
 Version:	2.4.85
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -15,8 +15,8 @@ BuildRequires:  php > 7.0
 BuildRequires:  python-lxml, python-dateutil, python-six, curl
 BuildRequires:  python-setuptools, wget
 BuildRequires:  php-pear-Crypt_GPG
-Requires:	    mariadb, mariadb-server, httpd, redis, libxslt, zlib
-Requires:       php > 7.0, php-opache, php-mysql
+Requires:	    httpd, redis, libxslt, zlib
+Requires:       php > 7.0
 Requires:       python-lxml, python-dateutil, python-six
 Requires:	    python-cybox, python-stix, php-redis
 Requires:       php-pear-Crypt_GPG
