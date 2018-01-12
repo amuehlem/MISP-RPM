@@ -86,3 +86,10 @@ firewall-cmd --permanent --zone=public --add-service http
 firewall-cmd --permanent --zone=public --add-service https
 systemctl restart firewalld
 ```
+
+- enable misp-modules
+```
+# enable misp-modules at startup
+systemctl enable misp-modules
+systemctl start misp-modules
+```
