@@ -1,5 +1,5 @@
 Name:	    misp
-Version:	2.4.81
+Version:	2.4.85
 Release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -16,7 +16,7 @@ BuildRequires:  python-lxml, python-dateutil, python-six, curl
 BuildRequires:  python-setuptools, wget
 BuildRequires:  php-pear-Crypt_GPG
 Requires:	    mariadb, mariadb-server, httpd, redis, libxslt, zlib
-Requires:       php > 7.0
+Requires:       php > 7.0, php-opache, php-mysql
 Requires:       python-lxml, python-dateutil, python-six
 Requires:	    python-cybox, python-stix, php-redis
 Requires:       php-pear-Crypt_GPG
@@ -85,7 +85,10 @@ semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeRes
 restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
 
 %changelog
-* Wed Oct 17 2917 Andreas Muehlemann <andreas.muelemann@switch.ch>
+* Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.85
+- updated to MISP version 2.4.85
+
+* Wed Oct 17 2017 Andreas Muehlemann <andreas.muelemann@switch.ch>
 - fixes and optimizations after install tests
 
 * Thu Dec 29 2016 Andreas Muehlemann <andreas.muehlemann@switch.ch>
