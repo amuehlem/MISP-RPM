@@ -53,8 +53,8 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
 %defattr(-,root,root,-)
 #%config(noreplace) /etc/httpd/conf.d/misp.conf
 %defattr(-,apache,apache,-)
-/var/www/MISP
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+/var/www/MISP
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %post
 setsebool -P httpd_can_network_connect 1
