@@ -2,7 +2,7 @@
 
 Install MISP from RPM packages
 
-build instructions:
+Installation instructions:
 
 - install centos minimal system
 - update system to last updates
