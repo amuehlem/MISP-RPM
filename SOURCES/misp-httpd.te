@@ -1,0 +1,25 @@
+
+module misp-httpd 1.0;
+
+require {
+	type httpd_log_t;
+	type httpd_t;
+	type httpd_sys_script_t;
+	type hugetlbfs_t;
+	class dir { add_name remove_name write };
+	class file { unlink write };
+}
+
+#============= httpd_sys_script_t ==============
+allow httpd_sys_script_t httpd_log_t:dir { add_name write };
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t httpd_log_t:dir remove_name;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t httpd_log_t:file { unlink write };
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t hugetlbfs_t:file write;

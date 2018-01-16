@@ -1,0 +1,15 @@
+
+module misp-bash 1.0;
+
+require {
+	type httpd_log_t;
+	type httpd_sys_script_t;
+	class dir { add_name write };
+	class file create;
+}
+
+#============= httpd_sys_script_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t httpd_log_t:dir { add_name write };
+allow httpd_sys_script_t httpd_log_t:file create;

@@ -1,0 +1,210 @@
+
+module misp-ps 1.0;
+
+require {
+	type unconfined_t;
+	type init_t;
+	type auditd_t;
+	type mysqld_t;
+	type syslogd_t;
+	type NetworkManager_t;
+	type unconfined_service_t;
+	type setroubleshootd_t;
+	type system_dbusd_t;
+	type tuned_t;
+	type irqbalance_t;
+	type kernel_t;
+	type httpd_sys_script_t;
+	type firewalld_t;
+	type systemd_logind_t;
+	type httpd_t;
+	type audisp_t;
+	type policykit_t;
+	type udev_t;
+	type postfix_pickup_t;
+	type sshd_t;
+	type crond_t;
+	type getty_t;
+	type lvm_t;
+	type postfix_qmgr_t;
+	type postfix_master_t;
+	class dir { getattr search };
+	class file { open read };
+}
+
+#============= httpd_sys_script_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t NetworkManager_t:dir { getattr search };
+allow httpd_sys_script_t NetworkManager_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t NetworkManager_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t audisp_t:dir { getattr search };
+allow httpd_sys_script_t audisp_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t audisp_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t auditd_t:dir { getattr search };
+allow httpd_sys_script_t auditd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t auditd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t crond_t:dir { getattr search };
+allow httpd_sys_script_t crond_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t crond_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t firewalld_t:dir { getattr search };
+allow httpd_sys_script_t firewalld_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t firewalld_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t getty_t:dir { getattr search };
+allow httpd_sys_script_t getty_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t getty_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t httpd_t:dir { getattr search };
+allow httpd_sys_script_t httpd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t httpd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t init_t:dir { getattr search };
+allow httpd_sys_script_t init_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t init_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t irqbalance_t:dir { getattr search };
+allow httpd_sys_script_t irqbalance_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t irqbalance_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t kernel_t:dir { getattr search };
+allow httpd_sys_script_t kernel_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t kernel_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t lvm_t:dir { getattr search };
+allow httpd_sys_script_t lvm_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t lvm_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t mysqld_t:dir { getattr search };
+allow httpd_sys_script_t mysqld_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t mysqld_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t policykit_t:dir { getattr search };
+allow httpd_sys_script_t policykit_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t policykit_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_master_t:dir { getattr search };
+allow httpd_sys_script_t postfix_master_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_master_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_pickup_t:dir { getattr search };
+allow httpd_sys_script_t postfix_pickup_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_pickup_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_qmgr_t:dir { getattr search };
+allow httpd_sys_script_t postfix_qmgr_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t postfix_qmgr_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t setroubleshootd_t:dir { getattr search };
+allow httpd_sys_script_t setroubleshootd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t setroubleshootd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t sshd_t:dir { getattr search };
+allow httpd_sys_script_t sshd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t sshd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t syslogd_t:dir { getattr search };
+allow httpd_sys_script_t syslogd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t syslogd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t system_dbusd_t:dir { getattr search };
+allow httpd_sys_script_t system_dbusd_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t system_dbusd_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t systemd_logind_t:dir { getattr search };
+allow httpd_sys_script_t systemd_logind_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t systemd_logind_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t tuned_t:dir { getattr search };
+allow httpd_sys_script_t tuned_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t tuned_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t udev_t:dir { getattr search };
+allow httpd_sys_script_t udev_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t udev_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t unconfined_service_t:dir { getattr search };
+allow httpd_sys_script_t unconfined_service_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t unconfined_service_t:file read;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t unconfined_t:dir { getattr search };
+allow httpd_sys_script_t unconfined_t:file open;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_sys_script_t unconfined_t:file read;
