@@ -4,7 +4,7 @@ spec files to generate RPMs for MISP and it's dependencies. Uses a own compiled 
 Building is a bit tricky, as the correct order of the dependencies is important.
 
 ## Installing MISP
-Use the [installation instructions](Install.md) to install MISP 
+Use the [installation instructions](INSTALL.md) to install MISP 
 
 ## Building MISP
 before the MISP RPM can be created, the following dependecies must be built (in this order)
