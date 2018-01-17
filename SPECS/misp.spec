@@ -1,6 +1,6 @@
 Name:	    misp
 Version:	2.4.86
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -24,7 +24,7 @@ Requires:       python-lxml, python-dateutil, python-six
 Requires:	    python-cybox, python-stix, php-redis
 Requires:       php-pear-Crypt_GPG
 Requires:       python-magic, python-pydeep, python-pymisp, python34-pymisp
-Requires:       python-lief, python-mixbox
+Requires:       lief-python, python-mixbox
 
 %description
 MISP - malware information sharing platform & threat sharing
