@@ -2,6 +2,7 @@
 # This script is run by the docker instance when started from docker-build-locally.sh
 
 # install additional dependencies here
+sudo yum -y install https://certrepo.switch.ch/certrepo/misp/buildsys-macros-7-4.fc7.noarch.rpm
 sudo yum -y install http://mirror.centos.org/centos/7/extras/x86_64/Packages/epel-release-7-9.noarch.rpm
 sudo yum -y install https://certrepo.switch.ch/certrepo/misp/php-7.0.27-2.el7.x86_64.rpm
 sudo yum -y install https://certrepo.switch.ch/certrepo/misp/php-pear-1.10.1-1.el7.noarch.rpm
