@@ -1,6 +1,6 @@
 Name:		python-pymisp
 Version:	2.4.82
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:    Python interface to MISP
 
 Group:		Development/Languages
@@ -11,7 +11,7 @@ Source0:	fake-tgz.tgz
 BuildArch:  noarch
 BuildRequires:	python-devel, python-setuptools, git
 BuildRequires:  python-pip
-Requires:	python, python-pip
+Requires:	python, python-pip, python-requests
 
 %description
 Python interface to MISP

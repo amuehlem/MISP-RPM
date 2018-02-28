@@ -1,6 +1,6 @@
 Name:		python34-pymisp
 Version:	2.4.82
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:    Python interface to MISP
 
 Group:		Development/Languages
@@ -11,7 +11,7 @@ Source0:	fake-tgz.tgz
 BuildArch:  noarch
 BuildRequires:	python34-devel, python34-setuptools, git
 BuildRequires:  python34-pip
-Requires:	python34, python34-pip
+Requires:	python34, python34-pip, python34-requests
 
 %description
 Python interface to MISP
