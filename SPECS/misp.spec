@@ -1,5 +1,5 @@
 Name:	    misp
-Version:	2.4.87
+Version:	2.4.88
 Release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
