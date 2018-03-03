@@ -58,9 +58,8 @@ cp -a config.default.php config.php
 chown apache:apache /var/www/MISP/app/Config/config.php
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php
 # enable workers at startup
-# add to /etc/rc.local
-su -s /bin/bash apache -c '/var/www/MISP/app/Console/worker/start.sh'
-chmod +x /etc/rc.local
+systemctl enable misp-workers
+systemctl start misp-workers
 ```
 
 - start redis

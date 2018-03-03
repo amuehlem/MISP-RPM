@@ -1,6 +1,6 @@
 Name:	    misp
 Version:	2.4.88
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -11,6 +11,8 @@ Source1:    misp.conf
 Source2:    misp-httpd.pp
 Source3:    misp-bash.pp
 Source4:    misp-ps.pp
+Source5:    misp-workers.service
+Source6:    start-misp-workers.sh
 
 BuildArch:      noarch
 BuildRequires:  git, python-devel, python-pip, libxslt-devel, zlib-devel
@@ -55,15 +57,20 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
+install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
+mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
+install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 
 %files
-%defattr(-,root,root,-)
-#%config(noreplace) /etc/httpd/conf.d/misp.conf
 %defattr(-,apache,apache,-)
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
 /var/www/MISP
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 /usr/share/MISP/policy/selinux/misp-*.pp
+%{_sysconfdir}/systemd/system/misp-workers.service
+%defattr(-,root,root,-)
+/usr/local/sbin/start-misp-workers.sh
 
 %post
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
@@ -104,6 +111,10 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch - 2.4.88-4
+- updated to MISP version 2.4.88
+- added systemctl unit for misp-workers
+
 * Tue Jan 16 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.8.86
 - updated to MISP version 2.4.86
 

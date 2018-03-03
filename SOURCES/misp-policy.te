@@ -1,0 +1,22 @@
+
+module misp-policy 1.0;
+
+require {
+	type httpd_log_t;
+	type httpd_t;
+	class process execmem;
+	class dir remove_name;
+	class file { unlink write };
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t httpd_log_t:dir remove_name;
+allow httpd_t httpd_log_t:file unlink;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t httpd_log_t:file write;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t self:process execmem;

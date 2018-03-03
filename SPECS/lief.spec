@@ -36,7 +36,7 @@ LIEF - Library to Instrument Executable Formats https://lief.quarkslab.com
 %setup -q -n fake-tgz
 
 %build
-git clone --depth 3 --branch master --single-branch https://github.com/lief-project/LIEF.git LIEF
+git clone --branch master --single-branch https://github.com/lief-project/LIEF.git LIEF
 cd LIEF
 mkdir build
 cd build
