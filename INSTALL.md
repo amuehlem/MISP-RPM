@@ -12,7 +12,7 @@ Installation instructions:
 ## installation steps
 currently the RPMs are provided in an repository which you have to install first
 ```
-yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.0-2.el7.noarch.rpm
+yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.0-4.el7.noarch.rpm
 ```
 
 - install misp
