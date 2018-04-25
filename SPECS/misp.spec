@@ -1,6 +1,6 @@
 Name:	    misp
-Version:	2.4.88
-Release:	4%{?dist}
+Version:	2.4.90
+Release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -43,7 +43,9 @@ cd $RPM_BUILD_ROOT/var/www/MISP
 git checkout tags/v%{version}
 git config core.filemode false
 git submodule init
+git submodule deinit PyMISP
 git submodule update
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts
 wget https://getcomposer.org/download/1.2.1/composer.phar -O composer.phar
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 php composer.phar require kamisama/cake-resque:4.1.2
