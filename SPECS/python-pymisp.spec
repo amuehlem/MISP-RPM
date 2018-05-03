@@ -1,6 +1,6 @@
 Name:		python-pymisp
 Version:	2.4.90
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:    Python interface to MISP
 
 Group:		Development/Languages
@@ -26,14 +26,17 @@ Python interface to MISP
 git clone https://github.com/MISP/PyMISP.git
 cd PyMISP
 git submodule update --init
-pip install --install-option='--prefix=$RPM_BUILD_ROOT/usr' -I .
+python setup.py install --root=$RPM_BUILD_ROOT
 
 %files
-/usr/lib/python2.7/site-packages/*
-/usr/bin/*
+/usr/lib/python2.7/site-packages/pymisp-%{version}-py2.7.egg-info
+/usr/lib/python2.7/site-packages/pymisp
 
 %changelog
-* Wed Aug 25 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.90
+* Thu May 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.90
+- fallback to setup.py installation and only pymisp integration
+
+* Wed Apr 25 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.90
 - update to version 2.4.90
 
 * Fri Mar 30 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.82-2
