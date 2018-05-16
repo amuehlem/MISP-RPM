@@ -1,6 +1,6 @@
 Name:	    misp
 Version:	2.4.90
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -26,7 +26,7 @@ Requires:       python-lxml, python-dateutil, python-six
 Requires:	    python-cybox, python-stix, php-redis
 Requires:       php-pear-Crypt_GPG
 Requires:       python-magic, python-pydeep, python-pymisp, python34-pymisp
-Requires:       lief-python, python-mixbox
+Requires:       lief-python, python-mixbox, policycoreutils-python
 
 %description
 MISP - malware information sharing platform & threat sharing
@@ -113,7 +113,10 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
-* Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch - 2.4.88-4
+* Mon May 7 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.90
+- added policycoreutils-python as requirement
+
+* Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.88-4
 - updated to MISP version 2.4.88
 - added systemctl unit for misp-workers
 
