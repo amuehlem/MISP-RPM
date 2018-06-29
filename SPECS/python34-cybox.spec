@@ -1,7 +1,7 @@
 %define pythondir /usr/lib/python3.4/site-packages
 
 Name:		python34-cybox
-Version:	2.1.0.14
+Version:	2.1.0.17
 Release:	1%{?dist}
 Summary:	Python extension for interfacing cybox
 
@@ -9,7 +9,6 @@ Group:		Development/Languages
 License:	BSD
 URL:		https://github.com/CybOXProject/
 Source0:	fake-tgz.tgz
-Source1:    cybox-%{version}-py2.py3-none-any.whl
 
 BuildArch:  noarch
 BuildRequires:	python34-devel, python34-setuptools, git
@@ -26,15 +25,18 @@ Python extension for cybox
 # intentianally left empty
 
 %install
-unzip %{SOURCE1}
-mkdir -p $RPM_BUILD_ROOT/%{pythondir}
-mv cybox $RPM_BUILD_ROOT/%{pythondir}
-mv cybox-%{version}.dist-info $RPM_BUILD_ROOT/%{pythondir}
+git clone https://github.com/CybOXProject/python-cybox.git
+cd python-cybox
+git checkout v%{version}
+python3 setup.py install --root=$RPM_BUILD_ROOT
 
 %files
 /usr/lib/python3.4/site-packages/cybox
-/usr/lib/python3.4/site-packages/cybox-%{version}.dist-info
+/usr/lib/python3.4/site-packages/cybox-%{version}-py3.4.egg-info
 
 %changelog
+* Fri Jun 29 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.17
+- updated to version 2.1.0.17
+
 * Mon Jan 02 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.12
 - first version

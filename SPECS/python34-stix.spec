@@ -1,5 +1,5 @@
 Name:		python34-stix
-Version:	1.2.0.2
+Version:	1.2.0.6
 Release:	1%{?dist}
 Summary:	Python extension for interfacing stix
 
@@ -32,5 +32,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 /usr/lib/python3.4/site-packages/stix-%{version}-py3.4.egg-info
 
 %changelog
+* Fri Jun 29 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.2.0.6
+- update to version 1.2.0.6
+
 * Wed Oct 25 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1.1.4
 - first version

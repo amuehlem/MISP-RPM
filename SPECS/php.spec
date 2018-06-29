@@ -4,8 +4,8 @@
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
 Name:		php
-Version:	7.0.27
-Release:	2%{?dist}
+Version:	7.0.30
+Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
