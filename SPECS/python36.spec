@@ -74,6 +74,9 @@ make %{?_smp_mflags}
 %install
 make DESTDIR=%{buildroot} INSTALL="install -p" install
 
+mkdir -p $RPM_BUILD_ROOT/etc/profile.d
+echo "export PYTHONPATH=$PYTHONPATH:/usr/lib64/python3.6:/usr/lib64/python3.6/lib-dynload" >> $RPM_BUILD_ROOT/etc/profile.d/python36.sh
+
 %files devel
 %{_bindir}/python3-config
 %{_bindir}/python3.6-config
@@ -99,6 +102,7 @@ make DESTDIR=%{buildroot} INSTALL="install -p" install
 %{_libdir}/*
 %{_mandir}/*/*
 /usr/lib/python%{pybasever}/*
+/etc/profile.d/python36.sh
 
 %changelog
 * Wed May 16 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 3.6.5
