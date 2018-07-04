@@ -10,7 +10,7 @@ Source0:	fake-tgz.tgz
 
 BuildArch:  noarch
 BuildRequires:	python34-devel, python34-setuptools, git
-Requires:	python34
+Requires:	python34 python34-ordered_set python34-lxml python34-dateutil
 
 %description
 Python extension for stix

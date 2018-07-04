@@ -26,6 +26,7 @@ Requires:       python-lxml, python-dateutil, python-six
 Requires:	    python-cybox, python-stix, php-redis
 Requires:       php-pear-Crypt_GPG
 Requires:       python-magic, python-pydeep, python-pymisp, python34-pymisp
+Requires:       python34-cybox, python34-stix, python34-mixbox, python34-maec
 Requires:       lief-python, python-mixbox, policycoreutils-python
 
 %description
