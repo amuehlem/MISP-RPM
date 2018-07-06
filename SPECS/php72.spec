@@ -3,9 +3,9 @@
 %global mysql_config    %{_bindir}/mysql_config
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
-Name:		php
-Version:	7.0.27
-Release:	2%{?dist}
+Name:		php72
+Version:	7.2.7
+Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -78,7 +78,7 @@ The %{name} package contains the module (often referred to as mod_php)
 which adds support for the PHP language to Apache HTTP Server.
 
 %prep
-%setup -q
+%setup -q -n php-%{version}
 
 
 %build
@@ -167,13 +167,13 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %config(noreplace) /etc/php.d/mysqlnd.ini
 %config(noreplace) /etc/php.d/mysqli.ini
 %config(noreplace) /etc/php.d/pdo_mysql.ini
-/usr/lib64/php/20151012/mysqli.so
-/usr/lib64/php/20151012/mysqlnd.so
-/usr/lib64/php/20151012/pdo_mysql.so
+/usr/lib64/php/20170718/mysqli.so
+/usr/lib64/php/20170718/mysqlnd.so
+/usr/lib64/php/20170718/pdo_mysql.so
 
 %files opcache
 %config(noreplace) /etc/php.d/opcache.ini
-/usr/lib64/php/20151012/opcache.so
+/usr/lib64/php/20170718/opcache.so
 
 %files
 %doc /usr/share/man/man1/*.gz
