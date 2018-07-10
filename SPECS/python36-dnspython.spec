@@ -29,11 +29,11 @@ A DNS toolkit for Python
 %install
 unzip %{SOURCE1}
 mkdir -p $RPM_BUILD_ROOT/%{pylibdir}
-mv dnspython $RPM_BUILD_ROOT/%{pylibdir}
+mv dns $RPM_BUILD_ROOT/%{pylibdir}
 mv dnspython-%{version}.dist-info $RPM_BUILD_ROOT/%{pylibdir}
 
 %files
-%{pylibdir}/dnspython
+%{pylibdir}/dns
 %{pylibdir}/dnspython-%{version}.dist-info
 
 %changelog
