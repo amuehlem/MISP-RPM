@@ -37,5 +37,5 @@ mv lxml-%{version}.dist-info $RPM_BUILD_ROOT/%{pylibdir}
 %{pylibdir}/lxml-%{version}.dist-info
 
 %changelog
-* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 10.0.1
+* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 4.2.3
 - first version for python36

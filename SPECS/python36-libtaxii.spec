@@ -37,5 +37,5 @@ mv libtaxii-%{version}.dist-info $RPM_BUILD_ROOT/%{pylibdir}
 %{pylibdir}/libtaxii-%{version}.dist-info
 
 %changelog
-* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 10.0.1
+* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1.111
 - first version for python36

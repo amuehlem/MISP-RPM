@@ -37,5 +37,5 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/cybox-%{version}-py%{pybasever}.egg-info
 
 %changelog
-* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 10.0.1
+* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.17
 - first version for python36
