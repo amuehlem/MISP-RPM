@@ -2,7 +2,7 @@
 %define pybasever 3.6
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
-Name:		python36-sparqlwrapper
+Name:		python36-SPARQLWrapper
 Version:	1.8.2
 Release:	1%{?dist}
 Summary:	SPARQL Endpoint interface to Python

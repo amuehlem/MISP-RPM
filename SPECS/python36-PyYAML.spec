@@ -2,7 +2,7 @@
 %define pybasever 3.6
 %define pylibdir /usr/lib64/python%{pybasever}/site-packages
 
-Name:		python36-pyyaml
+Name:		python36-PyYAML
 Version:	3.13
 Release:	1%{?dist}
 Summary:	YAML parser and emitter for Python
