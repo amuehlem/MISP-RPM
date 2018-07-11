@@ -4,7 +4,7 @@
 
 Name:		python36-stix
 Version:	1.2.0.6
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	An API for parsing and generating STIX content.
 
 Group:		Development/Languages
@@ -15,7 +15,7 @@ Buildarch:  noarch
 
 BuildRequires:  python36, python36-devel, python36-setuptools	
 BuildRequires:  git
-Requires:	    python36, python36-ordered_set, python36-lxml, python36-datetuil
+Requires:	    python36, python36-ordered_set, python36-lxml, python36-dateutils
 
 %description
 An API for parsing and generating STIX content.

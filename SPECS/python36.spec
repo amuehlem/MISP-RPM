@@ -12,8 +12,10 @@ URL: https://www.python.org/
 %global pyshortver 36
 
 Version: %{pybasever}.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Python
+
+Obsoletes: python34
 
 
 # ==================================
@@ -318,6 +320,8 @@ the "%{name}-" prefix.
 
 %package libs
 Summary:        Python runtime libraries
+
+Obsoletes: python34-libs
 
 
 %description libs

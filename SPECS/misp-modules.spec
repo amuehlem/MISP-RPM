@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		misp-modules
-Version:	2.4.93
+Version:	1.0
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 

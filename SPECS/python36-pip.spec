@@ -4,7 +4,7 @@
 
 Name:		python36-pip
 Version:	10.0.1
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	The PyPA recommended tool for installing Python packages.
 
 Group:		Development/Languages
