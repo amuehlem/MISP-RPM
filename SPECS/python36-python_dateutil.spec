@@ -8,7 +8,7 @@ Release:	1%{?dist}
 Summary:	Extensions to the standard Python datetime module
 
 Group:		Development/Languages
-License:	BSD License
+License:	Apache Software License, BSD License (Dual License)
 URL:		https://pypi.org/project/python-dateutil/
 Source0:	fake-tgz.tgz
 Source1:    python_dateutil-2.7.3-py2.py3-none-any.whl

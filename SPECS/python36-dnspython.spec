@@ -8,7 +8,7 @@ Release:	1%{?dist}
 Summary:	A DNS toolkit for Python
 
 Group:		Development/Languages
-License:	BSD License
+License:	Freeware (http://www.dnspython.org/LICENSE)
 URL:		https://pypi.org/project/dnspython/
 Source0:	fake-tgz.tgz
 Source1:    dnspython-%{version}-py2.py3-none-any.whl

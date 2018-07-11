@@ -8,7 +8,7 @@ Release:	1%{?dist}
 Summary:	A backport of recent additions to the 'collections.abc' module.
 
 Group:		Development/Languages
-License:	BSD License
+License:	Python Software Foundation License
 URL:		https://pypi.org/project/backports_abc/
 Source0:	fake-tgz.tgz
 Source1:    backports_abc-%{version}-py2.py3-none-any.whl

@@ -8,7 +8,7 @@ Release:	1%{?dist}
 Summary:	A MutableSet that remembers its order, so that every entry has an index.
 
 Group:		Development/Languages
-License:	BSD License
+License:	MIT License
 URL:		https://pypi.org/project/ordered-set/
 Source0:	ordered-set-%{version}.tar.gz
 Buildarch:  noarch

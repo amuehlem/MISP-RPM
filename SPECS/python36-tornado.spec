@@ -8,7 +8,7 @@ Release:	1%{?dist}
 Summary:	Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.
 
 Group:		Development/Languages
-License:	BSD License
+License:	Apache Software License (http://www.apache.org/licenses/LICENSE-2.0)
 URL:		https://pypi.org/project/tornado/
 Source0:	tornado-5.0.2.tar.gz
 
