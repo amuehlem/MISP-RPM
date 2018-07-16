@@ -6,6 +6,11 @@ We know, with our RPMs we break a number of rules for Red Hat based systems, but
 the process of getting MISP running on RHEL systems. From our tests we got very good results to operate
 MISP on RHEL servers without any big issues. So if you can profit from our work, please feel free to do so!
 
+# Architecture
+The idea is to install minimal CentOS or Red Hat system and enable the provided repository on it. Combining MISP
+with other PHP applications might work, but was not the intention for this project. The intended setup
+is to just use MISP on this server.
+
 # Summary
 We provide the following components as RPMs
 
