@@ -3,7 +3,7 @@
 
 Name:		python36-setuptools
 Version:	36.6.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Python Setuptools
 
 Group:		Development/Languages

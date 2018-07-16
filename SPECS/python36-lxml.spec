@@ -4,14 +4,14 @@
 
 Name:		python36-lxml
 Version:    4.2.3
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API.
 
 Group:		Development/Languages
 License:	BSD License
 URL:		https://pypi.org/project/lxml/
 Source0:	fake-tgz.tgz
-Source1:    lxml-%{version}-cp27-cp27m-manylinux1_x86_64.whl
+Source1:    lxml-%{version}-cp36-cp36m-manylinux1_x86_64.whl
 
 BuildRequires:  python36, python36-devel, python36-setuptools	
 BuildRequires:  unzip

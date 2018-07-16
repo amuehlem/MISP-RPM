@@ -4,7 +4,7 @@
 
 Name:		python36-cybox
 Version:	2.1.0.17
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Python library for parsing and generating CybOX content.
 
 Group:		Development/Languages

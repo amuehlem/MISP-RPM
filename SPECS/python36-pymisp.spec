@@ -4,7 +4,7 @@
 
 Name:		python36-pymisp
 Version:	2.4.93
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	Python interface to MISP
 
 Group:		Development/Languages
@@ -15,8 +15,9 @@ Buildarch:  noarch
 
 BuildRequires:  python36, python36-devel, python36-setuptools	
 BuildRequires:  git
-Requires:	    python36, python36-six, python36-requests
-Requires:       python36-dateutil, python36-jsonschema, python36-setuptools
+Requires:	    python36, python36-six, python36-requests, python36-urllib3
+Requires:       python36-python_dateutil, python36-jsonschema, python36-setuptools
+Requires:       python36-chardet, python36-certifi, python36-idna
 
 %description
 Python interface to MISP

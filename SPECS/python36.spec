@@ -12,7 +12,7 @@ URL: https://www.python.org/
 %global pyshortver 36
 
 Version: %{pybasever}.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: Python
 
 Obsoletes: python34
@@ -512,6 +512,7 @@ BuildPython() {
   --enable-shared \
   --with-computed-gotos=%{with_computed_gotos} \
   --with-dbmliborder=gdbm:ndbm:bdb \
+  --enable-unicode=ucs4 \
 %if 0%{?with_system_expat}
   --with-system-expat \
 %endif

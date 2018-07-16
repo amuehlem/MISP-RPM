@@ -4,7 +4,7 @@
 
 Name:		python36-stix
 Version:	1.2.0.6
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	An API for parsing and generating STIX content.
 
 Group:		Development/Languages

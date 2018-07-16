@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -21,7 +21,7 @@ BuildRequires:  libxml2-devel, libxslt-devel
 BuildRequires:  python36-lxml, python36-six, python36-mixbox
 BuildRequires:  python36-python_dateutil, python36-ordered_set
 BuildRequires:  python36-cybox, python36-stix, python36-backports_abc
-BuildRequires:  python36-tornado, python36-dnspython
+BuildRequires:  python36-tornado, python36-dnspython, python36-dnspython3
 BuildRequires:  python36-chardet, python36-nose, python36-jsonschema
 BuildRequires:  python36-rdflib, python36-beautifulsoup4, python36-argparse
 BuildRequires:  python36-pytz, python36-colorlog, python36-pyparsing
@@ -43,7 +43,7 @@ Requires:       libxml2, libxslt
 Requires:       python36-libtaxii, python36-six
 Requires:       python36-python_dateutil, python36-ordered_set
 Requires:       python36-cybox, python36-stix, python36-backports_abc
-Requires:       python36-tornado, python36-dnspython
+Requires:       python36-tornado, python36-dnspython, python36-dnspython3
 Requires:       python36-chardet, python36-nose, python36-jsonschema
 Requires:       python36-rdflib, python36-beautifulsoup4, python36-argparse
 Requires:       python36-pytz, python36-colorlog, python36-pyparsing
