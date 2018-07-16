@@ -1,6 +1,8 @@
+%global __python %{__python3}
+
 Name:	    misp
 Version:	2.4.93
-Release:	1%{?dist}
+Release:	6%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -13,21 +15,22 @@ Source3:    misp-bash.pp
 Source4:    misp-ps.pp
 Source5:    misp-workers.service
 Source6:    start-misp-workers.sh
+Patch0:     MISP-Server.php.patch
 
 BuildArch:      noarch
-BuildRequires:  git, python-devel, python-pip, libxslt-devel, zlib-devel
+BuildRequires:  git, python36-devel, python36-pip, libxslt-devel, zlib-devel
 BuildRequires:  php > 7.0
-BuildRequires:  python-lxml, python-dateutil, python-six, curl
-BuildRequires:  python-setuptools, wget
+BuildRequires:  python36-lxml, python36-python_dateutil, python36-six, curl
+BuildRequires:  python36-setuptools, wget
 BuildRequires:  php-pear-Crypt_GPG
 Requires:	    httpd, redis, libxslt, zlib
 Requires:       php > 7.0
-Requires:       python-lxml, python-dateutil, python-six
-Requires:	    python-cybox, python-stix, php-redis
+Requires:       python36-lxml, python36-python_dateutil, python36-six
+Requires:	    python36-cybox, python36-stix, php-redis
 Requires:       php-pear-Crypt_GPG
-Requires:       python-magic, python-pydeep, python-pymisp, python34-pymisp
-Requires:       python34-cybox, python34-stix, python34-mixbox, python34-maec
-Requires:       lief-python, python-mixbox, policycoreutils-python
+Requires:       python36-python_magic, python36-pydeep, python36-pymisp
+Requires:       python36-cybox, python36-stix, python36-mixbox, python36-maec
+Requires:       lief-python, python36-mixbox, policycoreutils-python
 
 %description
 MISP - malware information sharing platform & threat sharing
@@ -36,12 +39,19 @@ MISP - malware information sharing platform & threat sharing
 %setup -q -n fake-tgz
 
 %build
+# intentionally left blank
 
 %install
+
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
 git checkout tags/v%{version}
+git pull origin 2.4
+
+# patch app/Model/Server.php to show commit ID
+patch --ignore-whitespace -p0 < %{PATCH0}
+
 git config core.filemode false
 git submodule init
 git submodule deinit PyMISP
@@ -54,6 +64,14 @@ php composer.phar config vendor-dir Vendor
 php composer.phar install
 mkdir -p $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config
 cp -fa $RPM_BUILD_ROOT/var/www/MISP/INSTALL/setup/config.php $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config/config.php
+cd $RPM_BUILD_ROOT/var/www/MISP
+
+# save commit ID of this installation
+git rev-parse HEAD > .git_commit_version
+# cleanup
+rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
+find . -name \.git | xargs -i rm -rf {}
+
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
 mkdir -p $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux
@@ -85,14 +103,10 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_unified 1
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp'
-restorecon -v '/var/www/MISP/app/tmp'
 semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
 restorecon -v '/var/www/MISP/app/tmp/'
 semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
 restorecon -v '/var/www/MISP/app/tmp/logs/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache'
-restorecon -v '/var/www/MISP/app/tmp/cache'
 semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
 restorecon -v '/var/www/MISP/app/tmp/cache/'
 semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
