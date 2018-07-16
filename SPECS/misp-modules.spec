@@ -1,76 +1,76 @@
-%define pythonver 3.4
-%define pythondir %{_libdir}/python%{pythonver}/site-packages
+%define pymajorver 3
+%define pybasever 3.6
+%define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
-Name:	misp-modules	
-Version:	2.4.81
-Release:	8%{?dist}
-Summary:	Expansion modules for MISP
+Name:		misp-modules
+Version:	1.0
+Release:	2%{?dist}
+Summary:	MISP modules for expansion services, import and export
 
-Group:	    Internet Applications	
-License:    GPLv3	
+Group:		Development/Languages
+License:	GPLv3
 URL:		https://github.com/MISP/misp-modules
 Source0:	fake-tgz.tgz
 Source1:    misp-modules.service
+Buildarch:  noarch
 
-BuildArch:  noarch
-BuildRequires:  python34-devel, python34-pip, python34-setuptools
-BuildRequires:  misp-stix-converter, python34-libtaxii
+BuildRequires:  python36, python36-devel, python36-setuptools, python36-pip
+BuildRequires:  misp-stix-converter, python36-libtaxii
 BuildRequires:  libpqxx-devel, libjpeg-turbo-devel, git
 BuildRequires:  libxml2-devel, libxslt-devel
-BuildRequires:  python34-lxml, python34-six, python34-mixbox
-BuildRequires:  python34-python_dateutil, python34-ordered_set
-BuildRequires:  python34-cybox, python34-stix, python34-backports_abc
-BuildRequires:  python34-tornado, python34-dnspython3, python34-dnspython
-BuildRequires:  python34-chardet, python34-nose, python34-jsonschema
-BuildRequires:  python34-rdflib, python34-beautifulsoup4, python34-argparse
-BuildRequires:  python34-pytz, python34-colorlog, python34-pyparsing
-BuildRequires:  python34-isodate, python34-redis, python34-pillow
-BuildRequires:  python34-pygeoip, python34-idna, python34-urllib3 < 1.23
-BuildRequires:  python34-certifi, python34-url_normalize, python34-requests_cache
-BuildRequires:  python34-requests, python34-urlarchiver, python34-ez_setup
-BuildRequires:  python34-asnhistory, python34-bs4, python34-cabby
-BuildRequires:  python34-dateutils, python34-furl, python34-domaintools_api
-BuildRequires:  python34-ipasn_redis, python34-orderedmultidict, python34-passivetotal
-BuildRequires:  python34-olefile, python34-pyaml, python34-pypdns
-BuildRequires:  python34-pyeupi, python34-pypssl, python34-pytesseract
-BuildRequires:  python34-SPARQLWrapper, python34-PyYAML, python34-uwhois
-BuildRequires:  python34-shodan, python34-XlsxWriter, python34-colorama
-BuildRequires:  python34-click, python34-click_plugins, python34-future
-Requires:	    python34, python34-pip, libpqxx, libjpeg-turbo
-Requires:       misp-stix-converter, python34-libtaxii, python34-mixbox
-Requires:       libxml2, libxslt, python34-lxml, python34-six
-Requires:       python34-python_dateutil, python34-ordered_set
-Requires:       python34-cybox, python34-stix, python34-backports_abc
-Requires:       python34-tornado, python34-dnspython3, python34-dnspython
-Requires:       python34-chardet, python34-nose, python34-jsonschema
-Requires:       python34-rdflib, python34-beautifulsoup4, python34-argparse
-Requires:       python34-pytz, python34-colorlog, python34-pyparsing
-Requires:       python34-isodate, python34-redis, python34-pillow
-Requires:       python34-pygeoip, python34-idna, python34-urllib3 < 1.23
-Requires:       python34-certifi, python34-url_normalize, python34-requests_cache
-Requires:       python34-requests, python34-urlarchiver, python34-ez_setup
-Requires:       python34-asnhistory, python34-bs4, python34-cabby
-Requires:       python34-dateutils, python34-furl, python34-domaintools_api
-Requires:       python34-ipasn_redis, python34-orderedmultidict, python34-passivetotal
-Requires:       python34-olefile, python34-pyaml, python34-pypdns
-Requires:       python34-pyeupi, python34-pypssl, python34-pytesseract
-Requires:       python34-SPARQLWrapper, python34-PyYAML, python34-uwhois
-Requires:       python34-shodan, python34-XlsxWriter, python34-colorama
-Requires:       python34-click, python34-click_plugins, python34-future
+BuildRequires:  python36-lxml, python36-six, python36-mixbox
+BuildRequires:  python36-python_dateutil, python36-ordered_set
+BuildRequires:  python36-cybox, python36-stix, python36-backports_abc
+BuildRequires:  python36-tornado, python36-dnspython, python36-dnspython3
+BuildRequires:  python36-chardet, python36-nose, python36-jsonschema
+BuildRequires:  python36-rdflib, python36-beautifulsoup4, python36-argparse
+BuildRequires:  python36-pytz, python36-colorlog, python36-pyparsing
+BuildRequires:  python36-isodate, python36-redis, python36-pillow
+BuildRequires:  python36-pygeoip, python36-idna, python36-urllib3 < 1.23
+BuildRequires:  python36-certifi, python36-url_normalize, python36-requests_cache
+BuildRequires:  python36-requests, python36-urlarchiver, python36-ez_setup
+BuildRequires:  python36-asnhistory, python36-cabby
+BuildRequires:  python36-dateutils, python36-furl, python36-domaintools_api
+BuildRequires:  python36-ipasn_redis, python36-orderedmultidict, python36-passivetotal
+BuildRequires:  python36-olefile, python36-pyaml, python36-pypdns
+BuildRequires:  python36-pyeupi, python36-pypssl, python36-pytesseract
+BuildRequires:  python36-SPARQLWrapper, python36-PyYAML, python36-uwhois
+BuildRequires:  python36-shodan, python36-XlsxWriter, python36-colorama
+BuildRequires:  python36-click, python36-click_plugins, python36-future
+Requires:	    python36, python36-setuptools, python36-pip
+Requires:       libpqxx, libjpeg-turbo, misp-stix-converter
+Requires:       libxml2, libxslt
+Requires:       python36-libtaxii, python36-six
+Requires:       python36-python_dateutil, python36-ordered_set
+Requires:       python36-cybox, python36-stix, python36-backports_abc
+Requires:       python36-tornado, python36-dnspython, python36-dnspython3
+Requires:       python36-chardet, python36-nose, python36-jsonschema
+Requires:       python36-rdflib, python36-beautifulsoup4, python36-argparse
+Requires:       python36-pytz, python36-colorlog, python36-pyparsing
+Requires:       python36-isodate, python36-redis, python36-pillow
+Requires:       python36-pygeoip, python36-idna, python36-urllib3 < 1.23
+Requires:       python36-certifi, python36-url_normalize, python36-requests_cache
+Requires:       python36-requests, python36-urlarchiver, python36-ez_setup
+Requires:       python36-asnhistory, python36-cabby
+Requires:       python36-dateutils, python36-furl, python36-domaintools_api
+Requires:       python36-ipasn_redis, python36-orderedmultidict, python36-passivetotal
+Requires:       python36-olefile, python36-pyaml, python36-pypdns
+Requires:       python36-pyeupi, python36-pypssl, python36-pytesseract
+Requires:       python36-SPARQLWrapper, python36-PyYAML, python36-uwhois
+Requires:       python36-shodan, python36-XlsxWriter, python36-colorama
+Requires:       python36-click, python36-click_plugins, python36-future
 
 %description
-Expansion modules for MISP
+MISP modules for expansion services, import and export
 
 %prep
 %setup -q -n fake-tgz
 
 %build
+#intentionally left blank
 
 %install
 git clone https://github.com/MISP/misp-modules.git
-#mkdir requirements
-#pip3 download -d requirements -r misp-modules/REQUIREMENTS
-#pip3 install --install-option="--root=$RPM_BUILD_ROOT" -r misp-modules/REQUIREMENTS
 cd misp-modules
 python3 setup.py install --root=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
@@ -78,11 +78,11 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 
 %files
 %{_bindir}/misp-modules
-%{_libdir}/python3.4/site-packages/misp_modules-1.0-py3.4.egg-info
-%{_libdir}/python3.4/site-packages/misp_modules
+%{pylibdir}/misp_modules
+%{pylibdir}/misp_modules-%{version}-py%{pybasever}.egg-info
 %{_sysconfdir}/systemd/system/misp-modules.service
-%exclude %{_libdir}/python3.4/site-packages/tests
+%exclude %{pylibdir}/tests
 
 %changelog
-* Wed Oct 18 2017 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.81
-- first version
+* Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.93
+- first version for python36

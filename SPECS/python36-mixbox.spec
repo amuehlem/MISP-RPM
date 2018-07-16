@@ -2,14 +2,14 @@
 %define pybasever 3.6
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
-Name:		misp-stix-converter
-Version:    0.2.10
-Release:	2%{?dist}
-Summary:	MISP to STIX and back again
+Name:		python36-mixbox
+Version:	1.0.3
+Release:	1%{?dist}
+Summary:	Utility library for cybox, maec, and stix packages
 
 Group:		Development/Languages
 License:	BSD License
-URL:		https://github.com/MISP/MISP-STIX-Converter
+URL:		https://pypi.org/project/libtaxii/
 Source0:	fake-tgz.tgz
 Buildarch:  noarch
 
@@ -18,7 +18,7 @@ BuildRequires:  git
 Requires:	    python36
 
 %description
-MISP to STIX and back again
+A library of common code leveraged by python-cybox, python-maec, and python-stix.
 
 %prep
 %setup -q -n fake-tgz
@@ -27,16 +27,15 @@ MISP to STIX and back again
 #intentionally left blank
 
 %install
-git clone https://github.com/MISP/MISP-STIX-Converter
-cd MISP-STIX-Converter
+git clone https://github.com/CybOXProject/mixbox.git
+cd mixbox
+git checkout v%{version}
 python3 setup.py install --root=$RPM_BUILD_ROOT
 
 %files
-%{_bindir}/misp-to-stix.py
-%{_bindir}/stix-to-misp.py
-%{pylibdir}/misp_stix_converter
-%{pylibdir}/misp_stix_converter-%{version}-py%{pybasever}.egg-info
+%{pylibdir}/mixbox
+%{pylibdir}/mixbox-%{version}-py%{pybasever}.egg-info
 
 %changelog
-* Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.2.10
+* Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0.3
 - first version for python36
