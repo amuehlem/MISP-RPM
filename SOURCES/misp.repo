@@ -3,10 +3,12 @@
 name=mariadb
 baseurl=http://yum.mariadb.org/10.1/centos7-amd64/
 enabled=1
-gpgcheck=0
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
 
 [misp]
 name=misp
 baseurl=https://certrepo.switch.ch/certrepo/misp
 enabled=1
-gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH
+gpgcheck=1

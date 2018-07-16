@@ -1,0 +1,11 @@
+[Unit]
+Description=MISP workers
+After=network.target remote-fs.target nss-lookup.target httpd.service
+
+[Service]
+Type=forking
+ExecStart=/var/www/MISP/app/Console/worker/start.sh
+User=apache
+
+[Install]
+WantedBy=multi-user.target
