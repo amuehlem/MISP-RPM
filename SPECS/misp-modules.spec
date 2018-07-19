@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -15,30 +15,8 @@ Source1:    misp-modules.service
 Buildarch:  noarch
 
 BuildRequires:  python36, python36-devel, python36-setuptools, python36-pip
-BuildRequires:  misp-stix-converter, python36-libtaxii
 BuildRequires:  libpqxx-devel, libjpeg-turbo-devel, git
 BuildRequires:  libxml2-devel, libxslt-devel
-BuildRequires:  python36-lxml, python36-six, python36-mixbox
-BuildRequires:  python36-python_dateutil, python36-ordered_set
-BuildRequires:  python36-cybox, python36-stix, python36-backports_abc
-BuildRequires:  python36-tornado, python36-dnspython, python36-dnspython3
-BuildRequires:  python36-chardet, python36-nose, python36-jsonschema
-BuildRequires:  python36-rdflib, python36-beautifulsoup4, python36-argparse
-BuildRequires:  python36-pytz, python36-colorlog, python36-pyparsing
-BuildRequires:  python36-isodate, python36-redis, python36-pillow
-BuildRequires:  python36-pygeoip, python36-idna, python36-urllib3 < 1.23
-BuildRequires:  python36-certifi, python36-url_normalize, python36-requests_cache
-BuildRequires:  python36-requests, python36-urlarchiver, python36-ez_setup
-BuildRequires:  python36-asnhistory, python36-cabby
-BuildRequires:  python36-dateutils, python36-furl, python36-domaintools_api
-BuildRequires:  python36-ipasn_redis, python36-orderedmultidict, python36-passivetotal
-BuildRequires:  python36-olefile, python36-pyaml, python36-pypdns
-BuildRequires:  python36-pyeupi, python36-pypssl, python36-pytesseract
-BuildRequires:  python36-SPARQLWrapper, python36-PyYAML, python36-uwhois
-BuildRequires:  python36-shodan, python36-XlsxWriter, python36-colorama
-BuildRequires:  python36-click, python36-click_plugins, python36-future
-BuildRequires:  python36-sigmatools, python36-stix2_patterns, python36-oauth2
-BuildRequires:  python36-aiohttp, python36-pyonyphe, python36-yara
 Requires:	    python36, python36-setuptools, python36-pip
 Requires:       libpqxx, libjpeg-turbo, misp-stix-converter
 Requires:       libxml2, libxslt
@@ -63,6 +41,8 @@ Requires:       python36-shodan, python36-XlsxWriter, python36-colorama
 Requires:       python36-click, python36-click_plugins, python36-future
 Requires:       python36-sigmatools, python36-stix2_patterns, python36-oauth2
 Requires:       python36-aiohttp, python36-pyonyphe, python36-yara
+Requires:       python36-httplib2, python36-multidict, python36-yarl
+Requires:       python36-async_timeout, python36-idna_ssl, python36-attrs
 
 %description
 MISP modules for expansion services, import and export
