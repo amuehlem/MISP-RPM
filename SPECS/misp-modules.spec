@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -37,6 +37,8 @@ BuildRequires:  python36-pyeupi, python36-pypssl, python36-pytesseract
 BuildRequires:  python36-SPARQLWrapper, python36-PyYAML, python36-uwhois
 BuildRequires:  python36-shodan, python36-XlsxWriter, python36-colorama
 BuildRequires:  python36-click, python36-click_plugins, python36-future
+BuildRequires:  python36-sigmatools, python36-stix2_patterns, python36-oauth2
+BuildRequires:  python36-aiohttp, python36-pyonyphe, python36-yara
 Requires:	    python36, python36-setuptools, python36-pip
 Requires:       libpqxx, libjpeg-turbo, misp-stix-converter
 Requires:       libxml2, libxslt
@@ -59,6 +61,8 @@ Requires:       python36-pyeupi, python36-pypssl, python36-pytesseract
 Requires:       python36-SPARQLWrapper, python36-PyYAML, python36-uwhois
 Requires:       python36-shodan, python36-XlsxWriter, python36-colorama
 Requires:       python36-click, python36-click_plugins, python36-future
+Requires:       python36-sigmatools, python36-stix2_patterns, python36-oauth2
+Requires:       python36-aiohttp, python36-pyonyphe, python36-yara
 
 %description
 MISP modules for expansion services, import and export

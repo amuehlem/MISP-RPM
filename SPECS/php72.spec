@@ -3,13 +3,8 @@
 %global mysql_config    %{_bindir}/mysql_config
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
-<<<<<<< HEAD:SPECS/php72.spec
 Name:		php72
 Version:	7.2.7
-=======
-Name:		php
-Version:	7.0.30
->>>>>>> master:SPECS/php.spec
 Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
