@@ -7,7 +7,7 @@ Installation instructions:
 - install centos minimal system
 - update system to last updates
 - install and enable [epel repository](https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm)
-- add misp-release repo
+- add misp-release repo (also contains the official MariaDB repository)
 
 ## installation steps
 currently the RPMs are provided in an repository which you have to install first
