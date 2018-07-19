@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
