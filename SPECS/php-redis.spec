@@ -3,9 +3,9 @@
 %global pecl_xmldir /var/lib/pear/pkgxml
 %global php_extdir %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
-Name:        php-redis
+Name:       php-redis
 Version:    3.1.0
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    PHP extension for interfacing redis
 
 Group:      Development/Languages

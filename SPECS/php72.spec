@@ -3,9 +3,15 @@
 %global mysql_config    %{_bindir}/mysql_config
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
-Name:		php72
-Version:	7.2.7
-Release:	1%{?dist}
+%global getoptver 1.4.1
+%global arctarver 1.4.2
+%global structver 1.1.1
+%global xmlutil   1.3.0
+%global manpages  1.10.0
+
+Name:		php
+Version:	7.2.8
+Release:	14%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -80,7 +86,6 @@ which adds support for the PHP language to Apache HTTP Server.
 %prep
 %setup -q -n php-%{version}
 
-
 %build
 %configure \
     --with-libdir=%{_lib} \
@@ -120,7 +125,9 @@ which adds support for the PHP language to Apache HTTP Server.
     --with-mysql-sock=%{mysql_sock} \
     --with-pdo-mysql=shared,mysqlnd \
     --without-pdo-sqlite \
-    --enable-mbstring
+    --enable-mbstring \
+    --with-pear \
+    --enable-zlib
 
 make %{?_smp_mflags}
 
@@ -138,12 +145,6 @@ install -D -m 644 /etc/httpd/conf/httpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/mysqlnd.ini << EOF
 ; enable mysqlnd extension module
 extension=mysqlnd.so
-EOF
-
-# create mysqli.ini
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/mysqli.ini << EOF
-; enable mysqli extension module
-extension=mysqli.so
 EOF
 
 # create pdo_mysql.ini
@@ -165,9 +166,7 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 
 %files mysql
 %config(noreplace) /etc/php.d/mysqlnd.ini
-%config(noreplace) /etc/php.d/mysqli.ini
 %config(noreplace) /etc/php.d/pdo_mysql.ini
-/usr/lib64/php/20170718/mysqli.so
 /usr/lib64/php/20170718/mysqlnd.so
 /usr/lib64/php/20170718/pdo_mysql.so
 
@@ -180,23 +179,26 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 /usr/bin/*
 /usr/include/php/*
 /usr/lib64/*
+/usr/share/pear/*
+/usr/share/pear/.registry
+%config(noreplace) /etc/pear.conf
 %config(noreplace) /etc/httpd/conf.modules.d/php.conf
 %config(noreplace) /etc/php.d/php.ini
 %config(noreplace) /etc/php.d/mysqlnd.ini
-%config(noreplace) /etc/php.d/mysqli.ini
 %config(noreplace) /etc/php.d/pdo_mysql.ini
 %attr(755,apache,apache) /var/lib/php
 %exclude /.channels*
 %exclude /.depdb*
 %exclude /.filemap
 %exclude /.lock
-%exclude /usr/share/pear
-%exclude /usr/bin/pear*
-%exclude /usr/bin/pecl
-%exclude /etc/pear.conf
-%exclude /usr/share/pear/*
+%exclude /usr/share/pear/.channels*
+%exclude /usr/share/pear/.filemap
+%exclude /usr/share/pear/.lock
 
 %changelog
+* Tue Aug 7 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.8
+- update to php 7.2.8
+
 * Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.0.27
 - splitted mysql module into own package
 - added opcache package
