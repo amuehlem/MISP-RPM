@@ -11,7 +11,7 @@
 
 Name:		php
 Version:	7.2.8
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -21,6 +21,8 @@ Source0:	https://secure.php.net/distributions/php-%{version}.tar.xz
 
 Source1:    php.conf
 Source2:    php.ini
+
+Obsoletes:  php-pear
 
 BuildRequires:	bzip2-devel, curl-devel >= 7.9, gmp-devel
 BuildRequires:	httpd-devel >= 2.0.46-1, pam-devel
