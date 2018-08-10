@@ -14,7 +14,7 @@ is to just use MISP on this server.
 # Summary
 We provide the following components as RPMs
 
-* php 7.0.x
+* php 7.2.x
 * python 3.6.x
 * pymisp
 * misp-modules
