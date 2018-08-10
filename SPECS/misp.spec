@@ -27,7 +27,7 @@ Requires:	    httpd, redis, libxslt, zlib
 Requires:       php > 7.0
 Requires:       python36-lxml, python36-python_dateutil, python36-six
 Requires:	    python36-cybox, python36-stix, php-redis
-Requires:       php-pear-Crypt_GPG
+Requires:       php-pear-Crypt_GPG, php-zmq, python36-pyzmq
 Requires:       python36-python_magic, python36-pydeep, python36-pymisp
 Requires:       python36-cybox, python36-stix, python36-mixbox, python36-maec
 Requires:       lief-python, python36-mixbox, policycoreutils-python
