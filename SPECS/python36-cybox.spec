@@ -3,13 +3,13 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-cybox
-Version:	2.1.0.17
-Release:	2%{?dist}
+Version:	2.1.0.18
+Release:	1%{?dist}
 Summary:	A Python library for parsing and generating CybOX content.
 
 Group:		Development/Languages
 License:	BSD License
-URL:		https://pypi.org/project/libtaxii/
+URL:		https://pypi.org/project/cybox/
 Source0:	fake-tgz.tgz
 Buildarch:  noarch
 

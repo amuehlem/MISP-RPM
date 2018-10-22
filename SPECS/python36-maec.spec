@@ -3,8 +3,8 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-maec
-Version:	4.1.0.13
-Release:	3%{?dist}
+Version:	4.1.0.14
+Release:	1%{?dist}
 Summary:	An API for parsing and creating MAEC content.
 
 Group:		Development/Languages

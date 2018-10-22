@@ -10,8 +10,8 @@
 %global manpages  1.10.0
 
 Name:		php
-Version:	7.2.8
-Release:	15%{?dist}
+Version:	7.2.11
+Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
