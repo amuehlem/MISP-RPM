@@ -10,7 +10,7 @@
 %global manpages  1.10.0
 
 Name:		php
-Version:	7.2.13
+Version:	7.2.18
 Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
@@ -198,6 +198,9 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/.lock
 
 %changelog
+* Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.18
+- update to php 7.2.18
+
 * Tue Aug 7 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.8
 - update to php 7.2.8
 

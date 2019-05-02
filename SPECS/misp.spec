@@ -129,6 +129,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106
+- update to 2.4.106
+
 * Wed Jun 27 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.93
 - update to 2.4.93
 
