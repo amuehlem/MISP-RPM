@@ -4,7 +4,7 @@
 
 Name:		python36-stix2
 Version:	1.1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An API for parsing and generating STIX2 content.
 
 Group:		Development/Languages
@@ -16,7 +16,7 @@ Buildarch:  noarch
 BuildRequires:  python36, python36-devel, python36-setuptools	
 BuildRequires:  git
 Requires:	    python36, python36-ordered_set, python36-lxml, python36-dateutils
-Requires:       python36-simplejson, python36-antlr4
+Requires:       python36-simplejson, python36-antlr4, python36-stix2_patterns
 
 %description
 This repository provides Python APIs for serializing and de-serializing STIX2 JSON content, along with higher-level APIs for common tasks, including data markings, versioning, and for resolving STIX IDs across multiple data sources.

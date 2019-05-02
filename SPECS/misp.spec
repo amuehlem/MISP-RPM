@@ -1,8 +1,8 @@
 %global __python %{__python3}
 
 Name:	    misp
-Version:	2.4.103
-Release:	2%{?dist}
+Version:	2.4.106
+Release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
