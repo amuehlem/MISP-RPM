@@ -11,7 +11,7 @@
 
 Name:		php
 Version:	7.2.18
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -74,6 +74,26 @@ Provides: php-opcache = %{version}-%{release}
 The %{name}-opcache package contains an opcode cache used for caching and
 optimizing intermediate code.
 
+%package gd
+Summary: A module for PHP applications for using the gd graphics library
+Group: Development/Languages
+License: PHP and BSD
+
+BuildRequires: gd-devel
+BuildRequires: libjpeg-devel
+BuildRequires: libpng-devel
+BuildRequires: freetype-devel
+BuildRequires: libXpm-devel
+BuildRequires: libwebp-devel
+
+Requires: gd
+
+Provides: bundled(gd) = 2.0.35
+
+%description gd
+The php-gd package contains a dynamic shared object that will add
+support for using the gd graphics library to PHP.
+
 %description
 PHP is an HTML-embedded scripting language. PHP attempts to make it
 easy for developers to write dynamically generated web pages. PHP also
@@ -129,7 +149,8 @@ which adds support for the PHP language to Apache HTTP Server.
     --without-pdo-sqlite \
     --enable-mbstring \
     --with-pear \
-    --enable-zlib
+    --enable-zlib \
+    --with-gd=shared
 
 make %{?_smp_mflags}
 
@@ -161,6 +182,12 @@ cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache.ini << EOF
 zend_extension=opcache.so
 EOF
 
+# create gd.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/gd.ini << EOF
+; enable gd module
+extension=gd.so
+EOF
+
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 # cleanup
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
@@ -175,6 +202,10 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %files opcache
 %config(noreplace) /etc/php.d/opcache.ini
 /usr/lib64/php/20170718/opcache.so
+
+%files gd
+%config(noreplace) /etc/php.d/gd.ini
+/usr/lib64/php/20170718/gd.so
 
 %files
 %doc /usr/share/man/man1/*.gz
