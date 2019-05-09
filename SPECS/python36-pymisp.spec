@@ -3,8 +3,8 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-pymisp
-Version:	2.4.93
-Release:	4%{?dist}
+Version:	2.4.106
+Release:	1%{?dist}
 Summary:	Python interface to MISP
 
 Group:		Development/Languages
@@ -39,5 +39,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/pymisp-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch - 2.4.106
+- update to 2.4.106
+
 * Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.92
 - first version for python36

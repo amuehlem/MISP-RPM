@@ -11,8 +11,8 @@ URL: https://www.python.org/
 # pybasever without the dot:
 %global pyshortver 36
 
-Version: %{pybasever}.6
-Release: 4%{?dist}
+Version: %{pybasever}.8
+Release: 1%{?dist}
 License: Python
 
 Obsoletes: python34

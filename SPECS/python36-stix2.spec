@@ -3,8 +3,8 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-stix2
-Version:	1.1.1
-Release:	3%{?dist}
+Version:	1.1.2
+Release:	1%{?dist}
 Summary:	An API for parsing and generating STIX2 content.
 
 Group:		Development/Languages
@@ -38,5 +38,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/stix2-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Tue May 7 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1.2
+- update to 1.1.2
+
 * Tue Mar 5 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1.1
 - first version for python36

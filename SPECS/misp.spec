@@ -2,7 +2,7 @@
 
 Name:	    misp
 Version:	2.4.106
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -47,22 +47,32 @@ MISP - malware information sharing platform & threat sharing
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
-git checkout tags/v%{version}
-git pull origin 2.4
+#git checkout tags/v%{version}
+
+git submodule update --init --recursive
+git submodule foreach --recursive git config core.filemode false
+git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
-git config core.filemode false
-git submodule init
-git submodule deinit PyMISP
-git submodule update
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts
-wget https://getcomposer.org/download/1.2.1/composer.phar -O composer.phar
+# copy pear data to accessible directory for build process
+mkdir -p $RPM_BUILD_ROOT/usr/share/pear
+cp -r /usr/share/pear/* $RPM_BUILD_ROOT/usr/share/pear/
+
+#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear channel-update pear.php.net
+#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear install INSTALL/dependencies/Console_CommandLine/package.xml
+#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear install INSTALL/dependencies/Crypt_GPG/package.xml
+
 cd $RPM_BUILD_ROOT/var/www/MISP/app
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
 php composer.phar require kamisama/cake-resque:4.1.2
 php composer.phar config vendor-dir Vendor
 php composer.phar install
+
 mkdir -p $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config
 cp -fa $RPM_BUILD_ROOT/var/www/MISP/INSTALL/setup/config.php $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config/config.php
 cd $RPM_BUILD_ROOT/var/www/MISP
@@ -83,6 +93,7 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
+chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 
 %files
 %defattr(-,apache,apache,-)
@@ -93,6 +104,7 @@ install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 %{_sysconfdir}/systemd/system/misp-workers.service
 %defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
+%exclude /usr/share/pear
 
 %post
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
@@ -129,6 +141,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Tue May 7 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106-2
+- updated install routines
+
 * Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106
 - update to 2.4.106
 
