@@ -4,8 +4,8 @@
 %global php_extdir %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:       php-redis
-Version:    3.1.0
-Release:    3%{?dist}
+Version:    4.3.0
+Release:    1%{?dist}
 Summary:    PHP extension for interfacing redis
 
 Group:      Development/Languages
@@ -46,6 +46,9 @@ install -D -m 644 ../package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
 %config(noreplace) %{php_inidir}/%{pecl_name}.ini
 
 %changelog
+* Wed Jun 12 2019 Andreas Muehlemann  <andreas.muehlemann@switch.ch> - 4.3.0
+- upgrade to php-redis 4.3.0
+
 * Tue Aug 7 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 3.1.0
 - testing with php 7.2
 

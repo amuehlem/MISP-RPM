@@ -8,10 +8,11 @@
 %global structver 1.1.1
 %global xmlutil   1.3.0
 %global manpages  1.10.0
+%global phpapiver 20170718
 
 Name:		php
-Version:	7.2.18
-Release:	3%{?dist}
+Version:	7.2.19
+Release:	2%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -63,6 +64,24 @@ management system. PHP is an HTML-embeddable scripting language. If
 you need MySQL support for PHP applications, you will need to install
 this package and the %{name} package.
 
+%package pgsql
+Summary: A PostgreSQL database module for PHP
+Group: Development/Languages
+License: PHP
+
+BuildRequires: postgresql-devel
+
+Provides: php_database
+Provides: php-pdo_pgsql
+
+%description pgsql
+The php-pgsql package add PostgreSQL database support to PHP.
+PostgreSQL is an object-relational database management
+system that supports almost all SQL constructs. PHP is an
+HTML-embedded scripting language. If you need back-end support for
+PostgreSQL, you should install this package in addition to the main
+php package.
+
 %package opcache
 Summary: An opcode cache Zend extension
 Group: Development/Languages
@@ -104,6 +123,17 @@ use of PHP coding is probably as a replacement for CGI scripts.
 
 The %{name} package contains the module (often referred to as mod_php)
 which adds support for the PHP language to Apache HTTP Server.
+
+%package intl
+Summary: Internationalization extension for PHP applications
+Group: Development/Languages
+License: PHP
+
+BuildRequires: libicu-devel >= 50
+
+%description intl
+The php-intl package contains a dynamic shared object that will add
+support for using the ICU library to PHP.
 
 %prep
 %setup -q -n php-%{version}
@@ -147,10 +177,13 @@ which adds support for the PHP language to Apache HTTP Server.
     --with-mysql-sock=%{mysql_sock} \
     --with-pdo-mysql=shared,mysqlnd \
     --without-pdo-sqlite \
+    --with-pgsql=shared \
+    --with-pdo-pgsql=shared \
     --enable-mbstring \
     --with-pear \
     --enable-zlib \
-    --with-gd=shared
+    --with-gd=shared \
+    --enable-intl=shared
 
 make %{?_smp_mflags}
 
@@ -176,6 +209,18 @@ cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/pdo_mysql.ini << EOF
 extension=pdo_mysql.so
 EOF
 
+# create pgsql.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/pgsql.ini << EOF
+; enable pgsql extension module
+extension=pgsql.so
+EOF
+
+# create pgsql.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/pdo_pgsql.ini << EOF
+; enable pgsql extension module
+extension=pdo_pgsql.so
+EOF
+
 # create opcache.ini
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache.ini << EOF
 ; enable opcache extension module
@@ -188,6 +233,12 @@ cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/gd.ini << EOF
 extension=gd.so
 EOF
 
+# create intl.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/intl.ini << EOF
+; enable intl module
+extension=intl.so
+EOF
+
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 # cleanup
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
@@ -196,16 +247,26 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %files mysql
 %config(noreplace) /etc/php.d/mysqlnd.ini
 %config(noreplace) /etc/php.d/pdo_mysql.ini
-/usr/lib64/php/20170718/mysqlnd.so
-/usr/lib64/php/20170718/pdo_mysql.so
+/usr/lib64/php/%phpapiver/mysqlnd.so
+/usr/lib64/php/%phpapiver/pdo_mysql.so
+
+%files pgsql
+%config(noreplace) /etc/php.d/pgsql.ini
+%config(noreplace) /etc/php.d/pdo_pgsql.ini
+/usr/lib64/php/%phpapiver/pgsql.so
+/usr/lib64/php/%phpapiver/pdo_pgsql.so
 
 %files opcache
 %config(noreplace) /etc/php.d/opcache.ini
-/usr/lib64/php/20170718/opcache.so
+/usr/lib64/php/%phpapiver/opcache.so
 
 %files gd
 %config(noreplace) /etc/php.d/gd.ini
-/usr/lib64/php/20170718/gd.so
+/usr/lib64/php/%phpapiver/gd.so
+
+%files intl
+%config(noreplace) /etc/php.d/intl.ini
+/usr/lib64/php/%phpapiver/intl.so
 
 %files
 %doc /usr/share/man/man1/*.gz
@@ -219,6 +280,9 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %config(noreplace) /etc/php.d/php.ini
 %config(noreplace) /etc/php.d/mysqlnd.ini
 %config(noreplace) /etc/php.d/pdo_mysql.ini
+%config(noreplace) /etc/php.d/pgsql.ini
+%config(noreplace) /etc/php.d/pdo_pgsql.ini
+%config(noreplace) /etc/php.d/intl.ini
 %attr(755,apache,apache) /var/lib/php
 %exclude /.channels*
 %exclude /.depdb*
@@ -229,6 +293,11 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/.lock
 
 %changelog
+* Wed Jun 5 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.19
+- updated to php 7.2.19
+- added pgsql
+- added intl
+
 * Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.18
 - update to php 7.2.18
 

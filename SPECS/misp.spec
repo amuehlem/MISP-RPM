@@ -1,8 +1,8 @@
 %global __python %{__python3}
 
 Name:	    misp
-Version:	2.4.106
-Release:	3%{?dist}
+Version:	2.4.108
+release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -141,6 +141,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Wed Jun 12 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.108
+- update to 2.4.108
+
+* Mon May 13 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.107
+- update to 2.4.107
+
 * Tue May 7 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106-2
 - updated install routines
 
