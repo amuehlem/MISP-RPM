@@ -1,0 +1,11 @@
+--- app/Model/Server.php    2018-07-12 16:42:46.000000000 +0200
++++ app/Model/Server.php.new    2018-07-13 15:35:28.000000000 +0200
+@@ -3875,7 +3875,7 @@
+
+     public function getCurrentGitStatus() {
+         $status = array();
+-        $status['commit'] = exec('git rev-parse HEAD');
++        $status['commit'] = exec('cat ../../.git_commit_version');
+         $status['branch'] = $this->getCurrentBranch();
+         $status['latestCommit'] = $this->getLatestGitremote();
+         return $status;
