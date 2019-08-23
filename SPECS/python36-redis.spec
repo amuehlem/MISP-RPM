@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-redis
-Version:	2.10.6
+Version:    3.3.8	
 Release:	1%{?dist}
 Summary:	Python client for Redis key-value store
 
@@ -33,5 +33,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/redis-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Fri Aug 23 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 3.3.8
+- update to 3.3.8
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.10.6
 - first version for python36
