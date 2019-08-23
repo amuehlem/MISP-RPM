@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-requests
-Version:	2.19.1
+Version:	2.22.0
 Release:	1%{?dist}
 Summary:	requests
 
@@ -33,5 +33,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/requests-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Fri Aug 23 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.22.0
+- update to version 2.22.0
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.19.1
 - first version for python36
