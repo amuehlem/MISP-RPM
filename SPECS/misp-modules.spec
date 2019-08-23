@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -28,7 +28,7 @@ Requires:       python36-chardet, python36-nose, python36-jsonschema
 Requires:       python36-rdflib, python36-beautifulsoup4, python36-argparse
 Requires:       python36-pytz, python36-colorlog, python36-pyparsing
 Requires:       python36-isodate, python36-redis, python36-pillow
-Requires:       python36-pygeoip, python36-idna, python36-urllib3 < 1.23
+Requires:       python36-pygeoip, python36-idna, python36-urllib3
 Requires:       python36-certifi, python36-url_normalize, python36-requests_cache
 Requires:       python36-requests, python36-urlarchiver, python36-ez_setup
 Requires:       python36-asnhistory, python36-cabby
@@ -43,6 +43,7 @@ Requires:       python36-sigmatools, python36-stix2_patterns, python36-oauth2
 Requires:       python36-aiohttp, python36-pyonyphe, python36-yara
 Requires:       python36-httplib2, python36-multidict, python36-yarl
 Requires:       python36-async_timeout, python36-idna_ssl, python36-attrs
+Requires:       python36-psutil
 
 %description
 MISP modules for expansion services, import and export
@@ -62,11 +63,15 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 
 %files
 %{_bindir}/misp-modules
+%{_bindir}/update_misp_modules.sh
 %{pylibdir}/misp_modules
 %{pylibdir}/misp_modules-%{version}-py%{pybasever}.egg-info
 %{_sysconfdir}/systemd/system/misp-modules.service
 %exclude %{pylibdir}/tests
 
 %changelog
+* Fri Aug 23 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0-7
+- update, added python36-psutil to requires
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.93
 - first version for python36

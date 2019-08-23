@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-urllib3
-Version:	1.22
+Version:	1.25.3
 Release:	1%{?dist}
 Summary:	HTTP library with thread-safe connection pooling, file post, and more.
 
@@ -33,5 +33,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/urllib3-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Fri Aug 23 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.25.3
+- update to 1.25.3
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.23
 - first version for python36
