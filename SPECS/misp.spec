@@ -1,7 +1,10 @@
 %global __python %{__python3}
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+%global _python_bytecompile_extra 0
+%define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    misp
-Version:	2.4.113
+Version:	2.4.117
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -18,7 +21,7 @@ Source6:    start-misp-workers.sh
 Patch0:     MISP-Server.php.patch
 
 BuildArch:      noarch
-BuildRequires:  git, python36-devel, python36-pip, libxslt-devel, zlib-devel
+BuildRequires:  git, python3-devel, python3-pip, libxslt-devel, zlib-devel
 BuildRequires:  php > 7.0
 BuildRequires:  python36-lxml, python36-python_dateutil, python36-six, curl
 BuildRequires:  python36-setuptools, wget
@@ -105,6 +108,8 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
 %exclude /usr/share/pear
+%exclude /usr/lib/debug/.build-id
+%exclude /usr/lib/debug/var/www/MISP/PyMISP/tests/viper-test-files/test_files/tmux.debug
 
 %post
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
@@ -141,6 +146,13 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Wed Sep 18 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.116
+- update to 2.4.116
+- disabled brp-python-bytecompile
+
+* Mon Sep 16 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.115
+- update to 2.4.115
+
 * Wed Aug 21 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.113
 - update to 2.4.113
 

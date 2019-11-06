@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-pymisp
-Version:	2.4.106
+Version:	2.4.117
 Release:	1%{?dist}
 Summary:	Python interface to MISP
 
