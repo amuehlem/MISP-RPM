@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    misp
-Version:	2.4.117
+Version:	2.4.118
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -146,6 +146,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Mon Nov 11 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.118
+- update to 2.4.118
+
+* Mon Oct 14 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.117
+- update to 2.4.117
+
 * Wed Sep 18 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.116
 - update to 2.4.116
 - disabled brp-python-bytecompile
