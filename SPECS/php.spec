@@ -11,7 +11,7 @@
 %global phpapiver 20170718
 
 Name:		php
-Version:	7.2.19
+Version:	7.2.27
 Release:	2%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
@@ -113,6 +113,17 @@ Provides: bundled(gd) = 2.0.35
 The php-gd package contains a dynamic shared object that will add
 support for using the gd graphics library to PHP.
 
+%package curl
+Summary: A module for PHP to use curl
+Group: Development/Languages
+License: PHP and BSD
+
+Provides: php-curl = %{version}-%{release}
+
+%description curl
+The php-curl packages contains a dynamic shared object thtat will add curl
+supprt to PHP.
+
 %description
 PHP is an HTML-embedded scripting language. PHP attempts to make it
 easy for developers to write dynamically generated web pages. PHP also
@@ -146,12 +157,9 @@ support for using the ICU library to PHP.
     --disable-debug \
     --with-pic \
     --disable-rpath \
-    --with-exec-dir=%{_bindir} \
     --with-freetype-dir=%{_root_prefix} \
     --with-png-dir=%{_root_prefix} \
     --with-xpm-dir=%{_root_prefix} \
-    --enable-gt-native-ttf \
-    --with-t1lib=%{_root_prefix} \
     --without-gdbm \
     --with-jpeg-dir=%{_root_prefix} \
     --with-openssl \
@@ -160,18 +168,14 @@ support for using the ICU library to PHP.
     --with-layout=GNU \
     --with-kerberos \
     --with-libxml-dir=%{_root_prefix} \
-    --with-system-tzdata \
     --with-mhash \
-    --enable-force-cgi-redirect \
     --disable-phpdbg \
     --libdir=%{_libdir}/php \
     --enable-pcntl \
-    --enable-fastcgi \
     --without-readline \
     --with-libedit \
     --with-apxs2=%{_root_bindir}/apxs \
     --enable-pdo \
-    --enable-ldap \
     --enable-mysqlnd=shared \
     --with-mysqli=shared,mysqlnd \
     --with-mysql-sock=%{mysql_sock} \
@@ -181,9 +185,9 @@ support for using the ICU library to PHP.
     --with-pdo-pgsql=shared \
     --enable-mbstring \
     --with-pear \
-    --enable-zlib \
     --with-gd=shared \
-    --enable-intl=shared
+    --enable-intl=shared \
+    --with-curl=shared
 
 make %{?_smp_mflags}
 
@@ -239,6 +243,12 @@ cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/intl.ini << EOF
 extension=intl.so
 EOF
 
+# create curl.ini
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/curl.ini << EOF
+; enable curl module
+extension=curl.so
+EOF
+
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 # cleanup
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
@@ -268,6 +278,10 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %config(noreplace) /etc/php.d/intl.ini
 /usr/lib64/php/%phpapiver/intl.so
 
+%files curl
+%config(noreplace) /etc/php.d/curl.ini
+/usr/lib64/php/%phpapiver/curl.so
+
 %files
 %doc /usr/share/man/man1/*.gz
 /usr/bin/*
@@ -293,6 +307,13 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/.lock
 
 %changelog
+* Fri Feb 14 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch - 7.2.27
+- update to php 7.2.27
+
+* Wed Nov 27 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.25
+- update to php 7.2.25
+- added curl
+
 * Wed Jun 5 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 7.2.19
 - updated to php 7.2.19
 - added pgsql

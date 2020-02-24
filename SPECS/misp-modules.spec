@@ -4,7 +4,7 @@
 
 Name:		misp-modules
 Version:	1.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -14,10 +14,10 @@ Source0:	fake-tgz.tgz
 Source1:    misp-modules.service
 Buildarch:  noarch
 
-BuildRequires:  python36, python36-devel, python36-setuptools, python36-pip
+BuildRequires:  python3, python3-devel, python3-setuptools, python3-pip
 BuildRequires:  libpqxx-devel, libjpeg-turbo-devel, git
 BuildRequires:  libxml2-devel, libxslt-devel
-Requires:	    python36, python36-setuptools, python36-pip
+Requires:	    python3, python3-setuptools, python3-pip
 Requires:       libpqxx, libjpeg-turbo, misp-stix-converter
 Requires:       libxml2, libxslt
 Requires:       python36-libtaxii, python36-six
