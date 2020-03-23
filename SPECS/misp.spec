@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    misp
-Version:	2.4.121
+Version:	2.4.122
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
