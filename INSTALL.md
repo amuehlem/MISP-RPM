@@ -21,7 +21,7 @@ yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.0-5.el7.noar
 yum install php php-mysql php-opcache misp misp-modules
 ```
 
-- configure mariadb
+- configure mariadb (Line 38 'XXXXXXXXX' references the MariaDB user's password)
 
 ```
 
