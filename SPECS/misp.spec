@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    misp
-Version:	2.4.122
+Version:	2.4.126
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -146,6 +146,15 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Tue May 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.126
+- update to 2.4.126
+
+* Tue May 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.125
+- update to 2.4.125
+
+* Tue Apr 07 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.124
+- update to 2.4.124
+
 * Mon Jan 27 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.120
 - update to 2.4.120
 
