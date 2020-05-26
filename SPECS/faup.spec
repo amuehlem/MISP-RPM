@@ -1,3 +1,5 @@
+%define cmake cmake3 -DCMAKE_INSTALL_PREFIX:PATH=/usr
+
 Name:		faup
 Version:	1.5+git685acb0
 Release:	1%{?dist}
@@ -6,7 +8,7 @@ License:    	Public
 
 Group:		Development/Languages
 URL:		https://github.com/stricaud/faup/
-Source0:	https://github.com/stricaud/%{name}/archive/master.tar.gz
+Source0:	faup-master.tar.gz
 
 BuildRequires: cmake3, cppcheck, gtcaca-devel
 Requires: gtcaca
@@ -75,5 +77,8 @@ cd build/
 /usr/include/faup/webserver.h
 
 %changelog
+* Mon May 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch>
+- added cmake macro, changed source0 to not interfere with other master.tar.gz
+
 * Sun May 24 2020 Todd E Johnson <todd@toddejohnson.net>
 - first version
