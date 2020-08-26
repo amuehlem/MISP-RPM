@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    misp
-Version:	2.4.126
+Version:	2.4.130
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -69,7 +69,8 @@ cp -r /usr/share/pear/* $RPM_BUILD_ROOT/usr/share/pear/
 
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+# EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '8a6138e2a05a8c28539c9f0fb361159823655d7ad2deecb371b04a83966c61223adc522b0189079e3e9e277cd72b8897') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 php composer.phar require kamisama/cake-resque:4.1.2
@@ -146,6 +147,18 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Tue Aug 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.130
+- update to 2.4.130
+
+* Tue Jul 14 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.129
+- update to 2.4.129
+
+* Wed Jun 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.128
+- update to 2.4.128
+
+* Wed Jun 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.127
+- update to 2.4.127
+
 * Tue May 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.126
 - update to 2.4.126
 
