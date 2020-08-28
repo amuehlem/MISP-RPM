@@ -2,9 +2,8 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
-%undefine __brp_mangle_shebangs
-%global __brp_mangle_shebangs_exclude_from /var/www/MISP/.*
-%global __brp_mangle_shebangs_exclude /usr/bin/env.* 
+# disable mangling of shebangs #!
+%define __brp_mangle_shebangs /usr/bin/true
 
 Name:	    	misp
 Version:	2.4.130
@@ -34,7 +33,8 @@ Requires:	mariadb, mariadb-server
 Requires:       php74-php, php74-php-cli, php74-php-gd
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
-Requires:	php74-php-zip
+Requires:	php74-php-zip, php74-php-redis, php74-php-intl
+Requires:	php74-php-pecl-gnupg
 
 %description
 MISP - malware information sharing platform & threat sharing
@@ -94,6 +94,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/php74/root/usr/bin/php composer.phar install
 
+cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
 git rev-parse HEAD > .git_commit_version
 
