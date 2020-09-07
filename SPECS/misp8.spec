@@ -7,7 +7,7 @@
 
 Name:	    	misp
 Version:	2.4.130
-release:	1%{?dist}
+release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -28,13 +28,23 @@ BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  php74-php, php74-php-cli, php74-php-xml
 BuildRequires:	php74-php-mbstring
+BuildRequires:	ssdeep-devel
+BuildRequires:	cmake3, bash-completion
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:	mariadb, mariadb-server
 Requires:       php74-php, php74-php-cli, php74-php-gd
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:	php74-php-zip, php74-php-redis, php74-php-intl
-Requires:	php74-php-pecl-gnupg
+Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep
+
+%package python-virtualenv
+Summary: 	the python virtual environment for MISP
+Group:		Internet Applications
+License:	GPLv3
+
+%description python-virtualenv
+The python vitualenvironment for MISP
 
 %description
 MISP - malware information sharing platform & threat sharing
@@ -66,7 +76,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptool
 cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts
 git clone https://github.com/CybOXProject/python-cybox.git
 git clone https://github.com/STIXProject/python-stix.git
-git clone --branch master --single-branch https://github.com/lief-project/LIEF.git lief
+###git clone --branch master --single-branch https://github.com/lief-project/LIEF.git lief
 git clone https://github.com/CybOXProject/mixbox.git
 
 cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-cybox
@@ -86,6 +96,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U zmq
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U redis
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U python-magic
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U plyara
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
@@ -121,6 +132,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 
+%files python-virtualenv
+%defattr(-,apache,apache,-)
+/var/www/cgi-bin/misp-virtualenv
+
 %files
 %defattr(-,apache,apache,-)
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
@@ -130,7 +145,6 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %{_sysconfdir}/systemd/system/misp-workers.service
 %defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
-/var/www/cgi-bin/misp-virtualenv
 %exclude %{_libdir}/debug
 
 %post
