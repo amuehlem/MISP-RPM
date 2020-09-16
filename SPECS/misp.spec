@@ -50,7 +50,7 @@ MISP - malware information sharing platform & threat sharing
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
-#git checkout tags/v%{version}
+git checkout tags/v%{version}
 
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
@@ -70,7 +70,7 @@ cp -r /usr/share/pear/* $RPM_BUILD_ROOT/usr/share/pear/
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 # EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '8a6138e2a05a8c28539c9f0fb361159823655d7ad2deecb371b04a83966c61223adc522b0189079e3e9e277cd72b8897') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 php composer.phar require kamisama/cake-resque:4.1.2

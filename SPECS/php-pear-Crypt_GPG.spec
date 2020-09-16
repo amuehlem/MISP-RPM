@@ -2,7 +2,7 @@
 %define pear_name Crypt_GPG
 
 Name:       php-pear-Crypt_GPG    
-Version:    1.6.3
+Version:    1.6.4
 Release:    1%{?dist}
 Summary:    PHP pear package for GNUPG
 

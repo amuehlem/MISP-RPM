@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-six
-Version:	1.11.0
+Version:	1.15.0
 Release:	1%{?dist}
 Summary:	Python 2 and 3 compatibility utilities
 
@@ -34,5 +34,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/__pycache__/*.pyc
 
 %changelog
+* Wed Sep 16 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.15.0
+- update to 1.15.0
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.11.0
 - first version for python36

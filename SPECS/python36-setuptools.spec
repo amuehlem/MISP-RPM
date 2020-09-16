@@ -2,8 +2,8 @@
 %define pythondir %{_libdir}/python%pybasever/site-packages
 
 Name:		python36-setuptools
-Version:	41.2.0
-Release:	3%{?dist}
+Version:	50.3.0
+Release:	1%{?dist}
 Summary:	Python Setuptools
 
 Group:		Development/Languages
@@ -19,7 +19,7 @@ Requires:	python36
 Python setuptools
 
 %prep
-%setup -q -n setuptools-master
+%setup -q -n setuptools-%{version}
 
 
 %build
@@ -34,11 +34,16 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{_bindir}/easy_install-%{pybasever}
 %pythondir/easy_install.py*
 %pythondir/pkg_resources/*
-%pythondir/setuptools-%{version}.post%(date +%%Y%%m%%d)-py%{pybasever}.egg-info
+%pythondir/setuptools-%{version}-py%{pybasever}.egg-info
 %pythondir/setuptools
+%pythondir/distutils-precedence.pth
+%pythondir/_distutils_hack
 %exclude %pythondir/__pycache__
 
 %changelog
+* Wed Sep 16 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 50.3.0
+- update to 50.3.0
+
 * Wed Sep 18 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 41.2.0
 - update to 41.2.0
 

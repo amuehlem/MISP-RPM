@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-python_dateutil
-Version:	2.7.3
+Version:	2.8.1
 Release:	1%{?dist}
 Summary:	Extensions to the standard Python datetime module
 
@@ -11,8 +11,8 @@ Group:		Development/Languages
 License:	Apache Software License, BSD License (Dual License)
 URL:		https://pypi.org/project/python-dateutil/
 Source0:	fake-tgz.tgz
-Source1:    python_dateutil-2.7.3-py2.py3-none-any.whl
-Buildarch:  noarch
+Source1:    	python_dateutil-%{version}-py2.py3-none-any.whl
+Buildarch:  	noarch
 
 BuildRequires:  python36, python36-devel, python36-setuptools	
 Requires:	    python36
@@ -37,5 +37,8 @@ mv python_dateutil-%{version}.dist-info $RPM_BUILD_ROOT/%{pylibdir}
 %{pylibdir}/python_dateutil-%{version}.dist-info
 
 %changelog
+* Wed Sep 16 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.8.1
+- update to 2.8.1
+
 * Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.7.3
 - first version for python36
