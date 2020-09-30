@@ -5,9 +5,11 @@
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
 
+%define pymispver 2.4.131
+
 Name:	    	misp
-Version:	2.4.130
-release:	3%{?dist}
+Version:	2.4.132
+release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -111,7 +113,7 @@ git rev-parse HEAD > .git_commit_version
 
 # rewrite PATH in virtualenv
 sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.6/site-packages/pymisp-2.4.130.dist-info/direct_url.json
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.6/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -182,5 +184,8 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Thu Sep 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.132
+- update to 2.4.132
+
 * Tue Aug 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.130
 - first version for RHEL8 / Centos8

@@ -1,6 +1,3 @@
-#%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
-#%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-strip[[:space:]].*$!!g')
-#%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/bin[^[:space:]]*/strip[[:space:]].*$!!g')
 %global __os_install_post /usr/lib/rpm/brp-compress %{nil}
 %global _python_bytecompile_extra 0
 %global _build_id_links none
@@ -16,7 +13,7 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	1.0
+Version:	2.4.121
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -24,7 +21,7 @@ Group:		Development/Languages
 License:	GPLv3
 URL:		https://github.com/MISP/misp-modules
 Source0:	fake-tgz.tgz
-Source1:    	misp8-modules.service
+Source1:    	misp-modules.service
 
 BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
