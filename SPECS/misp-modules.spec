@@ -14,7 +14,7 @@
 
 Name:		misp-modules
 Version:	2.4.121
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -27,7 +27,7 @@ BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:  /usr/bin/pathfix.py
 Requires:       %{venvbasedir}/bin/python3, libSM
-Requires:	zbar
+Requires:	poppler-cpp, zbar
 
 %description
 MISP modules for expansion services, import and export
@@ -40,7 +40,7 @@ MISP modules for expansion services, import and export
 
 %install
 python3 -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip install -U pip setuptools
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -U pip setuptools
 
 git clone https://github.com/MISP/misp-modules.git
 cd misp-modules
@@ -48,7 +48,10 @@ cd misp-modules
 # install requirements
 LANG="en_US.UTF-8"
 ###LC_CTYPE="en_US.UTF-8"
+# remove specific pymisp commit id
+sed -i '/-e git+https:\/\/github.com\/MISP\/PyMISP.git/d' REQUIREMENTS
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -r REQUIREMENTS
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install git+https://github.com/misp/PyMISP
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install git+https://github.com/abenassi/Google-Search-API
 
 # install misp-modules
@@ -74,5 +77,8 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/misp-modu
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
+* Thu Oct 01 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.121-2
+- added missing poppler-cpp, new version number from git-tags
+
 * Tue Sep 08 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0-1
 - first version for RHEL8/CentOS8
