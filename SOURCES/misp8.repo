@@ -1,0 +1,15 @@
+# MISP repositories
+[mariadb]
+name=mariadb
+baseurl=https://yum.mariadb.org/10.5/centos8-amd64
+enabled=1
+module_hotfixes=1
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+
+[misp]
+name=misp
+baseurl=https://certrepo.switch.ch/certrepo/misp8
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH
+gpgcheck=1
