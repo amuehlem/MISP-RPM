@@ -3,22 +3,22 @@
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
 
-Name:	    misp
-Version:	2.4.131
+Name:	    	misp
+Version:	2.4.140
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
-License:	GPLv3
+License:	AGPLv3
 URL:		http://www.misp-project.org/
 Source0:	fake-tgz.tgz
-Source1:    misp.conf
-Source2:    misp-httpd.pp
-Source3:    misp-bash.pp
-Source4:    misp-ps.pp
-Source5:    misp-workers.service
-Source6:    start-misp-workers.sh
-Patch0:     MISP-Server.php.patch
+Source1:   	misp.conf
+Source2:    	misp-httpd.pp
+Source3:    	misp-bash.pp
+Source4:    	misp-ps.pp
+Source5:   	misp-workers.service
+Source6:    	start-misp-workers.sh
+Patch0:     	MISP-Server.php.patch
 
 BuildArch:      noarch
 BuildRequires:  git, python3-devel, python3-pip, libxslt-devel, zlib-devel
@@ -26,10 +26,10 @@ BuildRequires:  php > 7.0
 BuildRequires:  python36-lxml, python36-python_dateutil, python36-six, curl
 BuildRequires:  python36-setuptools, wget
 BuildRequires:  php-pear-Crypt_GPG
-Requires:	    httpd, redis, libxslt, zlib
+Requires:	httpd, redis, libxslt, zlib
 Requires:       php > 7.0, php-gd > 7.0
 Requires:       python36-lxml, python36-python_dateutil, python36-six
-Requires:	    python36-cybox, python36-stix, php-redis
+Requires:	python36-cybox, python36-stix, php-redis
 Requires:       php-pear-Crypt_GPG, php-zmq, python36-pyzmq
 Requires:       python36-python_magic, python36-pydeep, python36-pymisp
 Requires:       python36-cybox, python36-stix, python36-mixbox, python36-maec
@@ -70,7 +70,7 @@ cp -r /usr/share/pear/* $RPM_BUILD_ROOT/usr/share/pear/
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 # EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 php composer.phar require kamisama/cake-resque:4.1.2
@@ -111,6 +111,7 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %exclude /usr/share/pear
 %exclude /usr/lib/debug/.build-id
 %exclude /usr/lib/debug/var/www/MISP/PyMISP/tests/viper-test-files/test_files/tmux.debug
+%exclude /var/www/MISP/PyMISP/tests/viper-test-files
 
 %post
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
@@ -147,6 +148,32 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Tue Mar 09 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140
+- update to 2.4.140
+- excluding test_files
+- updating the license to AGPLv3
+
+* Fri Feb 19 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.139
+- update to 2.4.139
+
+* Thu Feb 11 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.138
+- update to 2.4.138
+
+* Tue Jan 26 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.137
+- update to 2.4.137
+
+* Wed Dec 23 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.136
+- update to 2.4.136
+
+* Thu Nov 26 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.135
+- update to 2.4.135
+
+* Wed Nov 4 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.134
+- update to 2.4.134
+
+* Mon Oct 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.133
+- update to 2.4.133
+
 * Tue Aug 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.130
 - update to 2.4.130
 
