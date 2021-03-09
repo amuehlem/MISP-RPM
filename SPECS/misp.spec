@@ -9,7 +9,7 @@ release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
-License:	GPLv3
+License:	AGPLv3
 URL:		http://www.misp-project.org/
 Source0:	fake-tgz.tgz
 Source1:    misp.conf
