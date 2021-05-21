@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-certifi
-Version:	2018.4.16
+Version:	2020.12.5
 Release:	1%{?dist}
 Summary:	Python package for providing Mozilla's CA Bundle.
 
@@ -33,5 +33,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/certifi-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Wed Mar 31 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2020.12.5
+- update to version 2020.12.5
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2018.4.16
 - first version for python36

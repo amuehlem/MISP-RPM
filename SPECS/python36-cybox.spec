@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-cybox
-Version:	2.1.0.18
+Version:	2.1.0.21
 Release:	1%{?dist}
 Summary:	A Python library for parsing and generating CybOX content.
 
@@ -37,5 +37,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/cybox-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Wed Mar 31 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.21
+- update to 2.1.0.21
+
 * Fri Jul 6 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.17
 - first version for python36

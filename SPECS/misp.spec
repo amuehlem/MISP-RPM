@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    	misp
-Version:	2.4.140
+Version:	2.4.143
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -111,7 +111,8 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %exclude /usr/share/pear
 %exclude /usr/lib/debug/.build-id
 %exclude /usr/lib/debug/var/www/MISP/PyMISP/tests/viper-test-files/test_files/tmux.debug
-%exclude /var/www/MISP/PyMISP/tests/viper-test-files
+# exclude test files whicht get detected by AV solutions
+%exclude /var/www/MISP/PyMISP/tests
 
 %post
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
@@ -148,6 +149,21 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Fri May 21 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.143
+- update to 2.4.143
+
+* Wed May 5 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.142
+- update to 2.4.142
+
+* Sat Apr 24 2021 Andreas Muehlmeann <andreas.muehlemann@switch.ch> - 2.4.141
+- update to 2.4.141
+
+* Wed Mar 10 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140.3
+- exclude all files from PyMISP/tests
+
+* Wed Mar 10 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140.2
+- excluding email_test files
+
 * Tue Mar 09 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140
 - update to 2.4.140
 - excluding test_files

@@ -1,9 +1,11 @@
 %define pymajorver 3
 %define pybasever 3.6
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+%global _python_bytecompile_extra 0
 
 Name:	    lief
-Version:	0.9.0
+Version:	0.11.4
 Release:	1%{?dist}
 Summary:	Python extension for lief
 
@@ -20,7 +22,7 @@ Summary:    Python extension for lief
 Group:      Development/Languages
 License:    Apache
 
-BuildRequires:  python36-devel, python36-setuptools
+BuildRequires:  python36-devel, python36-setuptools, cmake3
 Requires:       python36
 
 %description python
@@ -48,10 +50,12 @@ scl enable devtoolset-7 '/bin/bash -c "cmake3 -DLIEF_PYTHON_API=on -DLIEF_DOC=of
 make %{?_smp_mflags}
 
 %install
-cd LIEF/build/api/python
+cd LIEF
 python3 setup.py install --root=$RPM_BUILD_ROOT ||:
-cd ../..
-make install INSTALL_ROOT=$RPM_BUILD_ROOT
+scl enable devtoolset-7 '/bin/bash -c "make install INSTALL_ROOT=$RPM_BUILD_ROOT"'
+
+# clean up paths
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/lib/pkgconfig/LIEF.pc
 
 %files python
 %{pylibdir}/lief-%{version}-py3.6.egg-info
@@ -64,10 +68,13 @@ make install INSTALL_ROOT=$RPM_BUILD_ROOT
 /lib/libLIEF.a
 
 %files
-/lib/libLIEF.so
+#/lib/libLIEF.so
 /share/LIEF
 
 %changelog
+* Thu Mar 25 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.11.4
+- updated version
+
 * Thu Jul 12 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.8.3
 - first version for python 3.6
 

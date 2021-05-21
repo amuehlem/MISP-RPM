@@ -11,8 +11,8 @@
 %global phpapiver 20170718
 
 Name:		php
-Version:	7.2.27
-Release:	2%{?dist}
+Version:	7.2.34
+Release:	1%{?dist}
 Summary:	PHP scripting language for creating dynamic web sites
 
 Group:		Development/Languages
@@ -33,7 +33,7 @@ BuildRequires: 	krb5-devel, openssl-devel, libc-client-devel
 BuildRequires: 	cyrus-sasl-devel, openldap-devel, openssl-devel
 BuildRequires:	libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 BuildRequires:	libjpeg-devel, libpng-devel, freetype-devel
-BuildRequires:	libXpm-devel, t1lib-devel
+BuildRequires:	libXpm-devel
 BuildRequires:	sqlite-devel >= 3.6.0
 BuildRequires:	zlib-devel, pcre-devel >= 6.6, smtpdaemon, libedit-devel
 BuildRequires:	bzip2, perl, libtool >= 1.4.3, gcc-c++
@@ -42,6 +42,11 @@ BuildRequires:	tokyocabinet-devel
 BuildRequires:	libmcrypt-devel, libtidy-devel
 BuildRequires:	aspell-devel >= 0.50.0, recode-devel, libicu-devel >= 4.0
 BuildRequires: 	enchant-devel >= 1.2.4
+
+%if "%{dist}" == ".el7"
+BuildRequires:	t1lib-devel
+%endif
+
 Requires:	httpd
 
 %package mysql
@@ -307,6 +312,9 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf.bak
 %exclude /usr/share/pear/.lock
 
 %changelog
+* Wed Mar 24 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch - 7.2.34
+- update to php 7.2.34
+
 * Fri Feb 14 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch - 7.2.27
 - update to php 7.2.27
 

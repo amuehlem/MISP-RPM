@@ -13,8 +13,8 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.121
-Release:	2%{?dist}
+Version:	2.4.134
+Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -27,7 +27,7 @@ BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:  /usr/bin/pathfix.py
 Requires:       %{venvbasedir}/bin/python3, libSM
-Requires:	poppler-cpp, zbar
+Requires:	poppler-cpp, zbar, glibc(x86-32)
 
 %description
 MISP modules for expansion services, import and export
@@ -47,7 +47,7 @@ cd misp-modules
 
 # install requirements
 LANG="en_US.UTF-8"
-###LC_CTYPE="en_US.UTF-8"
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install importlib2
 # remove specific pymisp commit id
 sed -i '/-e git+https:\/\/github.com\/MISP\/PyMISP.git/d' REQUIREMENTS
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -r REQUIREMENTS
@@ -77,6 +77,9 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/misp-modu
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
+* Wed Oct 07 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.121-3
+- added glibc.i686 as depedency
+
 * Thu Oct 01 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.121-2
 - added missing poppler-cpp, new version number from git-tags
 

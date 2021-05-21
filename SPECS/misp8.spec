@@ -5,10 +5,10 @@
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
 
-%define pymispver 2.4.131
+%define pymispver 2.4.135.3
 
 Name:	    	misp
-Version:	2.4.132
+Version:	2.4.136
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -184,6 +184,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Fri Jan 8 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.136
+- update to 2.4.136
+
 * Thu Sep 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.132
 - update to 2.4.132
 

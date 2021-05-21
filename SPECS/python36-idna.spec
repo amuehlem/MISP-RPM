@@ -3,7 +3,7 @@
 %define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-idna
-Version:	2.7
+Version:	3.1
 Release:	1%{?dist}
 Summary:	Internationalized Domain Names in Applications (IDNA)
 
@@ -33,5 +33,8 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/idna-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Wed Mar 31 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 3.1
+- update to 3.1
+
 * Wed Jul 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.7
 - first version for python36
