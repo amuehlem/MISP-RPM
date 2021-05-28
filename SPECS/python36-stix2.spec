@@ -4,7 +4,7 @@
 
 Name:		python36-stix2
 Version:	2.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An API for parsing and generating STIX2 content.
 
 Group:		Development/Languages
@@ -17,6 +17,7 @@ BuildRequires:  python36, python36-devel, python36-setuptools
 BuildRequires:  git
 Requires:       python36, python36-ordered_set, python36-lxml, python36-dateutils
 Requires:       python36-simplejson, python36-antlr4, python36-stix2_patterns
+Requires:	python36-pytz
 
 %description
 This repository provides Python APIs for serializing and de-serializing STIX2 JSON content, along with higher-level APIs for common tasks, including data markings, versioning, and for resolving STIX IDs across multiple data sources.
@@ -38,6 +39,9 @@ python3 setup.py install --root=$RPM_BUILD_ROOT
 %{pylibdir}/stix2-%{version}-py%{pybasever}.egg-info
 
 %changelog
+* Fri May 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0-3
+- added python36-pytz as dependency
+
 * Fri May 14 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.1.0.2
 - switched to special fork for MISP
 
