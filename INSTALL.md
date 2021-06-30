@@ -69,7 +69,7 @@ systemctl start misp-workers
 ```
 - configure php
 
-all php settings are done in /etc/opt/remi/php74/php.ini
+all php settings are done in ```/etc/opt/remi/php74/php.ini```
 
 - start redis
 
