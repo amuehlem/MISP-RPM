@@ -4,7 +4,7 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:	    	misp
-Version:	2.4.143
+Version:	2.4.144
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -21,7 +21,7 @@ Source6:    	start-misp-workers.sh
 Patch0:     	MISP-Server.php.patch
 
 BuildArch:      noarch
-BuildRequires:  git, python3-devel, python3-pip, libxslt-devel, zlib-devel
+BuildRequires:  git, python36-devel, python36-pip, libxslt-devel, zlib-devel
 BuildRequires:  php > 7.0
 BuildRequires:  python36-lxml, python36-python_dateutil, python36-six, curl
 BuildRequires:  python36-setuptools, wget
@@ -149,6 +149,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Tue Jun 8 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.144
+- update to 2.4.144
+
 * Fri May 21 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.143
 - update to 2.4.143
 

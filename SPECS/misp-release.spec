@@ -1,6 +1,6 @@
 Name:       misp-release	
-Version:	1.0
-Release:	5%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 Summary:	configuration for MISP repositories
 
 Group:		System Environment/Base
@@ -34,6 +34,12 @@ install -pm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 /etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH
 
 %changelog
+* Mon Jun 14 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1-1
+- updated MariaDB repo to 10.3, added older MariaDB repos as backup
+
+* Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0-5
+- update to 1.0-5
+
 * Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0-4
 - added GPG key RPM-GPG-KEY-KOJI-SWITCH
 

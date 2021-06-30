@@ -14,12 +14,12 @@ is to just use MISP on this server.
 # Summary
 We provide the following components as RPMs
 
-* php 7.2.x
-* python 3.6.x
+* misp
 * pymisp
 * misp-modules
 * all needed sub-modules
-* mariadb 10.1.x (will be installed from external mariadb repository)
+* php 7.4.x (will be installed from external remi repository)
+* mariadb 10.3.x (will be installed from external mariadb repository)
 
 With our RPMs there's no need to use git to install MISP and you don't need a to install from github.com. All you
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
@@ -27,6 +27,5 @@ is to be able to include our repository on your systems. MariaDB will be install
 ## Installing MISP
 Use the [installation instructions](INSTALL.md) to install MISP from our repository
 
-## Building MISP
-Normally you shouldn't build them by yourself, we did it already for you. But if you want, you can use the SPEC
-files to compile the packages for yoursel. Use the [building instructions](BUILD.md) to get the correct order.
+## Upgrading MISP
+See the [upgrading instructions](UPGRADE.md) to upgrade MISP from our repository

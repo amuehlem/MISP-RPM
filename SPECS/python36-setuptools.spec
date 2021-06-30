@@ -1,46 +1,44 @@
 %define pybasever 3.6
-%define pythondir %{_libdir}/python%pybasever/site-packages
+%define pylibdir /usr/%{_lib}/python%{pybasever}/site-packages
 
 Name:		python36-setuptools
-Version:	50.3.0
+Version:	57.0.0
 Release:	1%{?dist}
 Summary:	Python Setuptools
 
 Group:		Development/Languages
 License:	MIT
 URL:		https://github.com/pypa/setuptools/
-Source0:	setuptools-%{version}.zip
+Source0:	fake-tgz.tgz
 
-BuildArch:  noarch
-BuildRequires:	python36-devel
+BuildArch:  	noarch
+BuildRequires:	python36-devel, git
 Requires:	python36
 
 %description
 Python setuptools
 
 %prep
-%setup -q -n setuptools-%{version}
+%setup -q -n fake-tgz
 
 
 %build
 # intentionally left blank
 
 %install
-python3 bootstrap.py
-python3 setup.py install --root=$RPM_BUILD_ROOT
+python3 -m pip install --ignore-installed --root=$RPM_BUILD_ROOT setuptools
 
 %files
-%exclude %{_bindir}/easy_install
-%{_bindir}/easy_install-%{pybasever}
-%pythondir/easy_install.py*
-%pythondir/pkg_resources/*
-%pythondir/setuptools-%{version}-py%{pybasever}.egg-info
-%pythondir/setuptools
-%pythondir/distutils-precedence.pth
-%pythondir/_distutils_hack
-%exclude %pythondir/__pycache__
+%{pylibdir}/setuptools
+%{pylibdir}/pkg_resources
+%{pylibdir}/_distutils_hack
+%{pylibdir}/distutils-precedence.pth
+%{pylibdir}/setuptools-%{version}.dist-info
 
 %changelog
+* Fri May 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 57.0
+- update to 57.0
+
 * Wed Sep 16 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 50.3.0
 - update to 50.3.0
 

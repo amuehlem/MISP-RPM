@@ -4,7 +4,7 @@ Install MISP from RPM packages
 
 Installation instructions:
 
-- install centos minimal system
+- install rhel or centos minimal system
 - update system to last updates
 - install and enable [epel repository](https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm)
 - add misp-release repo (also contains the official MariaDB repository)
