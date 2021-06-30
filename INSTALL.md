@@ -67,6 +67,9 @@ chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php
 systemctl enable misp-workers
 systemctl start misp-workers
 ```
+- configure php
+
+all php settings are done in /etc/opt/remi/php74/php.ini
 
 - start redis
 
