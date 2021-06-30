@@ -13,15 +13,16 @@ Installation instructions:
 currently the RPMs are provided in an repository which you have to install first
 ```
 yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.1-1.el7.noarch.rpm
+yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 ```
 
 - install misp
 
 ```
-yum install php php-mysql php-opcache misp misp-modules
+yum install misp misp-modules
 ```
 
-- configure mariadb (Line 38 'XXXXXXXXX' references the MariaDB user's password)
+- configure mariadb (Line 39 'XXXXXXXXX' references the MariaDB user's password)
 
 ```
 
@@ -56,6 +57,7 @@ cp -a config.default.php config.php
 
 # set DB details in database.php
 # set baseurl in config.php
+# set python_bin => /var/www/cgi-bin/misp-virtualenv/bin/python3
 
 # set owner and selinux context
 chown apache:apache /var/www/MISP/app/Config/config.php
@@ -97,4 +99,9 @@ systemctl restart firewalld
 systemctl enable misp-modules
 systemctl start misp-modules
 ```
+- link php
+```
+ln -s /bin/php74 /bin/php
+```
+
 - reboot to make sure all services are started correctly

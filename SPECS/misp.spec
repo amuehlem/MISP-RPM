@@ -2,42 +2,62 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
+# disable mangling of shebangs #!
+%define __brp_mangle_shebangs /usr/bin/true
 
-Name:	    	misp
-Version:	2.4.144
-release:	1%{?dist}
+%define pymispver 2.4.144
+
+Name:		misp
+Version:	2.4.145
+Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
-License:	AGPLv3
+License:	GPLv3
 URL:		http://www.misp-project.org/
 Source0:	fake-tgz.tgz
-Source1:   	misp.conf
-Source2:    	misp-httpd.pp
-Source3:    	misp-bash.pp
-Source4:    	misp-ps.pp
-Source5:   	misp-workers.service
-Source6:    	start-misp-workers.sh
-Patch0:     	MISP-Server.php.patch
+Source1:        misp.conf
+Source2:        misp-httpd.pp
+Source3:        misp-bash.pp
+Source4:        misp-ps.pp
+Source5:        misp-workers.service
+Source6:        start-misp-workers.sh
+Patch0:         MISP-Server.php.patch
 
-BuildArch:      noarch
-BuildRequires:  git, python36-devel, python36-pip, libxslt-devel, zlib-devel
-BuildRequires:  php > 7.0
-BuildRequires:  python36-lxml, python36-python_dateutil, python36-six, curl
-BuildRequires:  python36-setuptools, wget
-BuildRequires:  php-pear-Crypt_GPG
-Requires:	httpd, redis, libxslt, zlib
-Requires:       php > 7.0, php-gd > 7.0
-Requires:       python36-lxml, python36-python_dateutil, python36-six
-Requires:	python36-cybox, python36-stix, php-redis
-Requires:       php-pear-Crypt_GPG, php-zmq, python36-pyzmq
-Requires:       python36-python_magic, python36-pydeep, python36-pymisp
-Requires:       python36-cybox, python36-stix, python36-mixbox, python36-maec
-Requires:       lief-python, python36-mixbox, policycoreutils-python
-Requires:       python36-stix2, python36-plyara
+BuildRequires:	/usr/bin/pathfix.py
+BuildRequires:	git, python3-devel, python3-pip, libxslt-devel, zlib-devel
+BuildRequires:	php74-php, php74-php-cli, php74-php-xml, php74-php-mbstring
+BuildRequires:	ssdeep-devel, cmake3, bash-completion
+BuildRequires:	libcaca-devel
+
+Requires:	httpd, mod_ssl, redis, libxslt, zlib
+Requires:	MariaDB > 10.3, MariaDB-server > 10.3
+Requires:	python3
+Requires:	php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
+Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
+Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json
+Requires:       php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
+Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep
+Requires:	gtcaca faup
+
+%package python-virtualenv
+Summary:        the python virtual environment for MISP
+Group:          Internet Applications
+License:        GPLv3
+
+%description python-virtualenv
+The python vitualenvironment for MISP
 
 %description
-MISP - malware information sharing platform & threat sharing
+MISP - malware information sharing platform
+The MISP threat sharing platform is a free and open source software 
+helping information sharing of threat intelligence including cyber 
+security indicators.
+
+A threat intelligence platform for gathering, sharing, storing and 
+correlating Indicators of Compromise of targeted attacks, threat 
+intelligence, financial fraud information, vulnerability information or 
+even counter-terrorism information. 
 
 %prep
 %setup -q -n fake-tgz
@@ -46,11 +66,9 @@ MISP - malware information sharing platform & threat sharing
 # intentionally left blank
 
 %install
-
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
-git checkout tags/v%{version}
 
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
@@ -59,30 +77,63 @@ git config core.filemode false
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
-# copy pear data to accessible directory for build process
-mkdir -p $RPM_BUILD_ROOT/usr/share/pear
-cp -r /usr/share/pear/* $RPM_BUILD_ROOT/usr/share/pear/
+# create python3 virtualenv
+python3 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
-#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear channel-update pear.php.net
-#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear install INSTALL/dependencies/Console_CommandLine/package.xml
-#pear -D php_dir= $RPM_BUILD_ROOT/usr/share/pear install INSTALL/dependencies/Crypt_GPG/package.xml
+mkdir -p $RPM_BUILD_ROOT/usr/share/httpd/.cache
 
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
+
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts
+git clone https://github.com/CybOXProject/python-cybox.git
+git clone https://github.com/STIXProject/python-stix.git
+git clone https://github.com/CybOXProject/mixbox.git
+
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-cybox
+git config core.filemode false
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-stix
+git config core.filemode false
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/mixbox
+git config core.filemode false
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+
+cd $RPM_BUILD_ROOT/var/www/MISP/cti-python-stix2
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U maec
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U zmq
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U redis
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U python-magic
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U plyara
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
+
+cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
+
+# CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-# EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
-php composer.phar require kamisama/cake-resque:4.1.2
-php composer.phar config vendor-dir Vendor
-php composer.phar install
+/opt/remi/php74/root/usr/bin/php composer.phar install
 
-mkdir -p $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config
-cp -fa $RPM_BUILD_ROOT/var/www/MISP/INSTALL/setup/config.php $RPM_BUILD_ROOT/var/www/MISP/app/Plugin/CakeResque/Config/config.php
 cd $RPM_BUILD_ROOT/var/www/MISP
-
 # save commit ID of this installation
 git rev-parse HEAD > .git_commit_version
+
+# clean up before PATH rewriting
+rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
+
+# rewrite PATH in virtualenv
+sed -e "s/\/usr\/local\/bin\/python3.6/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.6/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
+
+# path fix for python3
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
+
 # cleanup
 rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
 find . -name \.git | xargs -i rm -rf {}
@@ -99,6 +150,10 @@ mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 
+%files python-virtualenv
+%defattr(-,apache,apache,-)
+/var/www/cgi-bin/misp-virtualenv
+
 %files
 %defattr(-,apache,apache,-)
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
@@ -108,7 +163,7 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %{_sysconfdir}/systemd/system/misp-workers.service
 %defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
-%exclude /usr/share/pear
+%exclude %{_libdir}/debug
 %exclude /usr/lib/debug/.build-id
 %exclude /usr/lib/debug/var/www/MISP/PyMISP/tests/viper-test-files/test_files/tmux.debug
 # exclude test files whicht get detected by AV solutions
@@ -155,125 +210,5 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 * Fri May 21 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.143
 - update to 2.4.143
 
-* Wed May 5 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.142
-- update to 2.4.142
-
-* Sat Apr 24 2021 Andreas Muehlmeann <andreas.muehlemann@switch.ch> - 2.4.141
-- update to 2.4.141
-
-* Wed Mar 10 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140.3
-- exclude all files from PyMISP/tests
-
-* Wed Mar 10 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140.2
-- excluding email_test files
-
-* Tue Mar 09 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.140
-- update to 2.4.140
-- excluding test_files
-- updating the license to AGPLv3
-
-* Fri Feb 19 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.139
-- update to 2.4.139
-
-* Thu Feb 11 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.138
-- update to 2.4.138
-
-* Tue Jan 26 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.137
-- update to 2.4.137
-
-* Wed Dec 23 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.136
-- update to 2.4.136
-
-* Thu Nov 26 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.135
-- update to 2.4.135
-
-* Wed Nov 4 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.134
-- update to 2.4.134
-
-* Mon Oct 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.133
-- update to 2.4.133
-
-* Tue Aug 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.130
-- update to 2.4.130
-
-* Tue Jul 14 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.129
-- update to 2.4.129
-
-* Wed Jun 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.128
-- update to 2.4.128
-
-* Wed Jun 24 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.127
-- update to 2.4.127
-
-* Tue May 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.126
-- update to 2.4.126
-
-* Tue May 19 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.125
-- update to 2.4.125
-
-* Tue Apr 07 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.124
-- update to 2.4.124
-
-* Mon Jan 27 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.120
-- update to 2.4.120
-
-* Fri Dec 06 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.119
-- update to 2.4.119
-
-* Mon Nov 11 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.118
-- update to 2.4.118
-
-* Mon Oct 14 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.117
-- update to 2.4.117
-
-* Wed Sep 18 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.116
-- update to 2.4.116
-- disabled brp-python-bytecompile
-
-* Mon Sep 16 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.115
-- update to 2.4.115
-
-* Wed Aug 21 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.113
-- update to 2.4.113
-
-* Mon Aug 5 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.112
-- new composer release
-- update to 2.4.112
-
-* Wed Jun 12 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.108
-- update to 2.4.108
-
-* Mon May 13 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.107
-- update to 2.4.107
-
-* Tue May 7 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106-2
-- updated install routines
-
-* Thu May 2 2019 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.106
-- update to 2.4.106
-
-* Wed Jun 27 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.93
-- update to 2.4.93
-
-* Mon May 7 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.90
-- added policycoreutils-python as requirement
-
-* Sat Mar 3 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.88-4
-- updated to MISP version 2.4.88
-- added systemctl unit for misp-workers
-
-* Tue Jan 16 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.8.86
-- updated to MISP version 2.4.86
-
-* Thu Jan 11 2018 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.85
-- updated to MISP version 2.4.85
-- added misp-*.pp selinux policies
-
-* Tue Oct 17 2017 Andreas Muehlemann <andreas.muelemann@switch.ch>
-- fixes and optimizations after install tests
-
-* Thu Dec 29 2016 Andreas Muehlemann <andreas.muehlemann@switch.ch>
-- adapted to use the php-pear RPMs
-
-* Wed Nov 09 2016 Andreas Muehlemann <andreas.muehlemann@switch.ch>
-- first version for centos
+* Sat Apr 24 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.141
+- new build process to put all python modules into a virtual environment
