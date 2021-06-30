@@ -12,7 +12,7 @@ a lot of python36 modules, all python dependencies for MISP and PyMISP will
 be installed into a python virtual environment which is provided as a
 RPM package in the same repository.
 
-* We now use the PHP packages provided from [https://rpms.remirepo.net/]
+* We now use the PHP packages provided from [Remi Repo](https://rpms.remirepo.net/)
 instead of compiling them our self.
 * The MySQL version changes from version 10.1 to 10.3.
 
