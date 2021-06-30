@@ -1,20 +1,20 @@
 %define cmake cmake3 -DCMAKE_INSTALL_PREFIX:PATH=/usr
 
 Name:		faup
-Version:	1.5+git685acb0
+Version:	1.6
 Release:	1%{?dist}
 Summary:    	Fast URL decoder library
 License:    	Public
 
 Group:		Development/Languages
 URL:		https://github.com/stricaud/faup/
-Source0:	faup-master.tar.gz
+Source0:	fake-tgz.tgz
 
-BuildRequires: cmake3, cppcheck, gtcaca-devel
+BuildRequires: cmake3, cppcheck, gtcaca-devel, git
 Requires: gtcaca
 
 %description
-Fast URL decoder library https:////github.com/stricaud/faup/
+Fast URL decoder library https://github.com/stricaud/faup/
 
 %package devel
 Summary: Files needed to build faup
@@ -23,16 +23,18 @@ Summary: Files needed to build faup
 This package contains the files needed for building faup extensions. 
 
 %prep
-%setup -q -n %{name}-master
+%setup -q -n fake-tgz
 
 %build
+git clone https://github.com/stricaud/faup.git faup
+cd faup
 mkdir -p build
 cd build
 %cmake ..
 make %{?_smp_mflags}
 
 %install
-cd build/
+cd faup/build/
 %make_install
 
 %files
@@ -54,29 +56,13 @@ cd build/
 
 %files devel
 %dir /usr/include/faup
-/usr/include/faup/compat.h
-/usr/include/faup/datadir.h
-/usr/include/faup/decode.h
-/usr/include/faup/errors.h
-/usr/include/faup/faup.h
-/usr/include/faup/features.h
-/usr/include/faup/handler.h
-/usr/include/faup/options.h
-/usr/include/faup/output.h
-/usr/include/faup/parson.h
-/usr/include/faup/portable.h
-/usr/include/faup/return-codes.h
-/usr/include/faup/scheme-codes.h
-/usr/include/faup/snapshot-file.h
-/usr/include/faup/snapshot.h
-/usr/include/faup/tld-tree.h
-/usr/include/faup/tld.h
-/usr/include/faup/urllengths.h
-/usr/include/faup/utils.h
-/usr/include/faup/version.h
-/usr/include/faup/webserver.h
+/usr/include/faup/*.h
 
 %changelog
+* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@swithc.ch>
+- version 1.6
+- clone from git
+
 * Mon May 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch>
 - added cmake macro, changed source0 to not interfere with other master.tar.gz
 
