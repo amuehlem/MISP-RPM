@@ -9,7 +9,7 @@
 
 Name:		misp
 Version:	2.4.145
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -38,6 +38,7 @@ Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:       php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
 Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep
+Requires:	php74-php-brotli, php74-php-pecl-rdkafka
 Requires:	gtcaca faup
 
 %package python-virtualenv
@@ -204,6 +205,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.145
+- update to 2.4.145
+
 * Tue Jun 8 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.144
 - update to 2.4.144
 

@@ -7,14 +7,14 @@
 
 %define pymajorver 3
 %define pybasever 3.6
-%define venvbasedir /opt/misp-modules-venv
+%define venvbasedir /var/www/cgi-bin/misp-modules-venv
 
 %global __requires_exclude_from ^%{venvbasedir}/lib/python%{pybasever}/site-packages/cv2/\.libs/.*\\.so*$
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.121
-Release:	5%{?dist}
+Version:	2.4.145
+Release:	2%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -23,7 +23,7 @@ URL:		https://github.com/MISP/misp-modules
 Source0:	fake-tgz.tgz
 Source1:    	misp-modules.service
 
-BuildRequires:  git, python36-devel, python36-pip
+BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:  /usr/bin/pathfix.py
 Requires:       %{venvbasedir}/bin/python3, libSM
@@ -77,6 +77,9 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/misp-modu
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
+* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@swithc.ch> - 2.4.145-1
+- new version following misp-2.4.145
+
 * Wed Jun 23 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.121-5
 - fixed typos in dependencies
 
