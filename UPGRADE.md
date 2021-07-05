@@ -43,6 +43,17 @@ systemctl stop mariadb
 rpm -e --nodeps MariaDB-client MariaDB-server MariaDB-shared MariaDB-common
 ```
 
+* install the updated misp repo and remi repo config files
+```
+yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.1-1.el7.noarch.rpm
+yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+```
+
+* clean the yum cache
+```
+yum clean all
+```
+
 * make sure the file /etc/yum.repos.d/misp.repo points to the correct MariaDB version
 ```
 [mariadb]
