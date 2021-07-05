@@ -32,7 +32,7 @@ BuildRequires:	libcaca-devel
 
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:	MariaDB > 10.3, MariaDB-server > 10.3
-Requires:	python3
+Requires:	python3, misp-python-virtualenv
 Requires:	php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json

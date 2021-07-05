@@ -82,7 +82,8 @@ mysql_upgrade -uroot -p
 
 * upgrade MISP
 ```
-yum upgrade misp misp-python-virtualenv
+yum upgrade misp
+yum install misp-python-virtualenv
 ```
 
 * adjust python_bin in /var/www/MISP/app/Config/config.php
