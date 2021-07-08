@@ -54,7 +54,7 @@ yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum clean all
 ```
 
-* make sure the file /etc/yum.repos.d/misp.repo points to the correct MariaDB version
+* make sure the file /etc/yum.repos.d/misp.repo points to the correct MariaDB version, check if a misp.repo.rpmnew needs to be moved to misp.repo
 ```
 [mariadb]
 name=mariadb
@@ -80,10 +80,9 @@ systemctl enable mariadb
 mysql_upgrade -uroot -p
 ```
 
-* upgrade MISP
+* upgrade MISP, make sure misp-python-virutalenv is installed as dependency
 ```
 yum upgrade misp
-yum install misp-python-virtualenv
 ```
 
 * adjust python_bin in /var/www/MISP/app/Config/config.php
@@ -100,6 +99,8 @@ rpm -e --nodeps php
 ```
 ln -s /bin/php74 /bin/php
 ```
+
+* check php settings in /etc/opt/remi/php74/php.ini
 
 * restart Apache webserver
 ```
