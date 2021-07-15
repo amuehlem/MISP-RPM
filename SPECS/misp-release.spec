@@ -1,6 +1,6 @@
 Name:       misp-release	
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	configuration for MISP repositories
 
 Group:		System Environment/Base
@@ -30,7 +30,7 @@ install -pm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 
 %files
 %defattr(-,root,root,-)
-%config(noreplace) /etc/yum.repos.d/*
+%config /etc/yum.repos.d/*
 /etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH
 
 %changelog

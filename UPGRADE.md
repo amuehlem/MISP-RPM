@@ -45,7 +45,7 @@ rpm -e --nodeps MariaDB-client MariaDB-server MariaDB-shared MariaDB-common
 
 * install the updated misp repo and remi repo config files
 ```
-yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.1-1.el7.noarch.rpm
+yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.1-2.el7.noarch.rpm
 yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 ```
 
