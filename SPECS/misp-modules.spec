@@ -13,8 +13,8 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.145
-Release:	2%{?dist}
+Version:	2.4.148
+Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -77,7 +77,13 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/misp-modu
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
-* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@swithc.ch> - 2.4.145-1
+* Wed Aug 11 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.148
+- update to 2.4.148
+
+* Tue Jul 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.147
+- update to 2.4.147
+
+* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.145-1
 - new version following misp-2.4.145
 
 * Wed Jun 23 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.121-5

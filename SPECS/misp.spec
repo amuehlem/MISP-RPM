@@ -5,11 +5,11 @@
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
 
-%define pymispver 2.4.144
+%define pymispver 2.4.148.1
 
 Name:		misp
-Version:	2.4.146
-Release: 	1%{?dist}
+Version:	2.4.150
+Release: 	4%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -71,6 +71,7 @@ mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
 
+git submodule sync
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
 git config core.filemode false
@@ -85,11 +86,6 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/httpd/.cache
 
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts
-git clone https://github.com/CybOXProject/python-cybox.git
-git clone https://github.com/STIXProject/python-stix.git
-git clone https://github.com/CybOXProject/mixbox.git
-
 cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-cybox
 git config core.filemode false
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
@@ -102,10 +98,15 @@ cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/mixbox
 git config core.filemode false
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
 
-cd $RPM_BUILD_ROOT/var/www/MISP/cti-python-stix2
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/cti-python-stix2
+git config core.filemode false
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
 
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U maec
+cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-maec
+git config core.filemode false
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+
+
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U zmq
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U redis
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U python-magic
@@ -205,6 +206,18 @@ semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 
 %changelog
+* Thu Oct 14 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.150
+- update to 2.4.150
+
+* Mon Sep 13 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.148-2
+- update to include some important patches
+
+* Wed Aug 11 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.148
+- update to 2.4.148
+
+* Tue Jul 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.147
+- update to 2.4.147
+
 * Tue Jul 6 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.146
 - update to 2.4.146
 
