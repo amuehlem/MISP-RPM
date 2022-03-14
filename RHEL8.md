@@ -1,8 +1,8 @@
 **This instructions are for Red Hat 8 systems only, they were not checked on CentOS 8** 
 
-#Install MISP from RPM packages
+# Install MISP from RPM packages
 
-##Installation instructions:
+## Installation instructions:
 
 - install RHEL8 minimal system, install license
 - update system to latest updates
