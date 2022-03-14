@@ -1,11 +1,16 @@
-# WORK IN PROGRESS - not for production environments
+**This instructions are for Red Hat 8 systems only, they were not checked on CentOS 8** 
 
-Install MISP from RPM packages
+#Install MISP from RPM packages
 
-Installation instructions:
+##Installation instructions:
 
-- install RHEL8 minimal system
+- install RHEL8 minimal system, install license
 - update system to latest updates
+- enable codeready-builder repository
+
+```
+subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
+```
 
 ## install epel, remi and misp repositories
 
@@ -29,10 +34,10 @@ systemctl enable mariadb.service
 systemctl start mariadb.service
 
 # secure the installation, set a reasonable root password
-mariadb_secure_installation
+mariadb-secure-installation
 
 # install MISP DB schema
-mysql -u root -p [YOUR ROOT PASSWORD]
+mysql -u root -p [YOUR MYSQL PASSWORD]
 
 # replace XXXXXXXXX with a reasonable password for misp
 MariaDB [(none)]> create database misp;
@@ -72,6 +77,11 @@ systemctl start misp-workers
 
 all php settings are done in ```/etc/opt/remi/php74/php.ini```
 
+- link php
+```
+ln -s /bin/php74 /bin/php
+```
+
 - start redis
 
 ```
@@ -97,19 +107,12 @@ firewall-cmd --permanent --zone=public --add-service https
 systemctl restart firewalld
 ```
 
-- install and enable misp-modules
+## install and enable misp-modules
 ```
-dnf install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-1.el8.noarch.rpm
-dnf install zbar
-
+dnf install misp-modules
 # enable misp-modules at startup
 systemctl enable misp-modules
 systemctl start misp-modules
 ```
 
-- link php
-```
-ln -s /bin/php74 /bin/php
-```
-
-- reboot to make sure all services are started correctly
+- **reboot the host to make sure all services are started correctly**
