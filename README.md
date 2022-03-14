@@ -26,6 +26,7 @@ is to be able to include our repository on your systems. MariaDB will be install
 
 ## Installing MISP
 Use the [installation instructions](INSTALL.md) to install MISP from our repository on RHEL7 / CentOS7 Systems
+
 Use the [installation instructions for RHEL8](RHEL8.md) to install MISP from our repository on RHEL8 Systems (not checked on CentOS8!)
 
 ## Upgrading MISP
