@@ -1,11 +1,13 @@
 [Unit]
 Description=MISP workers
-After=network.target remote-fs.target nss-lookup.target httpd.service
+After=network.target remote-fs.target nss-lookup.target httpd.service mariadb.service redis.service
 
 [Service]
 Type=forking
 ExecStart=/var/www/MISP/app/Console/worker/start.sh
 User=apache
+Restart=always
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
