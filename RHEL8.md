@@ -20,6 +20,11 @@ dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
 dnf install https://certrepo.switch.ch/certrepo/misp8/misp-release-1.0-1.el8.noarch.rpm
 ```
 
+For RHEL 8.4 EUS use the slightly older version of remi repo instead
+```
+dnf install https://rpms.remirepo.net/enterprise/8/remi/x86_64/remi-release-8.4-1.el8.remi.noarch.rpm
+```
+
 ## install misp and misp-python-virtualenv
 ```
 dnf install misp misp-python-virtualenv
