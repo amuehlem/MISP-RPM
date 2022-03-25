@@ -5,11 +5,11 @@
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
 
-%define pymispver 2.4.148.1
+%define pymispver 2.4.157
 
 Name:		misp
-Version:	2.4.150
-Release: 	4%{?dist}
+Version:	2.4.157
+Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -22,24 +22,25 @@ Source3:        misp-bash.pp
 Source4:        misp-ps.pp
 Source5:        misp-workers.service
 Source6:        start-misp-workers.sh
-Patch0:         MISP-Server.php.patch
+Source7:	misp-workers.ini
+Patch0:         MISP-AppModel.php.patch
 
 BuildRequires:	/usr/bin/pathfix.py
-BuildRequires:	git, python3-devel, python3-pip, libxslt-devel, zlib-devel
+BuildRequires:	git, misp-python, libxslt-devel, zlib-devel
 BuildRequires:	php74-php, php74-php-cli, php74-php-xml, php74-php-mbstring
 BuildRequires:	ssdeep-devel, cmake3, bash-completion
 BuildRequires:	libcaca-devel
 
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:	MariaDB > 10.3, MariaDB-server > 10.3
-Requires:	python3, misp-python-virtualenv
+Requires:	misp-python, misp-python-virtualenv
 Requires:	php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:       php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
-Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep
-Requires:	php74-php-brotli, php74-php-pecl-rdkafka
-Requires:	gtcaca faup
+Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
+Requires:	php74-php-brotli, php74-php-pecl-rdkafka, php74-php-pecl-apcu
+Requires:	gtcaca, faup, supervisor
 
 %package python-virtualenv
 Summary:        the python virtual environment for MISP
@@ -80,7 +81,7 @@ git config core.filemode false
 patch --ignore-whitespace -p0 < %{PATCH0}
 
 # create python3 virtualenv
-python3 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+/var/www/cgi-bin/misp-python/bin/python3 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/httpd/.cache
 
@@ -120,6 +121,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/php74/root/usr/bin/php composer.phar install
+/opt/remi/php74/root/usr/bin/php composer.phar require supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message lstrojny/fxmlrpc
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
@@ -129,9 +131,9 @@ git rev-parse HEAD > .git_commit_version
 rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
-sed -e "s/\/usr\/local\/bin\/python3.6/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s/\/usr\/local\/bin\/python3.9/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.6/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -151,7 +153,8 @@ install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
-
+mkdir -p $RPM_BUILD_ROOT/etc/supervisord.d
+install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %files python-virtualenv
 %defattr(-,apache,apache,-)
 /var/www/cgi-bin/misp-virtualenv
@@ -161,6 +164,7 @@ chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
 /var/www/MISP
 %config(noreplace) /etc/httpd/conf.d/misp.conf
+%config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
 %{_sysconfdir}/systemd/system/misp-workers.service
 %defattr(-,root,root,-)
@@ -204,8 +208,33 @@ restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
 semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
+systemctl restart supervisor
 
 %changelog
+* Fri Mar 25 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.157
+- udpate to 2.4.157
+
+* Sun Mar 20 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.156
+- update to 2.4.156
+
+* Fri Mar 4 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.155
+- update to 2.4.155
+- added requirement for misp-python, because of pymisp needing python >= 3.7
+
+* Mon Feb 7 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.153
+- update to 2.4.153
+- added supervisor for background tasks
+- added php-apcu and php-process as requirements
+ 
+* Mon Jan 10 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.152
+- new build to solve MISP issues #8057
+
+* Mon Dec 27 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.152
+- update to 2.4.152
+
+* Thu Dec 02 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.151
+- update to 2.4.151
+
 * Thu Oct 14 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.150
 - update to 2.4.150
 
@@ -215,7 +244,7 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 * Wed Aug 11 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.148
 - update to 2.4.148
 
-* Tue Jul 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.147
+* Wed Jul 28 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.147
 - update to 2.4.147
 
 * Tue Jul 6 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.146

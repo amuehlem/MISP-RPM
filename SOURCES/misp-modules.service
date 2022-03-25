@@ -5,6 +5,8 @@ After=network.target remote-fs.target nss-lookup.target httpd.service
 [Service]
 ExecStart=/var/www/cgi-bin/misp-modules-venv/bin/misp-modules
 User=apache
+Restart=always
+RestartSec=60
 
 [Install]
 WantedBy=multi-user.target
