@@ -1,0 +1,17 @@
+module misp-modules 1.0;
+
+require {
+	type init_t;
+	type httpd_sys_script_exec_t;
+	type redis_port_t;
+	class file { create execute execute_no_trans ioctl map open read rename unlink write };
+	class lnk_file read;
+	class dir { add_name remove_name };
+	class tcp_socket name_connect;
+}
+
+#============= init_t ==============
+allow init_t httpd_sys_script_exec_t:file { create execute execute_no_trans ioctl map open read rename unlink write };
+allow init_t httpd_sys_script_exec_t:dir { add_name remove_name };
+allow init_t httpd_sys_script_exec_t:lnk_file read;
+allow init_t redis_port_t:tcp_socket name_connect;

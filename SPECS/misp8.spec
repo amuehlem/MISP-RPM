@@ -26,7 +26,7 @@ Source4:    	misp-ps.pp
 Source5:    	misp-workers.service
 Source6:    	start-misp-workers.sh
 Source7:	misp-workers.ini
-Source8:	misp-workers.pp
+Source8:	misp-workers8.pp
 Patch0:     	MISP-AppModel.php.patch
 
 BuildRequires:	/usr/bin/pathfix.py
@@ -206,7 +206,7 @@ restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
 semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-workers.pp
+semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
 * Fri Mar 25 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.157

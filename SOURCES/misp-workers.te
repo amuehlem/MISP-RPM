@@ -1,0 +1,10 @@
+module misp-workers 1.0;
+
+require {
+	type init_t;
+	type httpd_sys_content_t;
+	class file { execute execute_no_trans open read map };
+}
+
+#============= init_t ==============
+allow init_t httpd_sys_content_t:file { execute execute_no_trans open read map };
