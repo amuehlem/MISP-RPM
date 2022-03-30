@@ -31,3 +31,44 @@ Use the [installation instructions for RHEL8](RHEL8.md) to install MISP from our
 
 ## Upgrading MISP
 See the [upgrading instructions](UPGRADE.md) to upgrade MISP from our repository
+
+## Simple Background jobs
+See the [official documentation](https://www.circl.lu/doc/misp/appendices/#appendix-g-simplebackgroundjobs-migration-guide) how to activate the SimpleBackgroundJobs. Most important settings are
+* ```/etc/supervisord.conf```
+```
+[inet_http_server]
+port=127.0.0.1:9001
+username=supervisor
+password=securePasswordHere
+```
+
+* ```/etc/supervisord.d/misp-workers.ini```
+see the [official documentation](https://www.circl.lu/doc/misp/appendices/#appendix-g-simplebackgroundjobs-migration-guide) for this file
+
+* start and enable supervisord
+```
+systemctl enable supervisord
+systemctl start supervisord
+```
+
+* enable SimpleBackgroundJobs in MISP
+```
+'SimpleBackgroundJobs' => array(
+  'enabled' => true,
+  'redis_host' => 'localhost',
+  'redis_port' => 6379,
+  'redis_password' => '',
+  'redis_database' => 13,
+  'redis_namespace' => 'background_jobs',
+  'max_job_history_ttl' => 86400,
+  'supervisor_host' => 'localhost',
+  'supervisor_port' => 9001,
+  'supervisor_user' => 'supervisor',
+  'supervisor_password' => 'securePasswordHere',
+),
+```
+
+* check the workers are started, status should be 'RUNNING' for all workers
+```
+supervisorctl -h http://localhost:9001 -u supervisor -p securePasswordHere status
+```
