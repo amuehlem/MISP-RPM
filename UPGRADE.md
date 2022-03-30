@@ -90,6 +90,8 @@ yum upgrade misp
 'python_bin' => '/var/www/cgi-bin/misp-virtualenv/bin/python3'
 ```
 
+* check MISP config for new settings, compare your config.php with config.php.default in ```/var/www/MISP/app/Config```
+
 * remove old php version (e.g. 7.2.X)
 ```
 rpm -e --nodeps php

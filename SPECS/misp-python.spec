@@ -4,7 +4,7 @@
 
 Name:		misp-python
 Version:	3.9.9
-Release: 	5%{?dist}
+Release: 	6%{?dist}
 Summary:	Interpreter of the Python programming language
 
 License:	Python
@@ -13,7 +13,7 @@ Source0:	https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz
 
 BuildRequires:	misp-gcc, misp-gcc-libs, openssl-devel
 BuildRequires:	libffi-devel
-Requires:	openssl, misp-gcc-libs
+Requires:	openssl
 
 %description
 Python is an accessible, high-level, dynamically typed, interpreted programming
