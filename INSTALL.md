@@ -19,7 +19,7 @@ yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 - install misp
 
 ```
-yum install misp misp-python-virutalenv misp-modules
+yum install misp misp-python-virtualenv misp-modules
 ```
 
 - configure mariadb (Line 39 'XXXXXXXXX' references the MariaDB user's password)
