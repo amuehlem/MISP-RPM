@@ -2,7 +2,7 @@
 
 Name:		misp-gcc
 Version:	9.4.0
-Release: 	8%{?dist}
+Release: 	9%{?dist}
 Summary:	Various compilers (C, C++, Objective-C, Java, ...)
 
 License:	GPLv3+ and GPLv3+ with exceptions and GPLv2+ with exceptions and LGPLv2+ and BSD
@@ -52,6 +52,9 @@ make %{?_smp_mflags}
 %install
 %make_install
 
+mkdir -p $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
+mv $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/lib/*-gdb.py* $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
+
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
 echo "/var/www/cgi-bin/misp-helpers/lib" >> $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 echo "/var/www/cgi-bin/misp-helpers/lib64" >> $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}.conf
@@ -67,6 +70,7 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 %files libs
 /var/www/cgi-bin/misp-helpers/lib/*.so*
 /var/www/cgi-bin/misp-helpers/lib64/*.so*
+/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64/*.py
 
 %post
 /sbin/ldconfig
@@ -78,6 +82,9 @@ if [$ 1 = 0 ]; then
 fi
 
 %changelog
+* Wed Apr 27 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 9.4.0-9
+- moving *gdb.py files out of the way
+
 * Thu Mar 24 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 9.4.0-4
 - moving everything to /var/www/cgi-bin/misp-helpers and splitting libs
 

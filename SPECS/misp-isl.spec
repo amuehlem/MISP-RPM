@@ -1,6 +1,6 @@
 Name:		misp-isl
 Version:	0.24
-Release: 	6%{?dist}
+Release: 	7%{?dist}
 Summary:	ISL Library
 
 License:	MIT
@@ -63,6 +63,9 @@ make %{?_smp_mflags}
 %install
 make DESTDIR=$RPM_BUILD_ROOT install
 
+mkdir -p $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
+mv $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/lib/*-gdb.py* $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
+
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
 echo "/var/www/cgi-bin/misp-helpers/lib" >> $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
@@ -93,6 +96,9 @@ if [$ 1 = 0 ]; then
 fi
 
 %changelog
+* Wed Apr 27 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.24-7
+- moving *gdb.py files out of the way
+
 * Thu Mar 24 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.24-2
 - moving everything to /var/www/cgi-bin/misp-helpers
 

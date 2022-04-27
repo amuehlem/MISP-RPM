@@ -4,12 +4,14 @@
 %define _binaries_in_noarch_packages_terminate_build 0
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
+# exclude for requirements
+%global __requires_exclude ^/opt/python/cp3.*
 
 %define pymispver 2.4.157
 
 Name:		misp
-Version:	2.4.157
-Release: 	1%{?dist}
+Version:	2.4.158
+Release: 	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -211,6 +213,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Tue Apr 26 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.158
+- update to 2.4.158
+
 * Fri Mar 25 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.157
 - udpate to 2.4.157
 
