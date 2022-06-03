@@ -14,7 +14,7 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.156
+Version:	2.4.159
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -90,6 +90,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Tue May 31 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.159
+- update to 2.4.159
+
 * Thu Mar 10 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.154
 - update to 2.4.154
 - first version for RHEL8/CentOS8
