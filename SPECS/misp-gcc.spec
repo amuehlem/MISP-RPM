@@ -2,7 +2,7 @@
 
 Name:		misp-gcc
 Version:	9.4.0
-Release: 	9%{?dist}
+Release: 	10%{?dist}
 Summary:	Various compilers (C, C++, Objective-C, Java, ...)
 
 License:	GPLv3+ and GPLv3+ with exceptions and GPLv2+ with exceptions and LGPLv2+ and BSD
@@ -75,6 +75,8 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 %post
 /sbin/ldconfig
 /sbin/install - info /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
+semanage fcontext -a -t lib_t "/var/www/cgi-bin/misp-helpers/lib64(/.*)?"
+restorecon -R -v /var/www/cgi-bin/misp-helpers/lib64
 
 %preun
 if [$ 1 = 0 ]; then
@@ -82,6 +84,9 @@ if [$ 1 = 0 ]; then
 fi
 
 %changelog
+* Thu Jul 07 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 9.4.0-10
+- fixed selinux context issues for lib64 files
+
 * Wed Apr 27 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 9.4.0-9
 - moving *gdb.py files out of the way
 
