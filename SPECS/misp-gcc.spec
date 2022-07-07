@@ -75,8 +75,8 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 %post
 /sbin/ldconfig
 /sbin/install - info /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
-semanage fcontext -a -t lib_t "/var/www/cgi-bin/misp-helpers/lib64(/.*)?"
-restorecon -R -v /var/www/cgi-bin/misp-helpers/lib64
+semanage fcontext -a -t lib_t "/var/www/cgi-bin/misp-helpers/lib64(/.*)?" 2>/dev/null || :
+restorecon -R -v /var/www/cgi-bin/misp-helpers/lib64 || :
 
 %preun
 if [$ 1 = 0 ]; then
