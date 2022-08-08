@@ -13,7 +13,7 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.159
+Version:	2.4.160
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -81,6 +81,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
+* Mon Aug 08 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.160
+- update to 2.4.160
+
 * Tue May 31 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.159
 - update to 2.4.159
 
