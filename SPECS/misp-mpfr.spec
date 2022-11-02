@@ -1,6 +1,6 @@
 Name:		misp-mpfr
 Version:	4.1.0
-Release: 	5%{?dist}
+Release: 	8%{?dist}
 Summary:	A C library for multiple-precision floating-point computations
 
 License:	LGPLv3+ and GPLv3+ and GFDL
@@ -62,10 +62,10 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 %doc
 %license
 /var/www/cgi-bin/misp-helpers/share/
-/etc/ld.so.conf.d/%{name}.conf
 
 %files libs
 /var/www/cgi-bin/misp-helpers/lib/*.so*
+/etc/ld.so.conf.d/%{name}.conf
 
 %files devel
 /var/www/cgi-bin/misp-helpers/include/*.h
@@ -77,12 +77,18 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 /sbin/ldconfig
 /sbin/install - info /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
 
+%post libs
+/sbin/ldconfig
+
 %preun
 if [$ 1 = 0 ]; then 
 /sbin/install - info --delete /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
 fi
 
 %changelog
+* Wed Oct 19 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 4.1.0-6
+- moving the ld.so.conf.d file into the libs package
+
 * Thu Mar 24 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 4.1.0-2
 - moving all to /var/www/cgi-bin/misp-helper
 

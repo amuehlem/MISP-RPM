@@ -13,7 +13,7 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.160
+Version:	2.4.163
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -28,7 +28,7 @@ BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:  /usr/bin/pathfix.py
 Requires:       %{venvbasedir}/bin/python3, libSM
 Requires:	poppler-cpp, zbar, glibc(x86-32)
-Requires:	misp-gcc-libs
+Requires:	misp-gcc-libs, misp-python
 
 %description
 MISP modules for expansion services, import and export
@@ -81,6 +81,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 %{_sysconfdir}/systemd/system/misp-modules.service
 
 %changelog
+* Wed Oct 19 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.163
+- update to 2.4.163
+
 * Mon Aug 08 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.160
 - update to 2.4.160
 

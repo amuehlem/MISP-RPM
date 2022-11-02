@@ -9,11 +9,11 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.160
-%define mispstixver 0.1.0
+%define pymispver 2.4.162.1
+%define mispstixver 2.4.163
 
 Name:	    	misp
-Version:	2.4.161
+Version:	2.4.164
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -132,7 +132,7 @@ rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 sed -e "s/\/usr\/local\/bin\/python3.8/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/misp_stix_converter-%{mispstixver}.dist-info/direct_url.json
+sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/misp_stix-%{mispstixver}.dist-info/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -211,6 +211,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Wed Oct 19 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.164
+- update to 2.4.164
+
+* Fri Sep 30 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.163
+- update to 2.4.163
+
 * Fri Aug 19 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.161
 - update to 2.4.161
 

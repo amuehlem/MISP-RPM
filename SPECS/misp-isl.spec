@@ -1,6 +1,6 @@
 Name:		misp-isl
 Version:	0.24
-Release: 	7%{?dist}
+Release: 	9%{?dist}
 Summary:	ISL Library
 
 License:	MIT
@@ -75,10 +75,10 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 %doc
 %license
 /var/www/cgi-bin/misp-helpers
-/etc/ld.so.conf.d/%{name}.conf
 
 %files libs
 /var/www/cgi-bin/misp-helpers/lib/*.so*
+/etc/ld.so.conf.d/%{name}.conf
 
 %files devel
 /var/www/cgi-bin/misp-helpers/include/isl/*.h
@@ -90,12 +90,18 @@ rm -f $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/info/dir
 /sbin/ldconfig
 /sbin/install - info /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
 
+%post libs
+/sbin/ldconfig
+
 %preun
 if [$ 1 = 0 ]; then
 /sbin/install - info --delete /var/www/cgi-bin/misp-helpers/share/info/%{name}. info /var/www/cgi-bin/misp-helpers/share/info/dir || :
 fi
 
 %changelog
+* Wed Oct 19 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.24-8
+- moving ld.so.conf.d file into the libs package
+
 * Wed Apr 27 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 0.24-7
 - moving *gdb.py files out of the way
 
