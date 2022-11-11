@@ -73,5 +73,5 @@ systemctl start supervisord
 
 * check the workers are started, status should be 'RUNNING' for all workers
 ```
-supervisorctl -h http://localhost:9001 -u supervisor -p securePasswordHere status
+supervisorctl -s http://localhost:9001 -u supervisor -p securePasswordHere status
 ```
