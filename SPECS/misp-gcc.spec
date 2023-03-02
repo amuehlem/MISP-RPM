@@ -2,7 +2,7 @@
 
 Name:		misp-gcc
 Version:	9.4.0
-Release: 	12%{?dist}
+Release: 	13%{?dist}
 Summary:	Various compilers (C, C++, Objective-C, Java, ...)
 
 License:	GPLv3+ and GPLv3+ with exceptions and GPLv2+ with exceptions and LGPLv2+ and BSD
@@ -53,7 +53,7 @@ make %{?_smp_mflags}
 %make_install
 
 mkdir -p $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
-mv $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/lib/*-gdb.py* $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
+mv $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/lib64/*-gdb.py* $RPM_BUILD_ROOT/var/www/cgi-bin/misp-helpers/share/gdb/auto-load/usr/lib64
 
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
 echo "/var/www/cgi-bin/misp-helpers/lib" >> $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}.conf

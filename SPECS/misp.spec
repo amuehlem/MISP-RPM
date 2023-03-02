@@ -7,10 +7,10 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.165.1
+%define pymispver 2.4.168
 
 Name:		misp
-Version:	2.4.165
+Version:	2.4.168
 Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -42,6 +42,7 @@ Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:       php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
 Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-brotli, php74-php-pecl-rdkafka, php74-php-pecl-apcu
+Requires:	php74-php-pecl-simdjson
 Requires:	gtcaca, faup, supervisor
 
 %package python-virtualenv
@@ -213,6 +214,15 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Wed Feb 15 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.168
+- update to 2.4.168
+
+* Fri Dec 30 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.167
+- update to 2.4.167
+
+* Mon Dec 05 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.166
+- update to 2.4.166
+
 * Mon Nov 14 2022 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.165
 - update to 2.4.165
 
