@@ -23,16 +23,16 @@ MySQL upgrade process described below.
 
 Advantages of a new installation:
 - get rid of all previous problems and start on a fresh host
-- get rid of no longer neede software packages
+- get rid of no longer needed software packages
 - prevent missing DB schema upgrades
 
 Disadvantages of a new installation:
 - you need a 2nd host
-- some downtime until the data are syncronized
+- some downtime until the data are synchronized
 
 recommended upgrade steps
 
-* stop Apache Webserver and MariaDB
+* stop Apache web server and MariaDB
 ```
 systemctl stop httpd
 systemctl stop mariadb
@@ -43,7 +43,7 @@ systemctl stop mariadb
 rpm -e --nodeps MariaDB-client MariaDB-server MariaDB-shared MariaDB-common
 ```
 
-* install the updated misp repo and remi repo config files
+* install the updated MISP repo and remi repo config files
 ```
 yum install https://certrepo.switch.ch/certrepo/misp/misp-release-1.1-2.el7.noarch.rpm
 yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
@@ -80,7 +80,7 @@ systemctl enable mariadb
 mysql_upgrade -uroot -p
 ```
 
-* upgrade MISP, make sure misp-python-virutalenv is installed as dependency
+* upgrade MISP, make sure misp-python-virtualenv is installed as dependency
 ```
 yum upgrade misp
 ```
@@ -104,7 +104,7 @@ ln -s /bin/php74 /bin/php
 
 * check php settings in /etc/opt/remi/php74/php.ini
 
-* restart Apache webserver
+* restart Apache web server
 ```
 systemctl start httpd
 ```
