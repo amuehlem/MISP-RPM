@@ -29,7 +29,7 @@ Use the [installation instructions](INSTALL.md) to install MISP from our reposit
 
 Use the [installation instructions for RHEL8](RHEL8.md) to install MISP from our repository on RHEL8 Systems (not checked on CentOS8!)
 
-## Configuring your ystem for MISP
+## Configuring your system for MISP
 Use the [configuration recommendations](CONFIGURE.md) to configure your system for MISP. This settings are not provided by the RPMS but will help to improve operating your MISP installation.
 
 ## Upgrading MISP
