@@ -1,9 +1,9 @@
 %global __python %{__python3}
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
