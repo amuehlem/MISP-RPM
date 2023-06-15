@@ -7,11 +7,10 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.171
-%define pymispver 2.4.170
+%define pymispver 2.4.172
 
 Name:		misp
-Version:	2.4.171
+Version:	2.4.172
 Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -121,6 +120,9 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
+# fix openssl 1.1.1 issue
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install --force-reinstall -v "urllib3==1.26.14"
+
 
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
@@ -138,11 +140,6 @@ rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 sed -e "s/\/usr\/local\/bin\/python3.9/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/*/direct_url.json
-%endif
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/*.dist-info/direct_url.json
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -220,6 +217,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Thu Jun 15 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.172
+- update to 2.4.172
+
 * Tue Jun 06 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.171
 - update to 2.4.171
 - portability improvements recommended by Guillaume Rousse
