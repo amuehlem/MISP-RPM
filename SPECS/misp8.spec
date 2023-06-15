@@ -155,7 +155,7 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
-665504mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
+mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 mkdir -p $RPM_BUILD_ROOT/etc/supervisord.d
