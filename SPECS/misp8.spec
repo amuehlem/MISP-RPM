@@ -71,6 +71,7 @@ MISP - malware information sharing platform & threat sharing
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
+git checkout v%{version}
 
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
