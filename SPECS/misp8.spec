@@ -75,6 +75,10 @@ mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
 git checkout v%{version}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 63d69ea3ba0819d86a30358c37241d4018ddc55f
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
 git config core.filemode false
@@ -133,9 +137,16 @@ git rev-parse HEAD > .git_commit_version
 rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
+<<<<<<< HEAD
 sed -e "s/\/usr\/local\/bin\/%{pythonver}/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/%{pythonver}/site-packages/*/direct_url.json
+=======
+sed -e "s/\/usr\/local\/bin\/python3.8/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/misp_stix-%{mispstixver}.dist-info/direct_url.json
+>>>>>>> 63d69ea3ba0819d86a30358c37241d4018ddc55f
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
