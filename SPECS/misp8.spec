@@ -82,6 +82,13 @@ git config core.filemode false
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
+# create initial configuartion files
+cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
+cp bootstrap.default.php bootstrap.php
+cp config.default.php config.php
+cp core.default.php core.php
+cp database.default.php database.php
+
 # create python3 virtualenv
 python3.8 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
@@ -170,6 +177,10 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %defattr(-,apache,apache,-)
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
 /var/www/MISP
+%config(noreplace) /var/www/MISP/app/Config/bootstrap.php
+%config(noreplace) /var/www/MISP/app/Config/config.php
+%config(noreplace) /var/www/MISP/app/Config/core.php
+%config(noreplace) /var/www/MISP/app/Config/database.php
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
