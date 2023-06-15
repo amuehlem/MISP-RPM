@@ -1,19 +1,22 @@
 %global __python %{__python3}
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %global debug_package %{nil}
 %define _build_id_links none
 %define _binaries_in_noarch_packages_terminate_build 0
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.170
-%define mispstixver 2.4.169
+%define pymispver 2.4.171
+%define mispstixver 2.4.171
+%define pythonver python3.8
+%define pythonver_short python38
 
 Name:	    	misp
-Version:	2.4.170
+Version:	2.4.171
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -32,7 +35,7 @@ Source8:	misp-workers8.pp
 Patch0:     	MISP-AppModel.php.patch
 
 BuildRequires:	/usr/bin/pathfix.py
-BuildRequires:  git, python38-devel, python38-pip
+BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
 BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  php74-php, php74-php-cli, php74-php-xml
 BuildRequires:	php74-php-mbstring
@@ -71,7 +74,7 @@ MISP - malware information sharing platform & threat sharing
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
-
+git checkout v%{version}
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
 git config core.filemode false
@@ -130,10 +133,9 @@ git rev-parse HEAD > .git_commit_version
 rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
-sed -e "s/\/usr\/local\/bin\/python3.8/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.8/site-packages/misp_stix-%{mispstixver}.dist-info/direct_url.json
+sed -e "s/\/usr\/local\/bin\/%{pythonver}/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/%{pythonver}/site-packages/*/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -212,6 +214,10 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Tue Jun 06 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.171
+- update to 2.4.171
+- portability improvements recommended by Guillaume Rousse
+
 * Fri Apr 14 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.170
 - update to 2.4.170
 

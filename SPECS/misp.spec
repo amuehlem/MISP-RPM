@@ -1,16 +1,16 @@
 %global __python %{__python3}
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.170
+%define pymispver 2.4.171
 
 Name:		misp
-Version:	2.4.170
+Version:	2.4.171
 Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -74,7 +74,7 @@ even counter-terrorism information.
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
-
+git checkout v%{version}
 git submodule sync
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
@@ -135,8 +135,8 @@ rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
 sed -e "s/\/usr\/local\/bin\/python3.9/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/*/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
@@ -214,6 +214,10 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Tue Jun 06 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.171
+- update to 2.4.171
+- portability improvements recommended by Guillaume Rousse
+
 * Fri Apr 14 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.170
 - update to 2.4.170
 
