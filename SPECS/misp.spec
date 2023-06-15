@@ -1,11 +1,13 @@
 %global __python %{__python3}
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 %global _python_bytecompile_extra 0
 %define _binaries_in_noarch_packages_terminate_build 0
 # disable mangling of shebangs #!
 %define __brp_mangle_shebangs /usr/bin/true
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
+
+%bcond_with python39
 
 %define pymispver 2.4.170
 
@@ -28,14 +30,20 @@ Source7:	misp-workers.ini
 Patch0:         MISP-AppModel.php.patch
 
 BuildRequires:	/usr/bin/pathfix.py
-BuildRequires:	git, misp-python, libxslt-devel, zlib-devel
+BuildRequires:	git, libxslt-devel, zlib-devel
 BuildRequires:	php74-php, php74-php-cli, php74-php-xml, php74-php-mbstring
 BuildRequires:	ssdeep-devel, cmake3, bash-completion
 BuildRequires:	libcaca-devel
+%if %{with python39}
+BuildRequires:	python39
+BuildRequires:	python39-devel
+%else
+BuildRequires:	misp-python
+%endif
 
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:	MariaDB > 10.3, MariaDB-server > 10.3
-Requires:	misp-python, misp-python-virtualenv
+Requires:	misp-python-virtualenv
 Requires:	php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:       php74-php-bcmath, php74-php-opcache, php74-php-json
@@ -44,6 +52,11 @@ Requires:       php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-brotli, php74-php-pecl-rdkafka, php74-php-pecl-apcu
 Requires:	php74-php-pecl-simdjson
 Requires:	gtcaca, faup, supervisor
+%if %{with python39}
+Requires:	python39
+%else
+Requires:	misp-python
+%endif
 
 %package python-virtualenv
 Summary:        the python virtual environment for MISP
@@ -74,6 +87,7 @@ even counter-terrorism information.
 mkdir -p $RPM_BUILD_ROOT/var/www
 git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
 cd $RPM_BUILD_ROOT/var/www/MISP
+git checkout v%{version}
 
 git submodule sync
 git submodule update --init --recursive
@@ -84,7 +98,11 @@ git config core.filemode false
 patch --ignore-whitespace -p0 < %{PATCH0}
 
 # create python3 virtualenv
+%if %{with python39}
+/usr/bin/python3.9 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%else
 /var/www/cgi-bin/misp-python/bin/python3 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%endif
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/httpd/.cache
 
@@ -134,9 +152,11 @@ git rev-parse HEAD > .git_commit_version
 rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
+%if %{without python39}
 sed -e "s/\/usr\/local\/bin\/python3.9/\/var\/www\/cgi-bin\/misp-virtualenv\/bin\/python3/g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s/\/builddir\/build\/BUILDROOT\/%{name}-%{version}-%{release}.%{_arch}//g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/pymisp-%{pymispver}.dist-info/direct_url.json
+%endif
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python3.9/site-packages/*.dist-info/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
