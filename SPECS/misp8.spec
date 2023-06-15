@@ -23,7 +23,6 @@ Summary:	MISP - malware information sharing platform
 Group:		Internet Applications
 License:	GPLv3
 URL:		http://www.misp-project.org/
-Source0:	fake-tgz.tgz
 Source1:    	misp.conf
 Source2:    	misp-httpd.pp
 Source3:    	misp-bash.pp
@@ -64,16 +63,10 @@ The python vitualenvironment for MISP
 MISP - malware information sharing platform & threat sharing
 
 %prep
-%setup -q -n fake-tgz
+%setup -q -T -c
 
-%build
-# intentionally left blank
-
-%install
-
-mkdir -p $RPM_BUILD_ROOT/var/www
-git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
-cd $RPM_BUILD_ROOT/var/www/MISP
+git clone https://github.com/MISP/MISP.git
+cd MISP
 git checkout v%{version}
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
@@ -81,6 +74,13 @@ git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
+
+
+%build
+# intentionally left blank
+%install
+mkdir -p $RPM_BUILD_ROOT/var/www
+cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
 
 # create initial configuartion files
 cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
