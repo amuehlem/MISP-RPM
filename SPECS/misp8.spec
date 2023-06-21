@@ -174,14 +174,18 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %exclude /var/www/cgi-bin/misp-virtualenv/*.pyc
 
 %files
-%defattr(-,apache,apache,-)
-%config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
-/var/www/MISP
-%config(noreplace) /var/www/MISP/app/Config/bootstrap.php
-%config(noreplace) /var/www/MISP/app/Config/config.php
-%config(noreplace) /var/www/MISP/app/Config/core.php
-%config(noreplace) /var/www/MISP/app/Config/database.php
 %defattr(-,root,root,-)
+/var/www/MISP
+# configuration directory: read or read/write permission, through group ownership
+%dir %attr(0775,root,apache) /var/www/MISP/app/Config
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/bootstrap.php
+%config(noreplace) %attr(0660,root,apache) /var/www/MISP/app/Config/config.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/core.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/database.php
+%config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+# data directories: full read/write access, through user ownership
+%attr(-,apache,apache) /var/www/MISP/app/tmp
+%attr(-,apache,apache) /var/www/MISP/app/files
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
