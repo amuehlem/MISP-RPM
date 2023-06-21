@@ -181,11 +181,11 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %config(noreplace) /var/www/MISP/app/Config/config.php
 %config(noreplace) /var/www/MISP/app/Config/core.php
 %config(noreplace) /var/www/MISP/app/Config/database.php
+%defattr(-,root,root,-)
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
 %{_sysconfdir}/systemd/system/misp-workers.service
-%defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
 # exclude test files whicht get detected by AV solutions
 %exclude /var/www/MISP/PyMISP/tests
