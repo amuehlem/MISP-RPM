@@ -153,6 +153,30 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP
 rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
 find . -name \.git | xargs -i rm -rf {}
 
+# delete files not needed at runtime under web root
+pushd $RPM_BUILD_ROOT/var/www/MISP
+# developement
+rm -rf build
+rm -f build-deb.sh
+rm -f requirements.txt
+rm -f app/composer.*
+rm -f app/Makefile
+rm -f app/update_thirdparty.sh
+
+# documentation
+rm -f AUTHORS
+rm -f CITATION.cff
+rm -f code_of_conduct.md
+rm -f CODINGSTYLE.md
+rm -f CONTRIBUTING.md
+rm -f GITWORKFLOW.md
+rm -f LICENSE
+rm -f README.debian
+rm -f README.md
+rm -f ROADMAP.md
+rm -f SECURITY.md
+popd
+
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
 mkdir -p $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux
@@ -175,6 +199,8 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 
 %files
 %defattr(-,root,root,-)
+%doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
+%license MISP/LICENSE
 /var/www/MISP
 # configuration directory: read or read/write permission, through group ownership
 %dir %attr(0775,root,apache) /var/www/MISP/app/Config
