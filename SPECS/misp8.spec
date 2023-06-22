@@ -23,7 +23,6 @@ Summary:	MISP - malware information sharing platform
 Group:		Internet Applications
 License:	GPLv3
 URL:		http://www.misp-project.org/
-Source0:	fake-tgz.tgz
 Source1:    	misp.conf
 Source2:    	misp-httpd.pp
 Source3:    	misp-bash.pp
@@ -64,16 +63,10 @@ The python vitualenvironment for MISP
 MISP - malware information sharing platform & threat sharing
 
 %prep
-%setup -q -n fake-tgz
+%setup -q -T -c
 
-%build
-# intentionally left blank
-
-%install
-
-mkdir -p $RPM_BUILD_ROOT/var/www
-git clone https://github.com/MISP/MISP.git $RPM_BUILD_ROOT/var/www/MISP
-cd $RPM_BUILD_ROOT/var/www/MISP
+git clone https://github.com/MISP/MISP.git
+cd MISP
 git checkout v%{version}
 git submodule update --init --recursive
 git submodule foreach --recursive git config core.filemode false
@@ -81,6 +74,20 @@ git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
+
+
+%build
+# intentionally left blank
+%install
+mkdir -p $RPM_BUILD_ROOT/var/www
+cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
+
+# create initial configuartion files
+cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
+cp bootstrap.default.php bootstrap.php
+cp config.default.php config.php
+cp core.default.php core.php
+cp database.default.php database.php
 
 # create python3 virtualenv
 python3.8 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
@@ -146,6 +153,30 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP
 rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
 find . -name \.git | xargs -i rm -rf {}
 
+# delete files not needed at runtime under web root
+pushd $RPM_BUILD_ROOT/var/www/MISP
+# developement
+rm -rf build
+rm -f build-deb.sh
+rm -f requirements.txt
+rm -f app/composer.*
+rm -f app/Makefile
+rm -f app/update_thirdparty.sh
+
+# documentation
+rm -f AUTHORS
+rm -f CITATION.cff
+rm -f code_of_conduct.md
+rm -f CODINGSTYLE.md
+rm -f CONTRIBUTING.md
+rm -f GITWORKFLOW.md
+rm -f LICENSE
+rm -f README.debian
+rm -f README.md
+rm -f ROADMAP.md
+rm -f SECURITY.md
+popd
+
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
 mkdir -p $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux
@@ -155,7 +186,7 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
-665504mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
+mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
 chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
 mkdir -p $RPM_BUILD_ROOT/etc/supervisord.d
@@ -167,14 +198,24 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %exclude /var/www/cgi-bin/misp-virtualenv/*.pyc
 
 %files
-%defattr(-,apache,apache,-)
-%config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+%defattr(-,root,root,-)
+%doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
+%license MISP/LICENSE
 /var/www/MISP
+# configuration directory: read or read/write permission, through group ownership
+%dir %attr(0775,root,apache) /var/www/MISP/app/Config
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/bootstrap.php
+%config(noreplace) %attr(0660,root,apache) /var/www/MISP/app/Config/config.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/core.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/database.php
+%config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+# data directories: full read/write access, through user ownership
+%attr(-,apache,apache) /var/www/MISP/app/tmp
+%attr(-,apache,apache) /var/www/MISP/app/files
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
 %{_sysconfdir}/systemd/system/misp-workers.service
-%defattr(-,root,root,-)
 /usr/local/sbin/start-misp-workers.sh
 # exclude test files whicht get detected by AV solutions
 %exclude /var/www/MISP/PyMISP/tests
