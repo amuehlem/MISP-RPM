@@ -7,11 +7,11 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.172
+%define pymispver 2.4.173
 
 Name:		misp
-Version:	2.4.172
-Release: 	1%{?dist}
+Version:	2.4.173
+Release: 	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -127,7 +127,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install --force-reinstal
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/php74/root/usr/bin/php composer.phar install
-/opt/remi/php74/root/usr/bin/php composer.phar require supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message lstrojny/fxmlrpc
+/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
@@ -217,6 +217,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Fri Jul 21 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.173.1
+- added missing php-http/message-factory to composer install command
+
+* Tue Jul 11 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.173
+- update to 2.4.173
+
 * Thu Jun 15 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.172
 - update to 2.4.172
 
