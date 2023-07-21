@@ -2,13 +2,12 @@
 
 Name:		gtcaca
 Version:	0+gitb05ed3c
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:    	some widgets for libcaca
 License:    	Public
 
 Group:		Development/Languages
 URL:		https://github.com/stricaud/gtcaca/
-Source0:	fake-tgz.tgz
 
 BuildRequires: cmake3, cppcheck, libcaca-devel, git
 Requires: libcaca
@@ -23,7 +22,7 @@ Summary: Files needed to build gtcaca
 This package contains the files needed for building gtcaca extensions. 
 
 %prep
-%setup -q -n fake-tgz
+%setup -q -T -c
 
 %build
 git clone https://github.com/stricaud/gtcaca.git gtcaca
@@ -58,6 +57,9 @@ cd gtcaca/build/
 /usr/include/gtcaca/window.h
 
 %changelog
+* Tue Jun 27 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch>
+- simplified source and setup routine
+
 * Mon May 25 2020 Andreas Muehlemann <andreas.muehlemann@switch.ch>
 - added cmake macro, changed source0 to not interfere with other master.tar.gz files
 

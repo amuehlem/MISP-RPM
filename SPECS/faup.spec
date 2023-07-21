@@ -2,13 +2,12 @@
 
 Name:		faup
 Version:	1.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:    	Fast URL decoder library
 License:    	Public
 
 Group:		Development/Languages
 URL:		https://github.com/stricaud/faup/
-Source0:	fake-tgz.tgz
 
 BuildRequires: cmake3, cppcheck, gtcaca-devel, git
 Requires: gtcaca
@@ -23,7 +22,7 @@ Summary: Files needed to build faup
 This package contains the files needed for building faup extensions. 
 
 %prep
-%setup -q -n fake-tgz
+%setup -q -T -c
 
 %build
 git clone https://github.com/stricaud/faup.git faup
@@ -59,7 +58,10 @@ cd faup/build/
 /usr/include/faup/*.h
 
 %changelog
-* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@swithc.ch>
+* Tue Jun 27 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch>
+- simplified source and setup routine
+
+* Wed Jun 30 2021 Andreas Muehlemann <andreas.muehlemann@switch.ch>
 - version 1.6
 - clone from git
 
