@@ -7,10 +7,10 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.173
+%define pymispver 2.4.174
 
 Name:		misp
-Version:	2.4.173
+Version:	2.4.174
 Release: 	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -217,6 +217,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Wed Aug 16 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.174
+- update to 2.4.174
+
 * Fri Jul 21 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.173.1
 - added missing php-http/message-factory to composer install command
 
