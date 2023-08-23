@@ -1,4 +1,4 @@
-** RHEL9 is still in testing phase, use on your own risk!!! **
+**RHEL9 is still in testing phase, use at your own risk!!!**
 
 # Install MISP from RPM packages
 
