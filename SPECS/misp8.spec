@@ -10,13 +10,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.174
-%define mispstixver 2.4.174
+%define pymispver 2.4.176
+%define mispstixver 2.4.176
 %define pythonver python3.8
 %define pythonver_short python38
 
 Name:	    	misp
-Version:	2.4.174
+Version:	2.4.176
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -209,6 +209,7 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 # data directories: full read/write access, through user ownership
 %attr(-,apache,apache) /var/www/MISP/app/tmp
 %attr(-,apache,apache) /var/www/MISP/app/files
+%attr(-,apache,apache) /var/www/MISP/app/Plugin/CakeResque/tmp
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 /usr/share/MISP/policy/selinux/misp-*.pp
@@ -254,6 +255,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Thu Sep 21 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.176
+- update to 2.4.176
+
+* Wed Aug 30 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.175
+- update to 2.4.175
+
 * Wed Aug 16 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.174
 - update to 2.4.174
 
