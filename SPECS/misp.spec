@@ -10,7 +10,7 @@
 %define pymispver 2.4.176
 
 Name:		misp
-Version:	2.4.176
+Version:	2.4.177
 Release: 	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -217,6 +217,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Mon Oct 09 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.177
+- update to 2.4.177
+
 * Thu Sep 21 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.176
 - update to 2.4.176
 
