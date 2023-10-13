@@ -32,6 +32,7 @@ Source6:    	start-misp-workers.sh
 Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Patch0:     	MISP-AppModel.php.patch
+Patch1: 	misp-2.4.177-fix-composer-config.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
@@ -75,6 +76,7 @@ git config core.filemode false
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
+patch --ignore-whitespace -p0 < %{PATCH1}
 
 %build
 # intentionally left blank

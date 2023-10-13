@@ -1,0 +1,12 @@
+--- app/composer.json.orig	2023-10-13 16:23:39.533220785 +0200
++++ app/composer.json	2023-10-13 16:23:24.778215419 +0200
+@@ -47,7 +47,8 @@
+         "vendor-dir": "Vendor",
+         "optimize-autoloader": true,
+         "allow-plugins": {
+-            "composer/installers": true
++            "composer/installers": true,
++            "php-http/discovery": true
+         }
+     }
+ }
