@@ -154,8 +154,14 @@ find . -name \.git | xargs -i rm -rf {}
 pushd $RPM_BUILD_ROOT/var/www/MISP
 # developement
 rm -rf build
+rm -rf debian
+rm -rf misp-vagrant
+rm -rf tests
+rm -rf travis
 rm -f build-deb.sh
 rm -f requirements.txt
+rm -f Pipfile
+rm -f .coveragerc
 rm -f app/composer.*
 rm -f app/Makefile
 rm -f app/update_thirdparty.sh
@@ -172,6 +178,11 @@ rm -f README.debian
 rm -f README.md
 rm -f ROADMAP.md
 rm -f SECURITY.md
+
+# useless installation files, excepted mysql schema
+rm -rf INSTALL
+mkdir INSTALL
+cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
