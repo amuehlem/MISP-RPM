@@ -76,6 +76,7 @@ git config core.filemode false
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
+# patch app/composer.json
 patch --ignore-whitespace -p0 < %{PATCH1}
 
 %build
