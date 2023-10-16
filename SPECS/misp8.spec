@@ -32,6 +32,7 @@ Source6:    	start-misp-workers.sh
 Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Patch0:     	MISP-AppModel.php.patch
+Patch1: 	misp-2.4.177-fix-composer-config.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
@@ -75,6 +76,7 @@ git config core.filemode false
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
 
+patch --ignore-whitespace -p0 < %{PATCH1}
 
 %build
 # intentionally left blank
@@ -154,8 +156,14 @@ find . -name \.git | xargs -i rm -rf {}
 pushd $RPM_BUILD_ROOT/var/www/MISP
 # developement
 rm -rf build
+rm -rf debian
+rm -rf misp-vagrant
+rm -rf tests
+rm -rf travis
 rm -f build-deb.sh
 rm -f requirements.txt
+rm -f Pipfile
+rm -f .coveragerc
 rm -f app/composer.*
 rm -f app/Makefile
 rm -f app/update_thirdparty.sh
@@ -172,6 +180,11 @@ rm -f README.debian
 rm -f README.md
 rm -f ROADMAP.md
 rm -f SECURITY.md
+
+# useless installation files, excepted mysql schema
+rm -rf INSTALL
+mkdir INSTALL
+cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
