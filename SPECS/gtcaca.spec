@@ -9,7 +9,7 @@ License:    	Public
 Group:		Development/Languages
 URL:		https://github.com/stricaud/gtcaca/
 
-BuildRequires: cmake3, cppcheck, libcaca-devel, git
+BuildRequires: cmake3, libcaca-devel, git
 Requires: libcaca
 
 %description
@@ -57,6 +57,9 @@ cd gtcaca/build/
 /usr/include/gtcaca/window.h
 
 %changelog
+* Wed Nov 15 2023 Andreas Muehleamnn <andreas.muehlemann@switch.ch>
+- removing cppcheck requirement
+
 * Tue Jun 27 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch>
 - simplified source and setup routine
 

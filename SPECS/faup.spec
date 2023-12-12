@@ -9,7 +9,7 @@ License:    	Public
 Group:		Development/Languages
 URL:		https://github.com/stricaud/faup/
 
-BuildRequires: cmake3, cppcheck, gtcaca-devel, git
+BuildRequires: cmake3, gtcaca-devel, git
 Requires: gtcaca
 
 %description
@@ -58,6 +58,9 @@ cd faup/build/
 /usr/include/faup/*.h
 
 %changelog
+* Wed Nov 15 2023 Andreas Muehleamnn <andreas.muehlemann@switch.ch>
+- removing cppcheck requirement
+
 * Tue Jun 27 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch>
 - simplified source and setup routine
 
