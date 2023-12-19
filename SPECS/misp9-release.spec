@@ -1,6 +1,6 @@
 Name:       	misp-release	
 Version:	1.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	configuration for MISP repositories for EL9
 
 Group:		System Environment/Base
@@ -33,5 +33,8 @@ install -pm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 /etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH-EL9
 
 %changelog
+* Tue Nov 28 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0.5
+- update to MariaDB 10.11
+
 * Thu Jun 29 2023 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.0
 - first version for EL9
