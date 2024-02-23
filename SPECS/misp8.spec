@@ -10,13 +10,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.183
-%define mispstixver 2.4.183
+%define pymispver 2.4.185
+%define mispstixver 2.4.185
 %define pythonver python3.8
 %define pythonver_short python38
 
 Name:	    	misp
-Version:	2.4.183
+Version:	2.4.185
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -269,6 +269,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Fri Feb 23 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.185
+- update to 2.4.185
+
+* Thu Feb 8 2024 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.184
+- update to 2.4.184
+
 * Thu Jan 18 2024 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 2.4.183
 - update to 2.4.183
 
