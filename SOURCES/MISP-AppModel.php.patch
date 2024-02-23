@@ -1,10 +1,10 @@
 --- app/Model/AppModel.php	2021-12-02 16:10:38.887260292 +0100
 +++ app/Model/AppModel.php.orig	2021-12-02 16:10:50.646519279 +0100
-@@ -2766,7 +2766,7 @@
+@@ -3292,7 +3292,7 @@
          if ($commit === null) {
              App::uses('GitTool', 'Tools');
              try {
--                $commit = GitTool::currentCommit();
+-                $commit = GitTool::currentCommit(ROOT);
 +                $commit = exec('cat ../../.git_commit_version');
              } catch (Exception $e) {
                  $this->logException('Could not get current git commit', $e, LOG_NOTICE);
