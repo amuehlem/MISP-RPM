@@ -10,13 +10,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.187
-%define mispstixver 2.4.186
+%define pymispver 2.4.190
+%define mispstixver 2.4.188
 %define pythonver python3.9
 %define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.187
+Version:	2.4.192
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -45,7 +45,7 @@ Requires:	mariadb, mariadb-server
 Requires:       php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
 Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
-Requires:	php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
+Requires:	php74-php-pecl-zip, php74-php-pecl-redis6, php74-php-intl
 Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
 Requires:	php74-php-pecl-simdjson
@@ -255,7 +255,19 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
-* Mon Mar 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.187
+* Mon May 6 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.192
+- update to 2.4.192
+
+* Mon Apr 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.191
+- update to 2.4.191
+
+* Fri Apr 12 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.289
+- update to 2.4.189
+
+* Thu Mar 28 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.188
+- update to 2.4.188
+
+* Mon Mar 11 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.187
 - update to 2.4.187
 
 * Fri Feb 23 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.185
