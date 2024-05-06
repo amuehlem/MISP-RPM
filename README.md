@@ -24,6 +24,11 @@ We provide the following components as RPMs
 With our RPMs there's no need to use git to install MISP and you don't need a to install from github.com. All you
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
+# Updates
+#### May 6 2024
+- started to add a release for every version created
+- update to 2.4.192
+
 ## Installing MISP
 Use the [installation instructions](INSTALL.md) to install MISP from our repository on RHEL7 / CentOS7 Systems
 
