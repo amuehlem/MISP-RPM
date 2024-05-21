@@ -13,11 +13,10 @@ Remove the current misp-release
 ``` rpm -e --nodeps misp-release```
 
 Install the current misp-release 
-EL8:
-```yum install https://repo.misp-project.ch/yum/misp8/misp-release-1.1-1.el8.noarch.rpm```
 
-EL9:
-```dnf install https://repo.misp-project.ch/yum/misp9/misp-release-1.1-1.el9.noarch.rpm```
+EL8: ```yum install https://repo.misp-project.ch/yum/misp8/misp-release-1.1-1.el8.noarch.rpm```
+
+EL9: ```dnf install https://repo.misp-project.ch/yum/misp9/misp-release-1.1-1.el9.noarch.rpm```
 
 This will also install the new GPG Key
 
