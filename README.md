@@ -25,6 +25,11 @@ With our RPMs there's no need to use git to install MISP and you don't need a to
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
 # Updates
+#### May 21 2024
+- new download url, moving to misp-project.ch, see [upgrading instructions](UPGRADE.md)
+- new GPG Key
+- MariaDB Upgrade to Version 11, see [upgrading instructions](UPGRADE.md)
+
 #### May 6 2024
 - started to add a release for every version created
 - update to 2.4.192

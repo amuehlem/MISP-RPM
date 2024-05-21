@@ -6,6 +6,32 @@ to get the latest version of MISP.
 Upgrading MISP is straight forward, the newest RPMs will install the 
 latest version of MISP on your servers.
 
+## Upgrading to new repository URL
+in May 2024 the repository URL moved to a new host. This might need some manual interaction on the MISP server.
+
+Remove the current misp-release
+``` rpm -e --nodeps misp-release```
+
+Install the current misp-release 
+EL8:
+```yum install https://repo.misp-project.ch/yum/misp8/misp-release-1.1-1.el8.noarch.rpm```
+
+EL9:
+```dnf install https://repo.misp-project.ch/yum/misp9/misp-release-1.1-1.el9.noarch.rpm```
+
+This will also install the new GPG Key
+
+## Upgrading MariaDB
+The MariaDB upgrade process doesn't allow to just install a new version over an existing version. The old version must manually be removed.
+
+```
+systemctl stop mariadb
+rpm -e --nodeps MariaDB-server
+dnf install MariaDB-server
+systemctl start mariadb
+mariadb-upgrade -u root -p
+```
+
 ## Upgrading from a version before 2.4.145 to 2.4.145 or later
 In version 2.4.145, the MISP RPM changes quite a bit. Instead of installing 
 a lot of python36 modules, all python dependencies for MISP and PyMISP will 

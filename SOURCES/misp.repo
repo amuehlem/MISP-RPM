@@ -1,28 +1,15 @@
 # MISP repositories
 [misp]
 name=misp
-baseurl=https://certrepo.switch.ch/certrepo/misp
+baseurl=https://repo.misp-project.ch/yum/misp
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-SWITCH
+	file:///etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-MISPPROJECT
 gpgcheck=1
 
 [mariadb]
 name=mariadb
-baseurl=http://yum.mariadb.org/10.3/centos7-amd64/
+baseurl=http://yum.mariadb.org/11.4/centos7-amd64/
 enabled=1
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-
-[mariadb10.2]
-name=mariadb
-baseurl=http://yum.mariadb.org/10.2/centos7-amd64/
-enabled=0
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-
-[mariadb10.1]
-name=mariadb
-baseurl=http://yum.mariadb.org/10.1/centos7-amd64/
-enabled=0
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
