@@ -12,7 +12,7 @@
 ```
 dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-dnf install https://certrepo.switch.ch/certrepo/misp9/misp-release-1.0-4.el9.noarch.rpm
+dnf install https://repo.misp-project.ch/yum/misp9/misp-release-latest.el9.noarch.rpm
 ```
 
 ## install misp and misp-python-virtualenv

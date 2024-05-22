@@ -17,7 +17,7 @@ subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
 ```
 dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-dnf install https://certrepo.switch.ch/certrepo/misp8/misp-release-1.0-1.el8.noarch.rpm
+dnf install https://repo.misp-project.ch/yum/misp8/misp-release-latest.el8.noarch.rpm
 ```
 
 For RHEL 8.4 EUS use the slightly older version of remi repo instead
