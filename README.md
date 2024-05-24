@@ -18,8 +18,10 @@ We provide the following components as RPMs
 * pymisp
 * misp-modules
 * all needed sub-modules
+
+Requirements:
 * php 7.4.x (will be installed from external remi repository)
-* mariadb 10.3.x (will be installed from external mariadb repository)
+* mariadb 11.4.x (will be installed from external mariadb repository)
 
 With our RPMs there's no need to use git to install MISP and you don't need a to install from github.com. All you
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
