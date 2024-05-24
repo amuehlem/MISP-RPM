@@ -15,9 +15,9 @@ is to just use MISP on this server.
 We provide the following components as RPMs
 
 * misp
-* pymisp
-* misp-modules
-* all needed sub-modules
+* required python modules as a virtual environment
+  * pymisp
+* misp-modules with required submodules in a virtual environment
 
 Requirements:
 * php 7.4.x (will be installed from external remi repository)
