@@ -10,13 +10,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.190
-%define mispstixver 2.4.188
+%define pymispver 2.4.193
+%define mispstixver 2.4.193
 %define pythonver python3.9
 %define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.192
+Version:	2.4.193
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -41,15 +41,13 @@ BuildRequires:	php74-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
-Requires:	mariadb, mariadb-server
-Requires:       php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
-Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:	php74-php-pecl-zip, php74-php-pecl-redis6, php74-php-intl
 Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
 Requires:	php74-php-pecl-simdjson
 Requires:	supervisor, faup, gtcaca
+Requires:	misp-python-virtualenv = %{version}-%{release}
 
 %package python-virtualenv
 Summary: 	the python virtual environment for MISP
@@ -255,6 +253,10 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Mon Jun 10 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.193
+- update to 2.4.193
+- removing MariaDB-Server as dependency
+
 * Mon May 6 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.192
 - update to 2.4.192
 

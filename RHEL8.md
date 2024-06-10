@@ -30,6 +30,11 @@ dnf install https://rpms.remirepo.net/enterprise/8/remi/x86_64/remi-release-8.4-
 dnf install misp misp-python-virtualenv
 ```
 
+## install MariaDB, if you want to use an external DB, only MariaDB-client is needed
+```
+dnf install MariaDB-client MariaDB-Server
+```
+
 ## configuration
 - configure mariadb to your needs
 
@@ -67,7 +72,7 @@ cp -a config.default.php config.php
 
 # set DB details in database.php, use your XXXXXXXXX password from above
 # set baseurl in config.php
-# set python_bin => /var/www/cgi-bin/misp-virtualenv/bin/python3
+# set python_bin => '/var/www/cgi-bin/misp-virtualenv/bin/python3'
 
 # set owner and selinux context
 chown apache:apache /var/www/MISP/app/Config/config.php

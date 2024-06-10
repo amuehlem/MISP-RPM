@@ -1,10 +1,8 @@
-**RHEL9 is still in testing phase, use at your own risk!!!**
-
 # Install MISP from RPM packages
 
 ## Installation instructions:
 
-- install Rocky9 minimal system, install license
+- install RHEL9 or Rocky9 or similar minimal system, install license when needed
 - update system to latest updates
 
 ## install epel, remi and misp repositories
@@ -18,6 +16,11 @@ dnf install https://repo.misp-project.ch/yum/misp9/misp-release-latest.el9.noarc
 ## install misp and misp-python-virtualenv
 ```
 dnf install misp misp-python-virtualenv
+```
+
+## install MariaDB, if you want to use an external DB, only MariaDB-client is needed
+```
+dnf install MariaDB-client MariaDB-Server
 ```
 
 ## configuration
@@ -57,7 +60,7 @@ cp -a config.default.php config.php
 
 # set DB details in database.php, use your XXXXXXXXX password from above
 # set baseurl in config.php
-# set python_bin => /var/www/cgi-bin/misp-virtualenv/bin/python3
+# set python_bin => '/var/www/cgi-bin/misp-virtualenv/bin/python3'
 
 # set owner and selinux context
 chown apache:apache /var/www/MISP/app/Config/config.php

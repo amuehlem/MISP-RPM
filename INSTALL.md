@@ -22,6 +22,11 @@ yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum install misp misp-python-virtualenv misp-modules
 ```
 
+### install MariaDB, if you want to use an external DB, only MariaDB-client is needed
+```
+dnf install MariaDB-client MariaDB-Server
+```
+
 - configure mariadb (Line 39 'XXXXXXXXX' references the MariaDB user's password)
 
 ```
@@ -57,7 +62,7 @@ cp -a config.default.php config.php
 
 # set DB details in database.php
 # set baseurl in config.php
-# set python_bin => /var/www/cgi-bin/misp-virtualenv/bin/python3
+# set python_bin => '/var/www/cgi-bin/misp-virtualenv/bin/python3'
 
 # set owner and selinux context
 chown apache:apache /var/www/MISP/app/Config/config.php
