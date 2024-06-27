@@ -10,13 +10,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.193
-%define mispstixver 2.4.193
+%define pymispver 2.4.194
+%define mispstixver 2.4.194
 %define pythonver python3.9
 %define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.193
+Version:	2.4.194
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -253,6 +253,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 
 %changelog
+* Thu Jun 27 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.194
+- update to 2.4.194
+
 * Mon Jun 10 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.193
 - update to 2.4.193
 - removing MariaDB-Server as dependency
