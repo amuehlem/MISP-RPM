@@ -27,6 +27,13 @@ With our RPMs there's no need to use git to install MISP and you don't need a to
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
 # Updates
+#### Aug 8 2024
+- update to 2.4.195
+- EL7 is end of life (EOL), we still provide the corresponding packages, but a system upgrade to EL8 or EL9 is strongly advised
+
+#### June 27 2024
+- update to 2.4.194
+
 #### June 10 2024
 - update to 2.4.193
 - removed MariaDB-Server and MariaDB-Client as dependency, this allows to install MISP with an external database. See installation instructions for more details.
