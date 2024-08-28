@@ -45,7 +45,7 @@ Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:	php74-php-pecl-zip, php74-php-pecl-redis6, php74-php-intl
 Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
-Requires:	php74-php-pecl-simdjson
+Requires:	php74-php-pecl-simdjson, php74-php-pdo, php74-php-mysqlnd
 Requires:	supervisor, faup, gtcaca
 Requires:	misp-python-virtualenv = %{version}-%{release}
 
