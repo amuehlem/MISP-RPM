@@ -20,7 +20,7 @@ dnf install misp misp-python-virtualenv
 
 ## install MariaDB, if you want to use an external DB, only MariaDB-client is needed
 ```
-dnf install MariaDB-client MariaDB-Server
+dnf install MariaDB-client MariaDB-server
 ```
 
 ## configuration
