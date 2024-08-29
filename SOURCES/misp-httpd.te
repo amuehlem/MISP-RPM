@@ -1,4 +1,3 @@
-
 module misp-httpd 1.0;
 
 require {
@@ -6,6 +5,8 @@ require {
 	type httpd_t;
 	type httpd_sys_script_t;
 	type hugetlbfs_t;
+	type unconfined_service_t;
+	class unix_stream_socket { connectto };
 	class dir { add_name remove_name write };
 	class file { unlink write };
 }
@@ -23,3 +24,6 @@ allow httpd_t httpd_log_t:file { unlink write };
 
 #!!!! This avc is allowed in the current policy
 allow httpd_t hugetlbfs_t:file write;
+
+#============= httpd_t ==============
+allow httpd_t unconfined_service_t:unix_stream_socket connectto;

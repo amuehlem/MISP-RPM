@@ -96,6 +96,12 @@ systemctl enable httpd
 systemctl start httpd
 ```
 
+```
+# enable php-fpm at startup
+systemctl enable php74-php-fpm
+systemctl start php74-php-fpm
+```
+
 - open firewall
 
 ```

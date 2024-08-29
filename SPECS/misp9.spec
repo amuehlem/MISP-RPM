@@ -17,7 +17,7 @@
 
 Name:	    	misp
 Version:	2.4.196
-release:	1%{?dist}
+release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -41,11 +41,13 @@ BuildRequires:	php74-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
+Requires:       php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
+Requires:       php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
 Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
 Requires:	php74-php-pecl-zip, php74-php-pecl-redis6, php74-php-intl
 Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
-Requires:	php74-php-pecl-simdjson, php74-php-pdo, php74-php-mysqlnd
+Requires:	php74-php-pecl-simdjson, php74-php-fpm
 Requires:	supervisor, faup, gtcaca
 Requires:	misp-python-virtualenv = %{version}-%{release}
 
