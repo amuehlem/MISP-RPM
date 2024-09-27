@@ -1,6 +1,6 @@
 Name:       	misp-release	
 Version:	1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	configuration for MISP repositories for EL8
 
 Group:		System Environment/Base
@@ -35,6 +35,9 @@ install -pm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 /etc/pki/rpm-gpg/RPM-GPG-KEY-KOJI-MISPPROJECT
 
 %changelog
+* Tue Sep 3 2024 Andreas Muehlemann <amuehlem@gmail.com> - 1.1-3
+- adjusting MariaDB Repo to use rhel8-amd64
+
 * Tue May 21 2024 Andreas Muehlemann <andreas.muehlemann@switch.ch> - 1.1-2
 - new download URL
 - new GPG key

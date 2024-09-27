@@ -1,7 +1,7 @@
 # MISP repositories
 [mariadb]
 name=mariadb
-baseurl=https://yum.mariadb.org/11.4/centos8-amd64
+baseurl=https://yum.mariadb.org/11.4/rhel8-amd64
 enabled=1
 module_hotfixes=1
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
