@@ -3,7 +3,7 @@ Description=MISP enhancement modules
 After=network.target remote-fs.target nss-lookup.target httpd.service
 
 [Service]
-ExecStart=/var/www/cgi-bin/misp-modules-venv/bin/misp-modules
+ExecStart=/var/www/cgi-bin/misp-modules-venv/bin/misp-modules -l 127.0.0.1 -s
 User=apache
 Restart=always
 RestartSec=60

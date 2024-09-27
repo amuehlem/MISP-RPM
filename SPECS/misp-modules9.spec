@@ -14,8 +14,8 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.195
-Release:	1%{?dist}
+Version:	2.4.197
+Release:	3%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -47,17 +47,17 @@ $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -U pip setuptools
 git clone https://github.com/MISP/misp-modules.git
 cd misp-modules
 
-# install requirements
-LANG="en_US.UTF-8"
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install importlib2
 # install dependencies
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install greynoise pyeti
-# remove specific pymisp commit id
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -r REQUIREMENTS
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install git+https://github.com/abenassi/Google-Search-API
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install \
+    git+https://github.com/cartertemm/ODTReader.git \
+    git+https://github.com/abenassi/Google-Search-API \
+    git+https://github.com/SteveClement/trustar-python.git \
+    git+https://github.com/sebdraven/pydnstrails.git \
+    git+https://github.com/sebdraven/pyonyphe.git
 
-# install misp-modules
-$RPM_BUILD_ROOT%{venvbasedir}/bin/python3 setup.py install
+# install modules
+git submodule update --init
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT%{venvbasedir}
@@ -89,6 +89,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Fri Sep 27 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.197
+- update to 2.4.197
+
 * Wed Jul 24 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.195
 - update to 2.4.195
 
