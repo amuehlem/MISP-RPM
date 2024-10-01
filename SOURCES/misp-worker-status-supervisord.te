@@ -1,0 +1,5 @@
+policy_module(misp-worker-status-supervisord, 1.0)
+gen_require(`
+  type httpd_t;
+')
+domain_read_all_domains_state(httpd_t)
