@@ -31,6 +31,7 @@ Source5:    	misp-workers.service
 Source6:    	start-misp-workers.sh
 Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
+Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
 
 BuildRequires:	/usr/bin/pathfix.py
@@ -181,6 +182,7 @@ install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
+install -m 644 %{SOURCE9} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
 mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
@@ -253,8 +255,13 @@ semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
+semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* XXX XXX XX 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.19X
+- added new selinux policy for misp-worker-status-supervisord
+- update to 2.4.19X
+
 * Wed Sep 18 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.198
 - update to 2.4.198
 
