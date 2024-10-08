@@ -14,8 +14,8 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.197
-Release:	3%{?dist}
+Version:	2.4.198
+Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -89,6 +89,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Tue Oct 8 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.198
+- update to 2.4.198
+
 * Fri Sep 27 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.197
 - update to 2.4.197
 
