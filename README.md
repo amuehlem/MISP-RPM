@@ -29,6 +29,7 @@ is to be able to include our repository on your systems. MariaDB will be install
 # Updates
 #### Oct 21 2024
 - update to 2.4.199
+- I'm currently testing the upgrade from MISP 2.4 to 2.5 with the provided RPMs and hope to release the first version in the next days.
 
 #### Sep 19 2024
 - update to 2.4.198
