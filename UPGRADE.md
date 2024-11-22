@@ -6,6 +6,10 @@ to get the latest version of MISP.
 Upgrading MISP is straight forward, the newest RPMs will install the 
 latest version of MISP on your servers.
 
+## Upgrading to MISP 2.5
+in Oct 2024 MISP 2.5 with PHP8 support was released. The RPMs and the upgrade process where tested and seems to be quite straightforward. The recommended way is to upgrade to 2.4.198 and then upgrade to 2.5.0. From there the regular upgrade process by installing the newest RPM should work as expected.
+This upgrade will automatically install the needed PHP8 packages to your system. Older PHP7 packages can be removed after this upgrade.
+
 ## Upgrading to new repository URL
 in May 2024 the repository URL moved to a new host. This might need some manual interaction on the MISP server.
 
