@@ -10,14 +10,15 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.5.1
+%define pymispver 2.5.2.dev2
 %define mispstixver 2.4.196
 %define pythonver python3.9
 %define pythonver_short python39
+%define python_bin python
 %define phpbasever php83
 
 Name:	    	misp
-Version:	2.5.1
+Version:	2.5.2
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -92,7 +93,7 @@ cp core.default.php core.php
 cp database.default.php database.php
 
 # create python3 virtualenv
-python3 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
 
@@ -259,6 +260,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.2
+- update to 2.5.2
+
 * Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.1
 - update to 2.5.1
 
