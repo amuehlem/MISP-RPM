@@ -7,11 +7,11 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.199
+%define pymispver 2.4.198
 
 Name:		misp
-Version:	2.4.199
-Release: 	1%{?dist}
+Version:	2.4.200
+Release: 	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -118,7 +118,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pymisp==%{pymispver}
 # fix openssl 1.1.1 issue
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install --force-reinstall -v "urllib3==1.26.14"
 
@@ -216,6 +216,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
 systemctl restart supervisor
 
 %changelog
+* Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.200
+- update to 2.4.200
+
 * Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199
 - update to 2.4.199
 

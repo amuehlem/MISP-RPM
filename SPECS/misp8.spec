@@ -11,14 +11,14 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.199
+%define pymispver 2.4.198
 %define mispstixver 2.4.196
 %define pythonver python3.8
 %define pythonver_short python38
 
 Name:	    	misp
-Version:	2.4.199
-release:	1%{?dist}
+Version:	2.4.200
+release:	2%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -130,7 +130,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pymisp==%{pymispver}
 
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
@@ -273,6 +273,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.200
+- update to 2.4.200
+
 * Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199
 - added new selinux policy for misp-worker-status-supervisord
 - update to 2.4.199
