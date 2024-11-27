@@ -14,7 +14,7 @@
 %define mispstixver 2.4.196
 %define pythonver python3.9
 %define pythonver_short python39
-%define python_bin python
+%define python_bin python3
 %define phpbasever php83
 
 Name:	    	misp
