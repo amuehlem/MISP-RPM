@@ -17,8 +17,8 @@
 %define pythonver_short python38
 
 Name:	    	misp
-Version:	2.4.200
-release:	2%{?dist}
+Version:	2.4.201
+release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
@@ -273,6 +273,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Tue Dec 17 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.201
+- update to 2.4.201
+
 * Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.200
 - update to 2.4.200
 
