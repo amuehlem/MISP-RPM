@@ -209,6 +209,8 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %config(noreplace) %attr(0660,root,apache) /var/www/MISP/app/Config/config.php
 %config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/core.php
 %config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/database.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/email.php
+%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/routes.php
 %config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
 # data directories: full read/write access, through user ownership
 %attr(-,apache,apache) /var/www/MISP/app/tmp

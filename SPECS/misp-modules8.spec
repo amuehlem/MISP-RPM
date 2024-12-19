@@ -55,9 +55,13 @@ $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install \
     git+https://github.com/sebdraven/pydnstrails.git \
     git+https://github.com/sebdraven/pyonyphe.git
 
+# intall poetry
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install poetry
+
 # install modules
 git submodule update --init
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
+###$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
+$RPM_BUILD_ROOT%{venvbasedir}/bin/poetry install --with unstable
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT%{venvbasedir}
