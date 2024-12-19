@@ -7,7 +7,8 @@
 %global debug_package %{nil}
 
 %define pymajorver 3
-%define pybasever 3.8
+%define pybasever 3.9
+%define pythonver_short python39
 %define venvbasedir /var/www/cgi-bin/misp-modules-venv
 
 %global __requires_exclude_from ^%{venvbasedir}/lib/python%{pybasever}/site-packages/cv2/\.libs/.*\\.so*$
@@ -15,7 +16,7 @@
 
 Name:		misp-modules
 Version:	2.4.199
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -24,11 +25,11 @@ URL:		https://github.com/MISP/misp-modules
 Source1:    	misp-modules.service
 Source2:	misp-modules8.pp
 
-BuildRequires:  git, python38-devel, python38-pip
+BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:  /usr/bin/pathfix.py
-Requires:       %{venvbasedir}/bin/python3, libSM
+Requires:       %{venvbasedir}/bin/python%{pybasever}, libSM
 Requires:	poppler-cpp, zbar, glibc(x86-32)
 
 %description
@@ -41,7 +42,7 @@ MISP modules for expansion services, import and export
 #intentionally left blank
 
 %install
-python3.8 -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
+python%{pybasever} -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -U pip setuptools    
 
 git clone https://github.com/MISP/misp-modules.git
@@ -60,8 +61,8 @@ $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install poetry
 
 # install modules
 git submodule update --init
-###$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
-$RPM_BUILD_ROOT%{venvbasedir}/bin/poetry install --with unstable
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
+###$RPM_BUILD_ROOT%{venvbasedir}/bin/poetry install --with unstable
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT%{venvbasedir}
@@ -79,7 +80,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/MISP-modules/policy/selinux
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/MISP-modules/policy/selinux
 
 # cleanup remove .pyc and .git files
-find $RPM_BUILD_ROOT%{venvbasedir} -name ".pyc" -delete
+find $RPM_BUILD_ROOT%{venvbasedir} -name "*.pyc" -delete
 find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 
 %files
@@ -93,6 +94,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Thu Dec 19 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199-2
+- adding python3.9 as default version for the modules
+
 * Wed Nov 27 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199
 - update to 2.4.199
 

@@ -8,6 +8,7 @@
 
 %define pymajorver 3
 %define pybasever 3.9
+%define pythonver_short python39
 %define venvbasedir /var/www/cgi-bin/misp-modules-venv
 
 %global __requires_exclude_from ^%{venvbasedir}/lib/python%{pybasever}/site-packages/cv2/\.libs/.*\\.so*$
@@ -24,7 +25,7 @@ URL:		https://github.com/MISP/misp-modules
 Source1:    	misp-modules.service
 Source2:	misp-modules8.pp
 
-BuildRequires:  git, python3-devel, python3-pip
+BuildRequires:  git, python%{pythonver_short}-devel, python%{pythonver_short}-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:  /usr/bin/pathfix.py
@@ -41,7 +42,7 @@ MISP modules for expansion services, import and export
 #intentionally left blank
 
 %install
-python3 -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
+python%{pybasever} -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -U pip setuptools
 
 git clone https://github.com/MISP/misp-modules.git
@@ -75,7 +76,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/MISP-modules/policy/selinux
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/MISP-modules/policy/selinux
 
 # cleanup remove .pyc and .git files
-find $RPM_BUILD_ROOT%{venvbasedir} -name ".pyc" -delete
+find $RPM_BUILD_ROOT%{venvbasedir} -name "*.pyc" -delete
 find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 
 %files
