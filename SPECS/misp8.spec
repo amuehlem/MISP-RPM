@@ -13,11 +13,11 @@
 
 %define pymispver 2.4.198
 %define mispstixver 2.4.196
-%define pythonver python3.8
-%define pythonver_short python38
+%define pythonver python3.9
+%define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.201
+Version:	2.4.202
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -95,7 +95,7 @@ cp core.default.php core.php
 cp database.default.php database.php
 
 # create python3 virtualenv
-python3.8 -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%{pythonver} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
 
@@ -275,6 +275,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Mon Jan 6 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.202
+- update to 2.4.202
+
 * Tue Dec 17 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.201
 - update to 2.4.201
 
