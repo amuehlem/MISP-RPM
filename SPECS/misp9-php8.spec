@@ -18,7 +18,7 @@
 %define phpbasever php83
 
 Name:	    	misp
-Version:	2.5.5
+Version:	2.5.6
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -262,6 +262,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.6
+- update to 2.5.6
+
 * Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.5
 - update to 2.5.5
 
