@@ -17,7 +17,7 @@
 %define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.202
+Version:	2.4.203
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
