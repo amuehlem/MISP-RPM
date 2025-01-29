@@ -35,6 +35,7 @@ Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
+Patch1:     	misp-2.4.177-fix-composer-config.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, python3-devel, python3-pip
@@ -77,6 +78,8 @@ git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
+# patch app/composer.json to avoid user interaction during build
+patch --ignore-whitespace -p0 < %{PATCH1}
 
 
 %build
