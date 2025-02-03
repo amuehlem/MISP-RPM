@@ -35,6 +35,7 @@ Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
+Patch1:     	misp-2.4.177-fix-composer-config.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, python3-devel, python3-pip
@@ -44,13 +45,15 @@ BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
-Requires:       %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
+# requires either mod_php or php-fpm
+Requires:       (%{phpbasever}-php or %{phpbasever}-php-fpm)
+Requires:       %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
 Requires:       %{phpbasever}-php-mysqlnd, %{phpbasever}-php-mbstring, %{phpbasever}-php-xml
 Requires:	%{phpbasever}-php-bcmath, %{phpbasever}-php-opcache, %{phpbasever}-php-json
 Requires:	%{phpbasever}-php-pecl-zip, %{phpbasever}-php-pecl-redis6, %{phpbasever}-php-intl
 Requires:	%{phpbasever}-php-pecl-gnupg, %{phpbasever}-php-pecl-ssdeep, %{phpbasever}-php-process
 Requires:	%{phpbasever}-php-pecl-apcu, %{phpbasever}-php-brotli, %{phpbasever}-php-pecl-rdkafka
-Requires:	%{phpbasever}-php-pecl-simdjson, %{phpbasever}-php-fpm
+Requires:	%{phpbasever}-php-pecl-simdjson
 Requires:	supervisor, faup, gtcaca
 Requires:	misp-python-virtualenv = %{version}-%{release}
 
@@ -77,6 +80,8 @@ git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
+# patch app/composer.json to avoid user interaction during build
+patch --ignore-whitespace -p0 < %{PATCH1}
 
 
 %build
