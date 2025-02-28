@@ -27,6 +27,10 @@ With our RPMs there's no need to use git to install MISP and you don't need a to
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
 # Updates
+#### Feb 26 and 28
+- update to 2.5.7 and 2.4.205
+- misp-modules 2.4.201
+
 #### Jan 17
 - update to 2.5.5 and 2.4.203
 - update to 2.5.6 and 2.4.204

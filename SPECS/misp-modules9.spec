@@ -8,14 +8,14 @@
 
 %define pymajorver 3
 %define pybasever 3.9
-%define pythonver_short python39
+%define pythonver_short python3
 %define venvbasedir /var/www/cgi-bin/misp-modules-venv
 
 %global __requires_exclude_from ^%{venvbasedir}/lib/python%{pybasever}/site-packages/cv2/\.libs/.*\\.so*$
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.199
+Version:	2.4.201
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -25,7 +25,7 @@ URL:		https://github.com/MISP/misp-modules
 Source1:    	misp-modules.service
 Source2:	misp-modules8.pp
 
-BuildRequires:  git, python%{pythonver_short}-devel, python%{pythonver_short}-pip
+BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
 BuildRequires:	ssdeep-devel, poppler-cpp-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:  /usr/bin/pathfix.py
@@ -55,6 +55,9 @@ $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install \
     git+https://github.com/SteveClement/trustar-python.git \
     git+https://github.com/sebdraven/pydnstrails.git \
     git+https://github.com/sebdraven/pyonyphe.git
+
+# install poetry
+$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install poetry
 
 # install modules
 git submodule update --init
@@ -90,6 +93,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Fri Feb 28 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.201
+- update to 2.4.201
+
 * Wed Nov 27 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199
 - update to 2.4.199
 
