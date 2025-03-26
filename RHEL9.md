@@ -35,7 +35,7 @@ systemctl start mariadb.service
 mariadb-secure-installation
 
 # install MISP DB schema
-mysql -u root -p [YOUR MYSQL PASSWORD]
+mariadb -u root -p [YOUR MYSQL PASSWORD]
 
 # replace XXXXXXXXX with a reasonable password for misp
 MariaDB [(none)]> create database misp;
@@ -46,7 +46,7 @@ MariaDB [(none)]> exit
 cd /var/www/MISP
 
 # Import the empty MySQL database from MYSQL.sql
-mysql -u misp -p misp < INSTALL/MYSQL.sql
+mariadb -u misp -p misp < INSTALL/MYSQL.sql
 ```
 
 - configure MISP
