@@ -11,13 +11,13 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.198
+%define pymispver 2.4.206
 %define mispstixver 2025.02.14
 %define pythonver python3.9
 %define pythonver_short python39
 
 Name:	    	misp
-Version:	2.4.205
+Version:	2.4.207
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -35,6 +35,7 @@ Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
 Patch1: 	misp-2.4.177-fix-composer-config.patch
+Patch2:		pymisp.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
@@ -52,6 +53,7 @@ Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
 Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
 Requires:	php74-php-pecl-simdjson
 Requires:	supervisor, faup, gtcaca
+Requires:	python39
 Requires:	misp-python-virtualenv = %{version}-%{release}
 
 %package python-virtualenv
@@ -130,7 +132,12 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pymisp==%{pymispver}
+git clone https://github.com/MISP/PyMISP.git
+cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP/PyMISP
+git checkout v%{pymispver}
+git submodule update --init
+patch -p1 < %{PATCH2}
+$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
@@ -275,6 +282,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Wed Mar 26 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.207
+- update to 2.4.207
+
+* Tue Mar 25 2025 Andraes Muehlemann <amuehlem@gmail.com> - 2.4.206
+- update to 2.4.206
+
 * Mon Feb 24 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.205
 - update to 2.4.205
 
