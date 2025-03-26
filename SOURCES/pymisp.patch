@@ -1,0 +1,12 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index a0bb58c..728e1cb 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "pymisp"
+-version = "2.5.8"
++version = "2.4.206"
+ description = "Python API for MISP."
+ authors = [
+     {name="Raphaël Vinot", email="raphael.vinot@circl.lu"}
