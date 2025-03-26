@@ -15,8 +15,8 @@
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
 Name:		misp-modules
-Version:	2.4.201
-Release:	1%{?dist}
+Version:	3.0.0
+Release:	2%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
 Group:		Development/Languages
@@ -56,9 +56,6 @@ $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install \
     git+https://github.com/sebdraven/pydnstrails.git \
     git+https://github.com/sebdraven/pyonyphe.git
 
-# install poetry
-$RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install poetry
-
 # install modules
 git submodule update --init
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install misp-modules
@@ -93,6 +90,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Tue Mar 25 2025 Andreas Muehlemann <amuehlem@gmail.com> - 3.0.0
+- update to 3.0.0
+
 * Fri Feb 28 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.201
 - update to 2.4.201
 
