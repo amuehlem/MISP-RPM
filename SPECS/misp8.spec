@@ -11,13 +11,15 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.4.206
-%define mispstixver 2025.02.14
+%define pymispver 2.5.10
+%define mispstixver 2025.4.4
 %define pythonver python3.9
 %define pythonver_short python39
+%define python_bin python3.9
+%define phpbasever php83
 
 Name:	    	misp
-Version:	2.4.207
+Version:	2.5.11
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -35,25 +37,23 @@ Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
 Patch1: 	misp-2.4.177-fix-composer-config.patch
-Patch2:		pymisp.patch
 
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, %{pythonver_short}-devel, %{pythonver_short}-pip
 BuildRequires:  libxslt-devel, zlib-devel
-BuildRequires:  php74-php, php74-php-cli, php74-php-xml
-BuildRequires:	php74-php-mbstring
+BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
+BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
-Requires:       php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
-Requires:	php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
-Requires:	php74-php-bcmath, php74-php-opcache, php74-php-json
-Requires:	php74-php-pecl-zip, php74-php-pecl-redis5, php74-php-intl
-Requires:	php74-php-pecl-gnupg, php74-php-pecl-ssdeep, php74-php-process
-Requires:	php74-php-pecl-apcu, php74-php-brotli, php74-php-pecl-rdkafka
-Requires:	php74-php-pecl-simdjson
+Requires:       %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
+Requires:	%{phpbasever}-php-mysqlnd, %{phpbasever}-php-mbstring, %{phpbasever}-php-xml
+Requires:	%{phpbasever}-php-bcmath, %{phpbasever}-php-opcache, %{phpbasever}-php-json
+Requires:	%{phpbasever}-php-pecl-zip, %{phpbasever}-php-pecl-redis5, %{phpbasever}-php-intl
+Requires:	%{phpbasever}-php-pecl-gnupg, %{phpbasever}-php-pecl-ssdeep, %{phpbasever}-php-process
+Requires:	%{phpbasever}-php-pecl-apcu, %{phpbasever}-php-brotli, %{phpbasever}-php-pecl-rdkafka
+Requires:	%{phpbasever}-php-pecl-simdjson
 Requires:	supervisor, faup, gtcaca
-Requires:	python39
 Requires:	misp-python-virtualenv = %{version}-%{release}
 
 %package python-virtualenv
@@ -97,7 +97,7 @@ cp core.default.php core.php
 cp database.default.php database.php
 
 # create python3 virtualenv
-%{pythonver} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
 
@@ -132,17 +132,12 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
 
 cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
-git clone https://github.com/MISP/PyMISP.git
-cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP/PyMISP
-git checkout v%{pymispver}
-git submodule update --init
-patch -p1 < %{PATCH2}
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
-/opt/remi/php74/root/usr/bin/php composer.phar install --no-dev
-/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
+/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar install --no-dev
+/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
@@ -282,33 +277,41 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
-* Wed Mar 26 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.207
-- update to 2.4.207
+* Mon May 12 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.11
+- update to 2.5.11
 
-* Tue Mar 25 2025 Andraes Muehlemann <amuehlem@gmail.com> - 2.4.206
-- update to 2.4.206
+* Tue Apr 8 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.10
+- update to 2.5.10
 
-* Mon Feb 24 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.205
-- update to 2.4.205
+* Wed Mar 26 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.9
+- update to 2.5.9
 
-* Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.204
-- update to 2.4.204
+* Tue Mar 25 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.8
+- update to 2.5.8
 
-* Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.203
-- update to 2.4.203
+* Mon Feb 24 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.7
+- update to 2.5.7
 
-* Mon Jan 6 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.202
-- update to 2.4.202
+* Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.6
+- update to 2.5.6
 
-* Tue Dec 17 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.201
-- update to 2.4.201
+* Fri Jan 17 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.5
+- update to 2.5.5
 
-* Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.200
-- update to 2.4.200
+* Mon Jan 6 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.4
+- update to 2.5.4
 
-* Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.199
-- added new selinux policy for misp-worker-status-supervisord
-- update to 2.4.199
+* Tue Dec 17 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.3
+- update to 2.5.3
+
+* Fri Nov 22 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.2
+- update to 2.5.2
+
+* Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.1
+- update to 2.5.1
+
+* Mon Oct 21 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.0
+- update to 2.5.0 with php8 support
 
 * Wed Sep 18 2024 Andreas Muehlemann <amuehlem@gmail.com> - 2.4.198
 - update to 2.4.198
