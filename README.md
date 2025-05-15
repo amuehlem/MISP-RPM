@@ -30,6 +30,7 @@ is to be able to include our repository on your systems. MariaDB will be install
 #### May 14
 - update to 2.5.11
 - update to 2.5.12
+- update to 2.4.210
 
 #### Apr 22
 - misp-modules 3.0.2
