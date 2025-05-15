@@ -10,15 +10,15 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
-%define pymispver 2.5.10
-%define mispstixver 2025.4.4
+%define pymispver 2.5.12
+%define mispstixver 2025.5.13
 %define pythonver python3.9
 %define pythonver_short python39
 %define python_bin python3
 %define phpbasever php83
 
 Name:	    	misp
-Version:	2.5.11
+Version:	2.5.13
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -267,6 +267,12 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Wed May 14 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.13
+- update to 2.5.13
+
+* Wed May 14 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.12
+- update to 2.5.12
+
 * Mon May 12 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.11
 - update to 2.5.11
 
