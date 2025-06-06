@@ -30,7 +30,7 @@ Patch0:         MISP-AppModel.php.patch
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:	git, misp-python, libxslt-devel, zlib-devel
 BuildRequires:	php74-php, php74-php-cli, php74-php-xml, php74-php-mbstring
-BuildRequires:	ssdeep-devel, cmake3, bash-completion
+BuildRequires:	ssdeep-devel, cmake3, bash-completion, gcc
 BuildRequires:	libcaca-devel
 
 Requires:	httpd, mod_ssl, redis, libxslt, zlib

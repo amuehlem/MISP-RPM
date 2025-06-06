@@ -44,7 +44,7 @@ BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
 BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
-BuildRequires:	cmake3, bash-completion
+BuildRequires:	cmake3, bash-completion, gcc
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:       %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
 Requires:	%{phpbasever}-php-mysqlnd, %{phpbasever}-php-mbstring, %{phpbasever}-php-xml
