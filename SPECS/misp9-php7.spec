@@ -41,7 +41,7 @@ BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  php74-php, php74-php-cli, php74-php-xml
 BuildRequires:	php74-php-mbstring
 BuildRequires:	ssdeep-devel
-BuildRequires:	cmake3, bash-completion
+BuildRequires:	cmake3, bash-completion, gcc
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 Requires:       php74-php, php74-php-cli, php74-php-gd, php74-php-pdo
 Requires:       php74-php-mysqlnd, php74-php-mbstring, php74-php-xml
