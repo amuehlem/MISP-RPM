@@ -143,7 +143,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/php74/root/usr/bin/php composer.phar install --no-dev
-/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
+/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
