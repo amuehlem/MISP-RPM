@@ -43,7 +43,7 @@ BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
 BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
-BuildRequires:	cmake3, bash-completion
+BuildRequires:	cmake3, bash-completion, gcc
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
 # requires either mod_php or php-fpm
 Requires:       (%{phpbasever}-php or %{phpbasever}-php-fpm)
@@ -138,7 +138,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/%{phpbasever}/root/usr/bin/php composer.phar install --no-dev
-/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
+/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
