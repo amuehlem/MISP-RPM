@@ -169,7 +169,7 @@ rm -f build-deb.sh
 rm -f requirements.txt
 rm -f Pipfile
 rm -f .coveragerc
-rm -f app/composer.*
+#rm -f app/composer.*
 rm -f app/Makefile
 rm -f app/update_thirdparty.sh
 
