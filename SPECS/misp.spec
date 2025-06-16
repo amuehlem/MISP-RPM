@@ -30,7 +30,7 @@ Patch0:         MISP-AppModel.php.patch
 BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:	git, misp-python, libxslt-devel, zlib-devel
 BuildRequires:	php74-php, php74-php-cli, php74-php-xml, php74-php-mbstring
-BuildRequires:	ssdeep-devel, cmake3, bash-completion
+BuildRequires:	ssdeep-devel, cmake3, bash-completion, gcc
 BuildRequires:	libcaca-devel
 
 Requires:	httpd, mod_ssl, redis, libxslt, zlib
@@ -126,7 +126,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install --force-reinstal
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/php74/root/usr/bin/php composer.phar install
-/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
+/opt/remi/php74/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
