@@ -11,14 +11,14 @@
 %global __requires_exclude ^/opt/python/cp3.*
 
 %define pymispver 2.5.12
-%define mispstixver 2025.5.13
+%define mispstixver 2025.6.12
 %define pythonver python3.9
 %define pythonver_short python39
 %define python_bin python3
 %define phpbasever php83
 
 Name:	    	misp
-Version:	2.5.13
+Version:	2.5.14
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -138,7 +138,7 @@ $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
 # CakePHP
 cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/%{phpbasever}/root/usr/bin/php composer.phar install --no-dev
-/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc
+/opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
 cd $RPM_BUILD_ROOT/var/www/MISP
 # save commit ID of this installation
@@ -164,7 +164,7 @@ pushd $RPM_BUILD_ROOT/var/www/MISP
 rm -rf build
 rm -f build-deb.sh
 rm -f requirements.txt
-rm -f app/composer.*
+#rm -f app/composer.*
 rm -f app/Makefile
 rm -f app/update_thirdparty.sh
 
@@ -267,7 +267,11 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
-* Wed May 14 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.13
+* Mon Jun 16 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.14
+- update to 2.5.14
+- including jakub-onderka/openid-connect-php module
+
+* Fri Jun 13 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.13
 - update to 2.5.13
 
 * Wed May 14 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.12
