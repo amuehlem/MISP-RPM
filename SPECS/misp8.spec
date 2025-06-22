@@ -12,14 +12,14 @@
 %global __requires_exclude ^/opt/python/cp3.*
 
 %define pymispver 2.5.12
-%define mispstixver 2025.6.12
+%define mispstixver 2025.6.19
 %define pythonver python3.9
 %define pythonver_short python39
 %define python_bin python3.9
 %define phpbasever php83
 
 Name:	    	misp
-Version:	2.5.14
+Version:	2.5.15
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -277,6 +277,9 @@ semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
 semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
+* Sun Jun 22 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.15
+- update to 2.5.15
+
 * Mon Jun 16 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.14
 - update to 2.5.14
 - including jakub-onderka/openid-connect-php module
