@@ -27,6 +27,18 @@ With our RPMs there's no need to use git to install MISP and you don't need a to
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
 # Updates
+#### Jun 22
+- update to 2.5.15
+- update to 2.4.213
+
+#### Jun 16
+- update to 2.5.14
+- including jakub-onderka/openid-connect-php module
+
+#### Jun 13
+- update to 2.5.13
+- update to 2.4.211
+
 #### May 14
 - update to 2.5.11
 - update to 2.5.12
