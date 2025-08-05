@@ -161,8 +161,14 @@ find . -name \.git | xargs -i rm -rf {}
 # delete files not needed at runtime under web root
 pushd $RPM_BUILD_ROOT/var/www/MISP
 # developement
+rm -f .coveragerc
 rm -rf build
 rm -f build-deb.sh
+rm -rf debian
+rm -rf misp-vagrant
+rm -f Pipfile
+rm -rf travis
+rm -rf tests
 rm -f requirements.txt
 #rm -f app/composer.*
 rm -f app/Makefile
@@ -180,6 +186,11 @@ rm -f README.debian
 rm -f README.md
 rm -f ROADMAP.md
 rm -f SECURITY.md
+
+# useless installation files, excepted mysql schema
+rm -rf INSTALL
+mkdir INSTALL
+cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
