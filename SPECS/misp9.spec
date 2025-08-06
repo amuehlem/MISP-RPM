@@ -17,8 +17,8 @@
 %define python_bin python3
 %define phpbasever php83
 
-%define noarch_install_dir %{_datadir}/MISP
-%define arch_install_dir %{_libdir}/MISP
+%define noarch_install_dir %{_datadir}/misp
+%define arch_install_dir %{_libdir}/misp
 
 Name:	    	misp
 Version:	2.5.17
@@ -92,34 +92,34 @@ cp -r MISP $RPM_BUILD_ROOT%{noarch_install_dir}
 # FHS compliance:
 # move configuration files under %{_sysconfdir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/Config $RPM_BUILD_ROOT%{_sysconfdir}/MISP
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/Config $RPM_BUILD_ROOT%{_sysconfdir}/misp
 
 # move log files under %{_localstatedir}/log
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/logs $RPM_BUILD_ROOT%{_localstatedir}/log/MISP
-rm -f $RPM_BUILD_ROOT%{_localstatedir}/log/MISP/empty
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/logs $RPM_BUILD_ROOT%{_localstatedir}/log/misp
+rm -f $RPM_BUILD_ROOT%{_localstatedir}/log/misp/empty
 
 # move other variable files under %{_sharedstatedir}
-mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/MISP
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cache $RPM_BUILD_ROOT%{_sharedstatedir}/MISP/cache
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cached_exports $RPM_BUILD_ROOT%{_sharedstatedir}/MISP/cached_exports
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/files $RPM_BUILD_ROOT%{_sharedstatedir}/MISP/files
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/sessions $RPM_BUILD_ROOT%{_sharedstatedir}/MISP/sessions
-mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/yara $RPM_BUILD_ROOT%{_sharedstatedir}/MISP/yara
+mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/misp
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cache $RPM_BUILD_ROOT%{_sharedstatedir}/misp/cache
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cached_exports $RPM_BUILD_ROOT%{_sharedstatedir}/misp/cached_exports
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/files $RPM_BUILD_ROOT%{_sharedstatedir}/misp/files
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/sessions $RPM_BUILD_ROOT%{_sharedstatedir}/misp/sessions
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/yara $RPM_BUILD_ROOT%{_sharedstatedir}/misp/yara
 
 # emulate original setup through symlinks
 pushd $RPM_BUILD_ROOT%{noarch_install_dir}/app
-ln -s ../../../..%{_sysconfdir}/MISP Config
-ln -s ../../../..%{_localstatedir}/log/MISP tmp/logs
-ln -s ../../../..%{_sharedstatedir}/MISP/cache tmp/cache
-ln -s ../../../..%{_sharedstatedir}/MISP/cached_exports tmp/cached_exports
-ln -s ../../../..%{_sharedstatedir}/MISP/files tmp/files
-ln -s ../../../..%{_sharedstatedir}/MISP/sessions tmp/sessions
-ln -s ../../../..%{_sharedstatedir}/MISP/yara tmp/yara
+ln -s ../../../..%{_sysconfdir}/misp Config
+ln -s ../../../..%{_localstatedir}/log/misp tmp/logs
+ln -s ../../../..%{_sharedstatedir}/misp/cache tmp/cache
+ln -s ../../../..%{_sharedstatedir}/misp/cached_exports tmp/cached_exports
+ln -s ../../../..%{_sharedstatedir}/misp/files tmp/files
+ln -s ../../../..%{_sharedstatedir}/misp/sessions tmp/sessions
+ln -s ../../../..%{_sharedstatedir}/misp/yara tmp/yara
 popd
 
 # create initial configuration files
-pushd $RPM_BUILD_ROOT%{_sysconfdir}/MISP
+pushd $RPM_BUILD_ROOT%{_sysconfdir}/misp
 cp bootstrap.default.php bootstrap.php
 cp config.default.php config.php
 cp core.default.php core.php
@@ -273,7 +273,7 @@ su -s /bin/bash apache -c '%{noarch_install_dir}/app/Console/worker/start.sh'
 EOF
 chmod 755 $RPM_BUILD_ROOT/usr/local/sbin/start-misp-workers.sh
 
-chmod g+w $RPM_BUILD_ROOT%{_sysconfdir}/MISP
+chmod g+w $RPM_BUILD_ROOT%{_sysconfdir}/misp
 
 mkdir -p $RPM_BUILD_ROOT/etc/supervisord.d
 cat > $RPM_BUILD_ROOT/etc/supervisord.d/misp-workers.ini <<EOF
@@ -288,8 +288,8 @@ numprocs=5
 autostart=true
 autorestart=true
 redirect_stderr=false
-stderr_logfile=%{_localstatedir}/log/MISP/misp-workers-errors.log
-stdout_logfile=%{_localstatedir}/log/MISP/misp-workers.log
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
 directory=%{noarch_install_dir}
 user=apache
 
@@ -301,8 +301,8 @@ numprocs=5
 autostart=true
 autorestart=true
 redirect_stderr=false
-stderr_logfile=%{_localstatedir}/log/MISP/misp-workers-errors.log
-stdout_logfile=%{_localstatedir}/log/MISP/misp-workers.log
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
 directory=%{noarch_install_dir}
 user=apache
 
@@ -314,8 +314,8 @@ numprocs=5
 autostart=true
 autorestart=true
 redirect_stderr=false
-stderr_logfile=%{_localstatedir}/log/MISP/misp-workers-errors.log
-stdout_logfile=%{_localstatedir}/log/MISP/misp-workers.log
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
 directory=%{noarch_install_dir}
 user=apache
 
@@ -327,8 +327,8 @@ numprocs=1
 autostart=true
 autorestart=true
 redirect_stderr=false
-stderr_logfile=%{_localstatedir}/log/MISP/misp-workers-errors.log
-stdout_logfile=%{_localstatedir}/log/MISP/misp-workers.log
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
 directory=%{noarch_install_dir}
 user=apache
 
@@ -340,8 +340,8 @@ numprocs=5
 autostart=true
 autorestart=true
 redirect_stderr=false
-stderr_logfile=%{_localstatedir}/log/MISP/misp-workers-errors.log
-stdout_logfile=%{_localstatedir}/log/MISP/misp-workers.log
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
 user=apache
 EOF
 
@@ -356,21 +356,21 @@ EOF
 %license MISP/LICENSE
 %{noarch_install_dir}
 # configuration directory: read or read/write permission, through group ownership
-%dir %attr(0775,root,apache) %{_sysconfdir}/MISP
-%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/MISP/bootstrap.php
-%config(noreplace) %attr(0660,root,apache) %{_sysconfdir}/MISP/config.php
-%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/MISP/core.php
-%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/MISP/database.php
-%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/MISP/email.php
-%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/MISP/routes.php
+%dir %attr(0775,root,apache) %{_sysconfdir}/misp
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/bootstrap.php
+%config(noreplace) %attr(0660,root,apache) %{_sysconfdir}/misp/config.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/core.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/database.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/email.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/routes.php
 %config(noreplace) %{noarch_install_dir}/app/Plugin/CakeResque/Config/config.php
-%{_sysconfdir}/MISP/bootstrap.default.php
-%{_sysconfdir}/MISP/config.default.php
-%{_sysconfdir}/MISP/core.default.php
-%{_sysconfdir}/MISP/database.default.php
+%{_sysconfdir}/misp/bootstrap.default.php
+%{_sysconfdir}/misp/config.default.php
+%{_sysconfdir}/misp/core.default.php
+%{_sysconfdir}/misp/database.default.php
 # data directories: full read/write access, through user ownership
-%attr(-,apache,apache) %{_sharedstatedir}/MISP
-%attr(-,apache,apache) %{_localstatedir}/log/MISP
+%attr(-,apache,apache) %{_sharedstatedir}/misp
+%attr(-,apache,apache) %{_localstatedir}/log/misp
 %attr(-,apache,apache) %{noarch_install_dir}/app/files
 %attr(-,apache,apache) %{noarch_install_dir}/app/Plugin/CakeResque/tmp
 %config(noreplace) /etc/httpd/conf.d/misp.conf
@@ -386,27 +386,27 @@ chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files
 chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files/terms
 chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files/scripts/tmp
 chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/Plugin/CakeResque/tmp
-chcon -R -t httpd_sys_rw_content_t %{_sharedstatedir}/MISP
+chcon -R -t httpd_sys_rw_content_t %{_sharedstatedir}/misp
 chcon -R -t httpd_sys_rw_content_t %{noarch_install_dir}/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t %{noarch_install_dir}/app/webroot/img/custom
 setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_unified 1
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/'
-restorecon -v '%{_sharedstatedir}/MISP/'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/cache/'
-restorecon -v '%{_sharedstatedir}/MISP/cache/'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/cache/feeds'
-restorecon -v '%{_sharedstatedir}/MISP/cache/feeds'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/cache/models'
-restorecon -v '%{_sharedstatedir}/MISP/cache/models'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/cache/persistent'
-restorecon -v '%{_sharedstatedir}/MISP/cache/persistent'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/MISP/cache/views'
-restorecon -v '%{_sharedstatedir}/MISP/cache/views'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/log/MISP/'
-restorecon -v '%{_localstatedir}/log/MISP/'
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_sysconfdir}/MISP/config.php'
-restorecon -v '%{_sysconfdir}/MISP/config.php'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/'
+restorecon -v '%{_sharedstatedir}/misp/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/'
+restorecon -v '%{_sharedstatedir}/misp/cache/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/feeds'
+restorecon -v '%{_sharedstatedir}/misp/cache/feeds'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/models'
+restorecon -v '%{_sharedstatedir}/misp/cache/models'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/persistent'
+restorecon -v '%{_sharedstatedir}/misp/cache/persistent'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/views'
+restorecon -v '%{_sharedstatedir}/misp/cache/views'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/log/misp/'
+restorecon -v '%{_localstatedir}/log/misp/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sysconfdir}/misp/config.php'
+restorecon -v '%{_sysconfdir}/misp/config.php'
 semanage fcontext -a -t httpd_sys_rw_content_t '%{noarch_install_dir}/app/Lib/cakephp/lib/Cake/Config/config.php'
 restorecon -v '%{noarch_install_dir}/app/Lib/cakephp/lib/Cake/Config/config.php'
 semanage fcontext -a -t httpd_sys_rw_content_t '%{noarch_install_dir}/app/Plugin/CakeResque/Config/config.default.php'
