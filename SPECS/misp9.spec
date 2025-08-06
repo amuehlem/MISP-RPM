@@ -97,7 +97,6 @@ mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/Config $RPM_BUILD_ROOT%{_sysconfdir}
 # move log files under %{_localstatedir}/log
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log
 mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/logs $RPM_BUILD_ROOT%{_localstatedir}/log/misp
-rm -f $RPM_BUILD_ROOT%{_localstatedir}/log/misp/empty
 
 # move other variable files under %{_sharedstatedir}
 mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/misp
@@ -222,6 +221,9 @@ rm -rf INSTALL
 mkdir INSTALL
 cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
 popd
+
+# useless empty files
+find $RPM_BUILD_ROOT -type f -name empty | xargs rm -f
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 cat > $RPM_BUILD_ROOT/etc/httpd/conf.d/misp.conf <<EOF
