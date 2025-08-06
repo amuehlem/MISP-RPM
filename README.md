@@ -6,12 +6,12 @@ We know, with our RPMs we break a number of rules for Red Hat based systems, but
 the process of getting MISP running on RHEL systems. From our tests we got very good results to operate
 MISP on RHEL servers without any big issues. So if you can profit from our work, please feel free to do so!
 
-# Architecture
+## Architecture
 The idea is to install minimal CentOS or Red Hat system and enable the provided repository on it. Combining MISP
 with other PHP applications might work, but was not the intention for this project. The intended setup
 is to just use MISP on this server.
 
-# Summary
+## Summary
 We provide the following components as RPMs
 
 * misp
@@ -26,20 +26,24 @@ Requirements:
 With our RPMs there's no need to use git to install MISP and you don't need a to install from github.com. All you
 is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
 
-# Updates
-#### Jul 15
+## Updates
+### Aug 5
+- update to 2.5.17
+- update to 2.4.215
+
+### Jul 15
 - update to 2.5.16
 - update to 2.4.214
 
-#### Jun 22
+### Jun 22
 - update to 2.5.15
 - update to 2.4.213
 
-#### Jun 16
+### Jun 16
 - update to 2.5.14
 - including jakub-onderka/openid-connect-php module
 
-#### Jun 13
+### Jun 13
 - update to 2.5.13
 - update to 2.4.211
 
