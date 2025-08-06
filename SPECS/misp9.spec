@@ -267,13 +267,13 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 
-mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
-cat > $RPM_BUILD_ROOT/usr/local/sbin/start-misp-workers.sh <<EOF
+mkdir -p $RPM_BUILD_ROOT%{_sbindir}
+cat > $RPM_BUILD_ROOT%{_sbindir}/start-misp-workers.sh <<EOF
 #!/bin/bash
 
 su -s /bin/bash apache -c '%{noarch_install_dir}/app/Console/worker/start.sh'
 EOF
-chmod 755 $RPM_BUILD_ROOT/usr/local/sbin/start-misp-workers.sh
+chmod 755 $RPM_BUILD_ROOT%{_sbindir}/start-misp-workers.sh
 
 chmod g+w $RPM_BUILD_ROOT%{_sysconfdir}/misp
 
@@ -373,7 +373,7 @@ EOF
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
 %{_sysconfdir}/systemd/system/misp-workers.service
-/usr/local/sbin/start-misp-workers.sh
+%{_sbindir}/start-misp-workers.sh
 # exclude test files whicht get detected by AV solutions
 %exclude %{noarch_install_dir}/PyMISP/tests
 %exclude %{noarch_install_dir}/*.pyc
