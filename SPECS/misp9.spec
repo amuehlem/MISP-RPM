@@ -234,8 +234,7 @@ cat > $RPM_BUILD_ROOT/etc/httpd/conf.d/misp.conf <<EOF
     <Directory %{noarch_install_dir}/app/webroot>
         Options -Indexes
         AllowOverride all
-        Order allow,deny
-        allow from all
+        Require all granted
     </Directory>
 
     ErrorLog /var/log/httpd/misp.error.log
