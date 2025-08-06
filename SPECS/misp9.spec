@@ -371,7 +371,6 @@ EOF
 # data directories: full read/write access, through user ownership
 %attr(-,apache,apache) %{_sharedstatedir}/misp
 %attr(-,apache,apache) %{_localstatedir}/log/misp
-%attr(-,apache,apache) %{noarch_install_dir}/app/files
 %attr(-,apache,apache) %{noarch_install_dir}/app/Plugin/CakeResque/tmp
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
