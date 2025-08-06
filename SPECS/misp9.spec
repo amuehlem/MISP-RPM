@@ -117,14 +117,6 @@ ln -s ../../../..%{_sharedstatedir}/misp/sessions tmp/sessions
 ln -s ../../../..%{_sharedstatedir}/misp/yara tmp/yara
 popd
 
-# create initial configuration files
-pushd $RPM_BUILD_ROOT%{_sysconfdir}/misp
-cp bootstrap.default.php bootstrap.php
-cp config.default.php config.php
-cp core.default.php core.php
-cp database.default.php database.php
-popd
-
 # create python3 virtualenv
 mkdir -p $RPM_BUILD_ROOT%{_libdir}
 %{python_bin} -m venv --copies $RPM_BUILD_ROOT%{arch_install_dir}
@@ -224,6 +216,14 @@ popd
 
 # useless empty files
 find $RPM_BUILD_ROOT -type f -name empty | xargs rm -f
+
+# create initial configuration files
+pushd $RPM_BUILD_ROOT%{_sysconfdir}/misp
+mv bootstrap.default.php bootstrap.php
+mv config.default.php config.php
+mv core.default.php core.php
+mv database.default.php database.php
+popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 cat > $RPM_BUILD_ROOT/etc/httpd/conf.d/misp.conf <<EOF
@@ -366,10 +366,6 @@ EOF
 %config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/email.php
 %config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/routes.php
 %config(noreplace) %{noarch_install_dir}/app/Plugin/CakeResque/Config/config.php
-%{_sysconfdir}/misp/bootstrap.default.php
-%{_sysconfdir}/misp/config.default.php
-%{_sysconfdir}/misp/core.default.php
-%{_sysconfdir}/misp/database.default.php
 # data directories: full read/write access, through user ownership
 %attr(-,apache,apache) %{_sharedstatedir}/misp
 %attr(-,apache,apache) %{_localstatedir}/log/misp
