@@ -17,6 +17,9 @@
 %define python_bin python3
 %define phpbasever php83
 
+%define noarch_install_dir %{_datadir}/misp
+%define arch_install_dir %{_libdir}/misp
+
 Name:	    	misp
 Version:	2.5.17
 release:	1%{?dist}
@@ -25,13 +28,9 @@ Summary:	MISP - malware information sharing platform
 Group:		Internet Applications
 License:	GPLv3
 URL:		http://www.misp-project.org/
-Source1:    	misp.conf
 Source2:    	misp-httpd.pp
 Source3:    	misp-bash.pp
 Source4:    	misp-ps.pp
-Source5:    	misp-workers.service
-Source6:    	start-misp-workers.sh
-Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
@@ -87,82 +86,110 @@ patch --ignore-whitespace -p0 < %{PATCH1}
 %build
 # intentionally left blank
 %install
-mkdir -p $RPM_BUILD_ROOT/var/www
-cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
+mkdir -p $RPM_BUILD_ROOT%{_datadir}
+cp -r MISP $RPM_BUILD_ROOT%{noarch_install_dir}
 
-# create initial configuartion files
-cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
-cp bootstrap.default.php bootstrap.php
-cp config.default.php config.php
-cp core.default.php core.php
-cp database.default.php database.php
+# FHS compliance:
+# move configuration files under %{_sysconfdir}
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/Config $RPM_BUILD_ROOT%{_sysconfdir}/misp
+
+# move log files under %{_localstatedir}/log
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/logs $RPM_BUILD_ROOT%{_localstatedir}/log/misp
+
+# move other variable files under %{_sharedstatedir}
+mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/misp
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cache $RPM_BUILD_ROOT%{_sharedstatedir}/misp/cache
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/cached_exports $RPM_BUILD_ROOT%{_sharedstatedir}/misp/cached_exports
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/files $RPM_BUILD_ROOT%{_sharedstatedir}/misp/files
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/sessions $RPM_BUILD_ROOT%{_sharedstatedir}/misp/sessions
+mv $RPM_BUILD_ROOT%{noarch_install_dir}/app/tmp/yara $RPM_BUILD_ROOT%{_sharedstatedir}/misp/yara
+
+# emulate original setup through symlinks
+pushd $RPM_BUILD_ROOT%{noarch_install_dir}/app
+ln -s ../../../..%{_sysconfdir}/misp Config
+ln -s ../../../..%{_localstatedir}/log/misp tmp/logs
+ln -s ../../../..%{_sharedstatedir}/misp/cache tmp/cache
+ln -s ../../../..%{_sharedstatedir}/misp/cached_exports tmp/cached_exports
+ln -s ../../../..%{_sharedstatedir}/misp/files tmp/files
+ln -s ../../../..%{_sharedstatedir}/misp/sessions tmp/sessions
+ln -s ../../../..%{_sharedstatedir}/misp/yara tmp/yara
+popd
 
 # create python3 virtualenv
-%{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+mkdir -p $RPM_BUILD_ROOT%{_libdir}
+%{python_bin} -m venv --copies $RPM_BUILD_ROOT%{arch_install_dir}
 
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U pip setuptools
 
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install ordered-set python-dateutil six weakrefmethod
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/misp-stix
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install ordered-set python-dateutil six weakrefmethod
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/misp-stix
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-cybox
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/python-cybox
 git config core.filemode false
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install .
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-stix
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/python-stix
 git config core.filemode false
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install .
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/mixbox
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/mixbox
 git config core.filemode false
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install .
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/cti-python-stix2
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/cti-python-stix2
 git config core.filemode false
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install .
 
-cd $RPM_BUILD_ROOT/var/www/MISP/app/files/scripts/python-maec
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app/files/scripts/python-maec
 git config core.filemode false
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install .
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install .
 
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U zmq
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U redis
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U python-magic
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U plyara
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pydeep
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U lief
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U zmq
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U redis
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U python-magic
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U plyara
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U pydeep
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U lief
 
-cd $RPM_BUILD_ROOT/var/www/MISP/PyMISP
-$RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U .
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/PyMISP
+$RPM_BUILD_ROOT%{arch_install_dir}/bin/pip install -U .
 
 # CakePHP
-cd $RPM_BUILD_ROOT/var/www/MISP/app
+cd $RPM_BUILD_ROOT%{noarch_install_dir}/app
 /opt/remi/%{phpbasever}/root/usr/bin/php composer.phar install --no-dev
 /opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
-cd $RPM_BUILD_ROOT/var/www/MISP
+cd $RPM_BUILD_ROOT%{noarch_install_dir}
 # save commit ID of this installation
 git rev-parse HEAD > .git_commit_version
 
 # clean up before PATH rewriting
-rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
+rm -rf $RPM_BUILD_ROOT%{arch_install_dir}/bin/__pycache__
 
 # rewrite PATH in virtualenv
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/%{pythonver}/site-packages/*/direct_url.json
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT%{arch_install_dir}/bin/*
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT%{arch_install_dir}/lib/%{pythonver}/site-packages/*/direct_url.json
 
 # path fix for python3
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT%{noarch_install_dir}/*
 
 # cleanup
 rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
 find . -name \.git | xargs -i rm -rf {}
 
 # delete files not needed at runtime under web root
-pushd $RPM_BUILD_ROOT/var/www/MISP
+pushd $RPM_BUILD_ROOT%{noarch_install_dir}
 # developement
+rm -f .coveragerc
 rm -rf build
 rm -f build-deb.sh
+rm -rf debian
+rm -rf misp-vagrant
+rm -f Pipfile
+rm -rf travis
+rm -rf tests
 rm -f requirements.txt
 #rm -f app/composer.*
 rm -f app/Makefile
@@ -180,91 +207,211 @@ rm -f README.debian
 rm -f README.md
 rm -f ROADMAP.md
 rm -f SECURITY.md
+
+# useless installation files, excepted mysql schema
+rm -rf INSTALL
+mkdir INSTALL
+cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
+popd
+
+# useless empty files
+find $RPM_BUILD_ROOT -type f -name empty | xargs rm -f
+
+# create initial configuration files
+pushd $RPM_BUILD_ROOT%{_sysconfdir}/misp
+mv bootstrap.default.php bootstrap.php
+mv config.default.php config.php
+mv core.default.php core.php
+mv database.default.php database.php
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf.d/
-mkdir -p $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
-install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
-install -m 644 %{SOURCE9} $RPM_BUILD_ROOT/usr/share/MISP/policy/selinux/
+cat > $RPM_BUILD_ROOT/etc/httpd/conf.d/misp.conf <<EOF
+<VirtualHost *:80>
+
+    Alias /misp %{noarch_install_dir}/app/webroot
+
+    <Directory %{noarch_install_dir}/app/webroot>
+        Options -Indexes
+        AllowOverride all
+        Require all granted
+    </Directory>
+
+    ErrorLog /var/log/httpd/misp.error.log
+    CustomLog /var/log/httpd/misp.access.log combined
+
+</VirtualHost>
+EOF
+mkdir -p $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux/
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux/
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux/
+install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux/
+install -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{noarch_install_dir}/policy/selinux/
+
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
-install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system
-mkdir -p $RPM_BUILD_ROOT/usr/local/sbin
-install -m 755 %{SOURCE6} $RPM_BUILD_ROOT/usr/local/sbin
-chmod g+w $RPM_BUILD_ROOT/var/www/MISP/app/Config
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/misp-workers.service <<EOF
+[Unit]
+Description=MISP workers
+After=network.target remote-fs.target nss-lookup.target httpd.service mariadb.service redis.service
+
+[Service]
+Type=forking
+ExecStart=%{noarch_install_dir}/app/Console/worker/start.sh
+User=apache
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+mkdir -p $RPM_BUILD_ROOT%{_sbindir}
+cat > $RPM_BUILD_ROOT%{_sbindir}/start-misp-workers.sh <<EOF
+#!/bin/bash
+
+su -s /bin/bash apache -c '%{noarch_install_dir}/app/Console/worker/start.sh'
+EOF
+chmod 755 $RPM_BUILD_ROOT%{_sbindir}/start-misp-workers.sh
+
+chmod g+w $RPM_BUILD_ROOT%{_sysconfdir}/misp
+
 mkdir -p $RPM_BUILD_ROOT/etc/supervisord.d
-install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
+cat > $RPM_BUILD_ROOT/etc/supervisord.d/misp-workers.ini <<EOF
+[group:misp-workers]
+programs=default,email,cache,prio,update
+
+[program:default]
+directory=%{noarch_install_dir}
+command=%{noarch_install_dir}/app/Console/cake start_worker default
+process_name=%(program_name)s_%(process_num)02d
+numprocs=5
+autostart=true
+autorestart=true
+redirect_stderr=false
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
+directory=%{noarch_install_dir}
+user=apache
+
+[program:prio]
+directory=%{noarch_install_dir}
+command=%{noarch_install_dir}/app/Console/cake start_worker prio
+process_name=%(program_name)s_%(process_num)02d
+numprocs=5
+autostart=true
+autorestart=true
+redirect_stderr=false
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
+directory=%{noarch_install_dir}
+user=apache
+
+[program:email]
+directory=%{noarch_install_dir}
+command=%{noarch_install_dir}/app/Console/cake start_worker email
+process_name=%(program_name)s_%(process_num)02d
+numprocs=5
+autostart=true
+autorestart=true
+redirect_stderr=false
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
+directory=%{noarch_install_dir}
+user=apache
+
+[program:update]
+directory=%{noarch_install_dir}
+command=%{noarch_install_dir}/app/Console/cake start_worker update
+process_name=%(program_name)s_%(process_num)02d
+numprocs=1
+autostart=true
+autorestart=true
+redirect_stderr=false
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
+directory=%{noarch_install_dir}
+user=apache
+
+[program:cache]
+directory=%{noarch_install_dir}
+command=%{noarch_install_dir}/app/Console/cake start_worker cache
+process_name=%(program_name)s_%(process_num)02d
+numprocs=5
+autostart=true
+autorestart=true
+redirect_stderr=false
+stderr_logfile=%{_localstatedir}/log/misp/misp-workers-errors.log
+stdout_logfile=%{_localstatedir}/log/misp/misp-workers.log
+user=apache
+EOF
 
 %files python-virtualenv
 %defattr(-,apache,apache,-)
-/var/www/cgi-bin/misp-virtualenv
-%exclude /var/www/cgi-bin/misp-virtualenv/*.pyc
+%{arch_install_dir}
+%exclude %{arch_install_dir}/*.pyc
 
 %files
 %defattr(-,root,root,-)
 %doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
 %license MISP/LICENSE
-/var/www/MISP
+%{noarch_install_dir}
 # configuration directory: read or read/write permission, through group ownership
-%dir %attr(0775,root,apache) /var/www/MISP/app/Config
-%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/bootstrap.php
-%config(noreplace) %attr(0660,root,apache) /var/www/MISP/app/Config/config.php
-%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/core.php
-%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/database.php
-%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/email.php
-%config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/routes.php
-%config(noreplace) /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+%dir %attr(0775,root,apache) %{_sysconfdir}/misp
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/bootstrap.php
+%config(noreplace) %attr(0660,root,apache) %{_sysconfdir}/misp/config.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/core.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/database.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/email.php
+%config(noreplace) %attr(0640,root,apache) %{_sysconfdir}/misp/routes.php
+%config(noreplace) %{noarch_install_dir}/app/Plugin/CakeResque/Config/config.php
 # data directories: full read/write access, through user ownership
-%attr(-,apache,apache) /var/www/MISP/app/tmp
-%attr(-,apache,apache) /var/www/MISP/app/files
-%attr(-,apache,apache) /var/www/MISP/app/Plugin/CakeResque/tmp
+%attr(-,apache,apache) %{_sharedstatedir}/misp
+%attr(-,apache,apache) %{_localstatedir}/log/misp
+%attr(-,apache,apache) %{noarch_install_dir}/app/Plugin/CakeResque/tmp
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
-/usr/share/MISP/policy/selinux/misp-*.pp
 %{_sysconfdir}/systemd/system/misp-workers.service
-/usr/local/sbin/start-misp-workers.sh
+%{_sbindir}/start-misp-workers.sh
 # exclude test files whicht get detected by AV solutions
-%exclude /var/www/MISP/PyMISP/tests
-%exclude /var/www/MISP/*.pyc
+%exclude %{noarch_install_dir}/PyMISP/tests
+%exclude %{noarch_install_dir}/*.pyc
 
 %post
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files
+chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files/terms
+chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/files/scripts/tmp
+chcon -t httpd_sys_rw_content_t %{noarch_install_dir}/app/Plugin/CakeResque/tmp
+chcon -R -t httpd_sys_rw_content_t %{_sharedstatedir}/misp
+chcon -R -t httpd_sys_rw_content_t %{noarch_install_dir}/app/webroot/img/orgs
+chcon -R -t httpd_sys_rw_content_t %{noarch_install_dir}/app/webroot/img/custom
 setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_unified 1
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
-restorecon -v '/var/www/MISP/app/tmp/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
-restorecon -v '/var/www/MISP/app/tmp/logs/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
-restorecon -v '/var/www/MISP/app/tmp/cache/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
-restorecon -v '/var/www/MISP/app/tmp/cache/feeds'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/models'
-restorecon -v '/var/www/MISP/app/tmp/cache/models'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/persistent'
-restorecon -v '/var/www/MISP/app/tmp/cache/persistent'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/views'
-restorecon -v '/var/www/MISP/app/tmp/cache/views'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Config/config.php'
-restorecon -v '/var/www/MISP/app/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-restorecon -v '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeResque/Config/config.default.php'
-restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
-semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/'
+restorecon -v '%{_sharedstatedir}/misp/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/'
+restorecon -v '%{_sharedstatedir}/misp/cache/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/feeds'
+restorecon -v '%{_sharedstatedir}/misp/cache/feeds'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/models'
+restorecon -v '%{_sharedstatedir}/misp/cache/models'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/persistent'
+restorecon -v '%{_sharedstatedir}/misp/cache/persistent'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sharedstatedir}/misp/cache/views'
+restorecon -v '%{_sharedstatedir}/misp/cache/views'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/log/misp/'
+restorecon -v '%{_localstatedir}/log/misp/'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_sysconfdir}/misp/config.php'
+restorecon -v '%{_sysconfdir}/misp/config.php'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{noarch_install_dir}/app/Lib/cakephp/lib/Cake/Config/config.php'
+restorecon -v '%{noarch_install_dir}/app/Lib/cakephp/lib/Cake/Config/config.php'
+semanage fcontext -a -t httpd_sys_rw_content_t '%{noarch_install_dir}/app/Plugin/CakeResque/Config/config.default.php'
+restorecon -v '%{noarch_install_dir}/app/Plugin/CakeResque/Config/config.php'
+semodule -i %{noarch_install_dir}/policy/selinux/misp-httpd.pp
+semodule -i %{noarch_install_dir}/policy/selinux/misp-bash.pp
+semodule -i %{noarch_install_dir}/policy/selinux/misp-ps.pp
+semodule -i %{noarch_install_dir}/policy/selinux/misp-workers8.pp
+semodule -i %{noarch_install_dir}/policy/selinux/misp-worker-status-supervisord.pp
 
 %changelog
 * Tue Aug 5 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.17
