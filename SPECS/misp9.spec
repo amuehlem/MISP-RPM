@@ -92,10 +92,10 @@ cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
 
 # create initial configuartion files
 cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
-cp bootstrap.default.php bootstrap.php
-cp config.default.php config.php
-cp core.default.php core.php
-cp database.default.php database.php
+mv bootstrap.default.php bootstrap.php
+mv config.default.php config.php
+mv core.default.php core.php
+mv database.default.php database.php
 
 # create python3 virtualenv
 %{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
