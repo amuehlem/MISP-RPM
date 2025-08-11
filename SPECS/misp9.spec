@@ -245,40 +245,43 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %exclude /var/www/MISP/*.pyc
 
 %post
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
-setsebool -P httpd_can_network_connect 1
-setsebool -P httpd_unified 1
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
-restorecon -v '/var/www/MISP/app/tmp/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
-restorecon -v '/var/www/MISP/app/tmp/logs/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
-restorecon -v '/var/www/MISP/app/tmp/cache/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
-restorecon -v '/var/www/MISP/app/tmp/cache/feeds'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/models'
-restorecon -v '/var/www/MISP/app/tmp/cache/models'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/persistent'
-restorecon -v '/var/www/MISP/app/tmp/cache/persistent'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/views'
-restorecon -v '/var/www/MISP/app/tmp/cache/views'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Config/config.php'
-restorecon -v '/var/www/MISP/app/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-restorecon -v '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeResque/Config/config.default.php'
-restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
-semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
+SELINUXSTATUS=$(getenforce);
+if [ SELINUXSTATUS != 'Disabled' ]; then
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+    setsebool -P httpd_can_network_connect 1
+    setsebool -P httpd_unified 1
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
+    restorecon -v '/var/www/MISP/app/tmp/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
+    restorecon -v '/var/www/MISP/app/tmp/logs/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
+    restorecon -v '/var/www/MISP/app/tmp/cache/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
+    restorecon -v '/var/www/MISP/app/tmp/cache/feeds'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/models'
+    restorecon -v '/var/www/MISP/app/tmp/cache/models'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/persistent'
+    restorecon -v '/var/www/MISP/app/tmp/cache/persistent'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/views'
+    restorecon -v '/var/www/MISP/app/tmp/cache/views'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Config/config.php'
+    restorecon -v '/var/www/MISP/app/Config/config.php'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
+    restorecon -v '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeResque/Config/config.default.php'
+    restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
+    semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
+fi
 
 %changelog
 * Sat Aug 9 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.18
