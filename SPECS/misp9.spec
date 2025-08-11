@@ -191,6 +191,9 @@ rm -f SECURITY.md
 rm -rf INSTALL
 mkdir INSTALL
 cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
+
+# useless empty files
+find . -type f -name empty | xargs rm -f
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
