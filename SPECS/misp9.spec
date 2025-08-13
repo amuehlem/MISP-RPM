@@ -187,10 +187,10 @@ rm -f README.md
 rm -f ROADMAP.md
 rm -f SECURITY.md
 
-# useless installation files, excepted mysql schema
+# useless installation files, excepted SQL schemas
 rm -rf INSTALL
 mkdir INSTALL
-cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/MYSQL.sql INSTALL
+cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/*.sql INSTALL
 
 # useless empty files
 find . -type f -name empty | xargs rm -f
