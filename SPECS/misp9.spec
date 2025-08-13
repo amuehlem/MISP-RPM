@@ -87,8 +87,15 @@ patch --ignore-whitespace -p0 < %{PATCH1}
 %build
 # intentionally left blank
 %install
-mkdir -p $RPM_BUILD_ROOT/var/www
-cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
+mkdir -p $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/app $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/PyMISP $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/format $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/tools $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/*.json $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/.git $RPM_BUILD_ROOT/var/www/MISP
+mkdir -p $RPM_BUILD_ROOT/var/www/MISP/INSTALL
+cp MISP/INSTALL/*.sql $RPM_BUILD_ROOT/var/www/MISP/INSTALL
 
 # create initial configuartion files
 cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
@@ -155,45 +162,12 @@ sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/li
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
 
 # cleanup
-rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
-find . -name \.git | xargs -i rm -rf {}
-
-# delete files not needed at runtime under web root
-pushd $RPM_BUILD_ROOT/var/www/MISP
-# developement
-rm -f .coveragerc
-rm -rf build
-rm -f build-deb.sh
-rm -rf debian
-rm -rf misp-vagrant
-rm -f Pipfile
-rm -rf travis
-rm -rf tests
-rm -f requirements.txt
-#rm -f app/composer.*
-rm -f app/Makefile
-rm -f app/update_thirdparty.sh
-
-# documentation
-rm -f AUTHORS
-rm -f CITATION.cff
-rm -f code_of_conduct.md
-rm -f CODINGSTYLE.md
-rm -f CONTRIBUTING.md
-rm -f GITWORKFLOW.md
-rm -f LICENSE
-rm -f README.debian
-rm -f README.md
-rm -f ROADMAP.md
-rm -f SECURITY.md
-
-# useless installation files, excepted SQL schemas
-rm -rf INSTALL
-mkdir INSTALL
-cp $RPM_BUILD_DIR/%{name}-%{version}/MISP/INSTALL/*.sql INSTALL
-
-# useless empty files
+pushd $RPM_BUILD_ROOT
+find . -name .git* | xargs rm -rf
 find . -type f -name empty | xargs rm -f
+
+rm -f var/www/MISP/app/Makefile
+rm -f var/www/MISP/app/update_thirdparty.sh
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
@@ -220,6 +194,7 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %files
 %defattr(-,root,root,-)
 %doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
+%doc MISP/docs
 %license MISP/LICENSE
 /var/www/MISP
 # configuration directory: read or read/write permission, through group ownership
