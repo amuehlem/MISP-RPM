@@ -87,15 +87,22 @@ patch --ignore-whitespace -p0 < %{PATCH1}
 %build
 # intentionally left blank
 %install
-mkdir -p $RPM_BUILD_ROOT/var/www
-cp -r MISP $RPM_BUILD_ROOT/var/www/MISP
+mkdir -p $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/app $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/PyMISP $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/format $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/tools $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/*.json $RPM_BUILD_ROOT/var/www/MISP
+cp -r MISP/.git $RPM_BUILD_ROOT/var/www/MISP
+mkdir -p $RPM_BUILD_ROOT/var/www/MISP/INSTALL
+cp MISP/INSTALL/*.sql $RPM_BUILD_ROOT/var/www/MISP/INSTALL
 
 # create initial configuartion files
 cd  $RPM_BUILD_ROOT/var/www/MISP/app/Config
-cp bootstrap.default.php bootstrap.php
-cp config.default.php config.php
-cp core.default.php core.php
-cp database.default.php database.php
+mv bootstrap.default.php bootstrap.php
+mv config.default.php config.php
+mv core.default.php core.php
+mv database.default.php database.php
 
 # create python3 virtualenv
 %{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
@@ -155,31 +162,12 @@ sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/li
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
 
 # cleanup
-rm -rf .git .github .gitchangelog.rc .gitignore .gitmodules .travis.yml
-find . -name \.git | xargs -i rm -rf {}
+pushd $RPM_BUILD_ROOT
+find . -name .git* | xargs rm -rf
+find . -type f -name empty | xargs rm -f
 
-# delete files not needed at runtime under web root
-pushd $RPM_BUILD_ROOT/var/www/MISP
-# developement
-rm -rf build
-rm -f build-deb.sh
-rm -f requirements.txt
-#rm -f app/composer.*
-rm -f app/Makefile
-rm -f app/update_thirdparty.sh
-
-# documentation
-rm -f AUTHORS
-rm -f CITATION.cff
-rm -f code_of_conduct.md
-rm -f CODINGSTYLE.md
-rm -f CONTRIBUTING.md
-rm -f GITWORKFLOW.md
-rm -f LICENSE
-rm -f README.debian
-rm -f README.md
-rm -f ROADMAP.md
-rm -f SECURITY.md
+rm -f var/www/MISP/app/Makefile
+rm -f var/www/MISP/app/update_thirdparty.sh
 popd
 
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
@@ -206,6 +194,7 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %files
 %defattr(-,root,root,-)
 %doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
+%doc MISP/docs
 %license MISP/LICENSE
 /var/www/MISP
 # configuration directory: read or read/write permission, through group ownership
@@ -231,40 +220,43 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %exclude /var/www/MISP/*.pyc
 
 %post
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
-setsebool -P httpd_can_network_connect 1
-setsebool -P httpd_unified 1
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
-restorecon -v '/var/www/MISP/app/tmp/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
-restorecon -v '/var/www/MISP/app/tmp/logs/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
-restorecon -v '/var/www/MISP/app/tmp/cache/'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
-restorecon -v '/var/www/MISP/app/tmp/cache/feeds'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/models'
-restorecon -v '/var/www/MISP/app/tmp/cache/models'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/persistent'
-restorecon -v '/var/www/MISP/app/tmp/cache/persistent'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/views'
-restorecon -v '/var/www/MISP/app/tmp/cache/views'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Config/config.php'
-restorecon -v '/var/www/MISP/app/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-restorecon -v '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
-semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeResque/Config/config.default.php'
-restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
-semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
-semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
+SELINUXSTATUS=$(getenforce);
+if [ SELINUXSTATUS != 'Disabled' ]; then
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+    chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+    chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+    setsebool -P httpd_can_network_connect 1
+    setsebool -P httpd_unified 1
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/'
+    restorecon -v '/var/www/MISP/app/tmp/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/logs/'
+    restorecon -v '/var/www/MISP/app/tmp/logs/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/'
+    restorecon -v '/var/www/MISP/app/tmp/cache/'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/feeds'
+    restorecon -v '/var/www/MISP/app/tmp/cache/feeds'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/models'
+    restorecon -v '/var/www/MISP/app/tmp/cache/models'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/persistent'
+    restorecon -v '/var/www/MISP/app/tmp/cache/persistent'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/tmp/cache/views'
+    restorecon -v '/var/www/MISP/app/tmp/cache/views'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Config/config.php'
+    restorecon -v '/var/www/MISP/app/Config/config.php'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
+    restorecon -v '/var/www/MISP/app/Lib/cakephp/lib/Cake/Config/config.php'
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/MISP/app/Plugin/CakeResque/Config/config.default.php'
+    restorecon -v '/var/www/MISP/app/Plugin/CakeResque/Config/config.php'
+    semodule -i /usr/share/MISP/policy/selinux/misp-httpd.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-bash.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-ps.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-workers8.pp
+    semodule -i /usr/share/MISP/policy/selinux/misp-worker-status-supervisord.pp
+fi
 
 %changelog
 * Sat Aug 9 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.18
