@@ -12,8 +12,6 @@
 
 %define pymispver 2.5.17
 %define mispstixver 2025.8.4
-%define pythonver python3.9
-%define pythonver_short python39
 %define python_bin python3
 %define phpbasever php83
 
@@ -156,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 
 # rewrite PATH in virtualenv
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/%{pythonver}/site-packages/*/direct_url.json
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python%{python3_version}/site-packages/*/direct_url.json
 
 # path fix for python3
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
