@@ -35,7 +35,6 @@ Source9:	misp-worker-status-supervisord.pp
 Patch0:     	MISP-AppModel.php.patch
 Patch1:     	misp-2.4.177-fix-composer-config.patch
 
-BuildRequires:	/usr/bin/pathfix.py
 BuildRequires:  git, python3-devel, python3-pip
 BuildRequires:  libxslt-devel, zlib-devel
 BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
@@ -157,8 +156,7 @@ sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/py
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python%{python3_version}/site-packages/*/direct_url.json
 
-# path fix for python3
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
+%py3_shebang_fix $RPM_BUILD_ROOT/var/www/MISP
 
 # cleanup
 pushd $RPM_BUILD_ROOT
