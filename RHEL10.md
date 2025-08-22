@@ -1,3 +1,5 @@
+# STILL IN TESTING, USE AT OWN RISK!!!
+
 # Install MISP from RPM packages
 
 ## Installation instructions:
