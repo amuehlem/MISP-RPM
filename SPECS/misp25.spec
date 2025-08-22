@@ -41,7 +41,16 @@ BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
 BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion, gcc
-Requires:	httpd, mod_ssl, redis, libxslt, zlib
+Requires:	httpd, mod_ssl, libxslt, zlib
+
+# redis / valkey depending on rhel version
+%if 0%{?rhel} < 10
+Requires:  redis
+%endif
+%if 0%{?rhel} > 9
+Requires:  valkey
+%endif
+
 # requires either mod_php or php-fpm
 Requires:       (%{phpbasever}-php or %{phpbasever}-php-fpm)
 Requires:       %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
@@ -83,6 +92,7 @@ patch --ignore-whitespace -p0 < %{PATCH1}
 
 %build
 # intentionally left blank
+
 %install
 mkdir -p $RPM_BUILD_ROOT/var/www/MISP
 cp -r MISP/app $RPM_BUILD_ROOT/var/www/MISP
@@ -193,7 +203,6 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %doc MISP/{AUTHORS,CITATION.cff,code_of_conduct.md,CODINGSTYLE.md,CONTRIBUTING.md,GITWORKFLOW.md,README.md,ROADMAP.md,SECURITY.md}
 %doc MISP/docs
 %license MISP/LICENSE
-/var/www/MISP
 # configuration directory: read or read/write permission, through group ownership
 %dir %attr(0775,root,apache) /var/www/MISP/app/Config
 %config(noreplace) %attr(0640,root,apache) /var/www/MISP/app/Config/bootstrap.php
@@ -209,6 +218,7 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/etc/supervisord.d
 %attr(-,apache,apache) /var/www/MISP/app/Plugin/CakeResque/tmp
 %config(noreplace) /etc/httpd/conf.d/misp.conf
 %config(noreplace) /etc/supervisord.d/misp-workers.ini
+/var/www/MISP
 /usr/share/MISP/policy/selinux/misp-*.pp
 %{_sysconfdir}/systemd/system/misp-workers.service
 /usr/local/sbin/start-misp-workers.sh
