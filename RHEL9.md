@@ -73,11 +73,11 @@ systemctl start misp-workers
 
 - configure php
 
-all php settings are done in ```/etc/opt/remi/php74/php.ini```
+all php settings are done in ```/etc/opt/remi/php83/php.ini```
 
 - link php
 ```
-ln -s /bin/php74 /bin/php
+ln -s /bin/php83 /bin/php
 ```
 
 - start redis
@@ -98,8 +98,8 @@ systemctl start httpd
 
 ```
 # enable php-fpm at startup
-systemctl enable php74-php-fpm
-systemctl start php74-php-fpm
+systemctl enable php83-php-fpm
+systemctl start php83-php-fpm
 ```
 
 - open firewall
