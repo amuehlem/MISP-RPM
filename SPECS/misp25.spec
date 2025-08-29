@@ -10,38 +10,75 @@
 # exclude for requirements
 %global __requires_exclude ^/opt/python/cp3.*
 
+# global definitions
 %define pymispver 2.5.17
 %define mispstixver 2025.8.4
-%define python_bin python3
-%define phpbasever php83
 
-Name:	    	misp
-Version:	2.5.18
+# RHEL version dependencies
+%define phpbasever php83
+%define pythonvershort python3.12
+%define pythonver python3.12
+%define pythonbin python3.12
+
+%if 0%{?rhel} == 8
+%define pythonver python3.12
+%define pythonvershort python3.12
+%define pythonbin python3.12
+%endif
+%if 0%{?rhel} == 9
+%define pythonver python3.12
+%define pythonvershort python3.12
+%define pythonbin python3.12
+%endif
+%if 0%{?rhel} == 10
+%define pythonver python3.12
+%define pythonvershort python3
+%define pythonbin python3
+%endif
+
+Name:		misp
+Version:	2.5.20
 release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
 Group:		Internet Applications
 License:	GPLv3
 URL:		http://www.misp-project.org/
-Source1:    	misp.conf
-Source2:    	misp-httpd.pp
-Source3:    	misp-bash.pp
-Source4:    	misp-ps.pp
-Source5:    	misp-workers.service
-Source6:    	start-misp-workers.sh
+Source1:	misp.conf
+Source2:	misp-httpd.pp
+Source3:	misp-bash.pp
+Source4:	misp-ps.pp
+Source5:	misp-workers.service
+Source6:	start-misp-workers.sh
 Source7:	misp-workers.ini
 Source8:	misp-workers8.pp
 Source9:	misp-worker-status-supervisord.pp
-Patch0:     	MISP-AppModel.php.patch
-Patch1:     	misp-2.4.177-fix-composer-config.patch
+Patch0:		MISP-AppModel.php.patch
+Patch1:		misp-2.4.177-fix-composer-config.patch
 
-BuildRequires:  git, python3-devel, python3-pip
-BuildRequires:  libxslt-devel, zlib-devel
-BuildRequires:  %{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
+BuildRequires:	git, %{pythonvershort}-devel, %{pythonvershort}-pip
+BuildRequires:	libxslt-devel, zlib-devel
+BuildRequires:	%{phpbasever}-php, %{phpbasever}-php-cli, %{phpbasever}-php-xml
 BuildRequires:	%{phpbasever}-php-mbstring
 BuildRequires:	ssdeep-devel
 BuildRequires:	cmake3, bash-completion, gcc
+
+%if 0%{?rhel} < 9
+BuildRequires:  /usr/bin/pathfix.py
+%endif
+
 Requires:	httpd, mod_ssl, libxslt, zlib
+# requires either mod_php or php-fpm
+Requires:	(%{phpbasever}-php or %{phpbasever}-php-fpm)
+Requires:	%{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
+Requires:	%{phpbasever}-php-mysqlnd, %{phpbasever}-php-mbstring, %{phpbasever}-php-xml
+Requires:	%{phpbasever}-php-bcmath, %{phpbasever}-php-opcache, %{phpbasever}-php-json
+Requires:	%{phpbasever}-php-pecl-zip, %{phpbasever}-php-pecl-redis6, %{phpbasever}-php-intl
+Requires:	%{phpbasever}-php-pecl-gnupg, %{phpbasever}-php-pecl-ssdeep, %{phpbasever}-php-process
+Requires:	%{phpbasever}-php-pecl-apcu, %{phpbasever}-php-brotli, %{phpbasever}-php-pecl-rdkafka
+Requires:	%{phpbasever}-php-pecl-simdjson
+Requires:	supervisor, faup, gtcaca
+Requires:	misp-python-virtualenv = %{version}-%{release}
 
 # redis / valkey depending on rhel version
 %if 0%{?rhel} < 10
@@ -51,20 +88,8 @@ Requires:  redis
 Requires:  valkey
 %endif
 
-# requires either mod_php or php-fpm
-Requires:       (%{phpbasever}-php or %{phpbasever}-php-fpm)
-Requires:       %{phpbasever}-php-cli, %{phpbasever}-php-gd, %{phpbasever}-php-pdo
-Requires:       %{phpbasever}-php-mysqlnd, %{phpbasever}-php-mbstring, %{phpbasever}-php-xml
-Requires:	%{phpbasever}-php-bcmath, %{phpbasever}-php-opcache, %{phpbasever}-php-json
-Requires:	%{phpbasever}-php-pecl-zip, %{phpbasever}-php-pecl-redis6, %{phpbasever}-php-intl
-Requires:	%{phpbasever}-php-pecl-gnupg, %{phpbasever}-php-pecl-ssdeep, %{phpbasever}-php-process
-Requires:	%{phpbasever}-php-pecl-apcu, %{phpbasever}-php-brotli, %{phpbasever}-php-pecl-rdkafka
-Requires:	%{phpbasever}-php-pecl-simdjson
-Requires:	supervisor, faup, gtcaca
-Requires:	misp-python-virtualenv = %{version}-%{release}
-
 %package python-virtualenv
-Summary: 	the python virtual environment for MISP
+Summary:	the python virtual environment for MISP
 Group:		Internet Applications
 License:	GPLv3
 
@@ -86,9 +111,9 @@ git config core.filemode false
 
 # patch app/Model/Server.php to show commit ID
 patch --ignore-whitespace -p0 < %{PATCH0}
+
 # patch app/composer.json to avoid user interaction during build
 patch --ignore-whitespace -p0 < %{PATCH1}
-
 
 %build
 # intentionally left blank
@@ -112,7 +137,7 @@ mv core.default.php core.php
 mv database.default.php database.php
 
 # create python3 virtualenv
-%{python_bin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
+%{pythonbin} -m venv --copies $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv
 
 $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/pip install -U pip setuptools
 
@@ -155,8 +180,6 @@ cd $RPM_BUILD_ROOT/var/www/MISP/app
 /opt/remi/%{phpbasever}/root/usr/bin/php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 guzzlehttp/guzzle php-http/message php-http/message-factory lstrojny/fxmlrpc jakub-onderka/openid-connect-php
 
 cd $RPM_BUILD_ROOT/var/www/MISP
-# save commit ID of this installation
-git rev-parse HEAD > .git_commit_version
 
 # clean up before PATH rewriting
 rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
@@ -164,13 +187,21 @@ rm -rf $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/__pycache__
 # rewrite PATH in virtualenv
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/pyvenv.cfg
 sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/bin/*
-sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/python%{python3_version}/site-packages/*/direct_url.json
+sed -e "s|%{buildroot}||g" -i $RPM_BUILD_ROOT/var/www/cgi-bin/misp-virtualenv/lib/%{pythonver}/site-packages/*/direct_url.json
+
+# path fix for python3 for RHEL8
+%if 0%{?rhel} < 9
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" . $RPM_BUILD_ROOT/var/www/MISP/*
+%endif
 
 %py3_shebang_fix $RPM_BUILD_ROOT/var/www/MISP
 
+# save commit ID of this installation
+git rev-parse HEAD > .git_commit_version
+
 # cleanup
 pushd $RPM_BUILD_ROOT
-find . -name .git* | xargs rm -rf
+find . -not -name '.git_commit_version' -name .git* | xargs rm -rf
 find . -type f -name empty | xargs rm -f
 
 rm -f var/www/MISP/app/Makefile
@@ -266,6 +297,13 @@ if [ SELINUXSTATUS != 'Disabled' ]; then
 fi
 
 %changelog
+* Thu Aug 28 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.20
+- update to 2.5.20
+
+* Mon Aug 25 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.19
+- update to 2.5.19, one spec file for RHEL8/RHEL9/RHEL10, thank you  guillomovitch!
+- update to python3.12 for RHEL8/9
+
 * Sat Aug 9 2025 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.18
 - update to 2.5.18
 

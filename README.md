@@ -20,13 +20,19 @@ We provide the following components as RPMs
 * misp-modules with required submodules in a virtual environment
 
 Requirements:
-* php 7.4.x (will be installed from external remi repository)
-* mariadb 11.4.x (will be installed from external mariadb repository)
+* php8 (will be installed from external remi repository)
+* mariadb or postgresql (can be installed from external mariadb repository)
 
-With our RPMs there's no need to use git to install MISP and you don't need a to install from github.com. All you
-is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository.
+With our RPMs there's no need to use git to install MISP and you don't need to install anything from github.com. All you
+need is to be able to include our repository on your systems. MariaDB will be installed from the official mariadb repository,
+PHP and PHP modules will be installed from [Remirepo](https://rpms.remirepo.net/)
 
 ## Updates
+### Aug 28
+- update to 2.5.19 and 2.5.20
+- python3.12 is now used for RHEL8/9/10
+- Many thanks to [Guillaume Rousse](https://github.com/guillomovitch) for helping bringing together misp25.spec
+
 ### Aug 9
 - update to 2.5.18
 
