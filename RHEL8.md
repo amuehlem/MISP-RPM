@@ -1,4 +1,5 @@
-**This instructions are for Red Hat 8 systems only, they were not checked on CentOS 8** 
+**RHEL8 is officially End-of-life. Please don't install new hosts with RHEL8, use RHEL9 or RHEL10 instead**
+**This instructions are for Red Hat 8 systems only, they were not checked on CentOS 8**
 
 # Install MISP from RPM packages
 
@@ -107,6 +108,18 @@ systemctl start redis
 systemctl enable httpd
 systemctl start httpd
 ```
+
+```
+# enable php-fpm at startup
+systemctl enable php83-php-fpm
+systemctl start php83-php-fpm
+```
+
+```
+# enable supervisord at startup
+systemctl enable --now supervisord
+```
+
 
 - open firewall
 

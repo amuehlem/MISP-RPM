@@ -102,6 +102,11 @@ systemctl enable php83-php-fpm
 systemctl start php83-php-fpm
 ```
 
+```
+# enable supervisord at startup
+systemctl enable --now supervisord
+```
+
 - open firewall
 
 ```
