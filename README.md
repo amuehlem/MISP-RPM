@@ -28,6 +28,9 @@ need is to be able to include our repository on your systems. MariaDB will be in
 PHP and PHP modules will be installed from [Remirepo](https://rpms.remirepo.net/)
 
 ## Updates
+### Sep 11
+- update to 2.5.21
+
 ### Aug 28
 - update to 2.5.19 and 2.5.20
 - python3.12 is now used for RHEL8/9/10
