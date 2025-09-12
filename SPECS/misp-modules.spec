@@ -11,6 +11,11 @@
 %global __requires_exclude_from ^%{venvbasedir}/lib/python%{pythonver}/site-packages/cv2/\.libs/.*\\.so*$
 %global __requires_exclude ^lib.*\-[0-9a-f]{8}.so.*$
 
+%if 0%{?rhel} == 10
+# hack for RHEL10
+%global __requires_exclude ^libc.so.6.*$
+%endif
+
 %define pythonver 3.12
 %define pythonvershort python3.12
 %define pythonbin python3.12
@@ -68,7 +73,7 @@ MISP modules for expansion services, import and export
 #intentionally left blank
 
 %install
-python%{pythonver} -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
+%{pythonbin} -m venv --copies $RPM_BUILD_ROOT%{venvbasedir}
 $RPM_BUILD_ROOT%{venvbasedir}/bin/pip3 install -U pip setuptools
 
 git clone https://github.com/MISP/misp-modules.git
