@@ -28,6 +28,9 @@ need is to be able to include our repository on your systems. MariaDB will be in
 PHP and PHP modules will be installed from [Remirepo](https://rpms.remirepo.net/)
 
 ## Updates
+### Nov 14
+- update to 2.5.25
+
 ### Nov 4
 - update to 2.5.24
 - update to 2.4.216
