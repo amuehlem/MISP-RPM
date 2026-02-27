@@ -37,7 +37,7 @@
 %endif
 
 Name:		misp-modules
-Version:	3.0.5
+Version:	3.0.6
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -124,6 +124,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Fri Feb 27 2026 Andreas Muehlemann <amuehlem@gmail.com> - 3.0.6
+- update to 3.0.6
+
 * Tue Dec 23 2025 Andreas Muehlemann <amuehlem@gmail.com> - 3.0.5
 - update to 3.0.5
 
