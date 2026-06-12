@@ -26,18 +26,18 @@
 %define pythonbin python3.12
 %endif
 %if 0%{?rhel} == 9
-%define pythonver 3.12
-%define pythonvershort python3.12
-%define pythonbin python3.12
+%define pythonver 3.14
+%define pythonvershort python3.14
+%define pythonbin python3.14
 %endif
 %if 0%{?rhel} == 10
-%define pythonver 3.12
-%define pythonvershort python3
-%define pythonbin python3
+%define pythonver 3.14
+%define pythonvershort python3.14
+%define pythonbin python3.14
 %endif
 
 Name:		misp-modules
-Version:	3.0.7
+Version:	3.0.8
 Release:	1%{?dist}
 Summary:	MISP modules for expansion services, import and export
 
@@ -124,6 +124,9 @@ find $RPM_BUILD_ROOT%{venvbasedir} -name ".git" -exec rm -rf "{}" \;
 semodule -i /usr/share/MISP-modules/policy/selinux/misp-modules8.pp
 
 %changelog
+* Fri Jun 5 2026 Andreas Muehlemann <amuehlem@gmail.com> - 3.0.8
+- update to 3.0.8, using python3.14 for RHEL9 and RHEL10
+
 * Tue Mar 17 2026 Andreas Muehlemann <amuehlem@gmail.com> - 3.0.7
 - update to 3.0.7
 
