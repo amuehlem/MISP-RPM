@@ -37,7 +37,7 @@
 %endif
 
 Name:		misp
-Version:	2.5.41
+Version:	2.5.42
 Release:	1%{?dist}
 Summary:	MISP - malware information sharing platform
 
@@ -293,6 +293,9 @@ if [ SELINUXSTATUS != 'Disabled' ]; then
 fi
 
 %changelog
+* Mon Jun 22 2026 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.42
+- update to 2.5.42
+
 * Wed Jun 17 2026 Andreas Muehlemann <amuehlem@gmail.com> - 2.5.41
 - update to 2.5.41
 
