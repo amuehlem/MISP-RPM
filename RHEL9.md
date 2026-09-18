@@ -18,9 +18,9 @@ dnf install https://repo.misp-project.ch/yum/misp9/misp-release-latest.el9.noarc
 dnf install misp misp-python-virtualenv
 ```
 
-## install MariaDB, if you want to use an external DB, only MariaDB-client is needed
+## install MariaDB, if you want to use an external DB, only mariadb is needed
 ```
-dnf install MariaDB-client MariaDB-server
+dnf install mariadb-server mariadb
 ```
 
 ## configuration
