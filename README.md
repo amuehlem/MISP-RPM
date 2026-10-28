@@ -28,6 +28,9 @@ need is to be able to include our repository on your systems. MariaDB will be in
 PHP and PHP modules will be installed from [Remirepo](https://rpms.remirepo.net/)
 
 ## Updates
+### Oct 28 2026
+- misp-modules-3.1.1
+
 ### Oct 20 2026
 - misp-modules-3.1.0
 
