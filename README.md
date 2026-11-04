@@ -29,6 +29,7 @@ PHP and PHP modules will be installed from [Remirepo](https://rpms.remirepo.net/
 
 ## Updates
 ### Nov 4 2026
+- misp-2.5.51
 - misp-modules-3.1.3
 
 ### Oct 28 2026
