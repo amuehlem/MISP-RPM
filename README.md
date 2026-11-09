@@ -1,3 +1,6 @@
+# 2026-11-09 Important announcement
+## This repository is no archived, the work will continue at [MISP-RPM](https://github.com/MISP/MISP-RPM)
+
 # MISP RPM
 Installing MISP on Red Hat / CentOS base systems is a bit difficult, as they provide either older
 versions like PHP (e.g. 5.6), or the newer versions are installed into different paths on the systems.
